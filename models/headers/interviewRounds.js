@@ -5,7 +5,7 @@ const interviewRoundSchema=new mongoose.Schema({
     profile:{
         type:String,
     },
-    noOfRounds:{
+    noOfRound:{
         type:Number,
     },
     noOfQuestion:{
