@@ -19,9 +19,11 @@ app.use(express.urlencoded({extended:true}))
 
 // import all routes here
 import userRoutes from "./routes/userRoutes.js"
+import headerRoutes from "./routes/headerRoutes.js"
 
 // router middleware
 app.use("/api/v1",userRoutes);
+app.use("/api/v1",headerRoutes);
 
 
 export default app;
