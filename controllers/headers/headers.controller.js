@@ -1,7 +1,7 @@
 import Business from "../../models/headers/business.js";
 import City from "../../models/headers/cities.js";
 import Country from "../../models/headers/country.js";
-// import Department from "../../models/headers/department.js"
+import Department from "../../models/headers/department.js"
 import InterviewRound from "../../models/headers/interviewRounds.js";
 import QuestionBank from "../../models/headers/questionBank.js";
 import Round from "../../models/headers/rounds.js";
@@ -420,5 +420,153 @@ export const updateStateById = bigPromise(async(req,res,next)=>{
     res.status(200).json({
         success:true,
         state
+    })
+})
+
+// QuestionBank Header
+
+export const addQuestionBank = bigPromise(async(req,res,next)=>{
+    const { departmentName, questionType, question, options, correctAnswer } = req.body;
+    
+    if (!departmentName){
+
+        return res.status(400).json({
+            success:false,
+            message:"Department name is required."
+        })
+    }
+
+    const qb = await QuestionBank.create({
+        departmentName,
+        questionType,
+        question,
+        options,
+        correctAnswer
+    })
+
+    res.status(200).json({
+        success:true,
+        message:"Question Bank Added Successfully!",
+        qb
+    })
+})
+
+
+export const getAllQuestionBank = bigPromise(async(req,res,next)=>{
+    const allQuestionBank = await QuestionBank.find({})
+
+    if(allQuestionBank.length===0){
+        return res.status(501).json({
+            success:false,
+            message:"No Question Bank Added ! "
+        })
+    }
+
+    res.status(200).json({
+        data : allQuestionBank
+    })
+})
+
+export const updateQuestionBankById = bigPromise(async(req,res,next)=>{
+
+    // console.log(isEmpty(req.body))
+    if(isEmpty(req.body)) {
+        return res.status(400).json({
+            success:"false",
+            message:"Nothing to update."
+        })
+    }
+    
+    const newData={
+        departmentName:req.body.departmentName,
+        questionType:req.body.questionType,
+        question:req.body.question,
+        options:req.body.options,
+        correctAnswer:req.body.correctAnswer,
+    }
+
+    const qbank= await QuestionBank.findByIdAndUpdate(req.params.id,newData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    })
+
+    res.status(200).json({
+        success:true,
+        qbank
+
+    })
+})
+
+
+// Department Header 
+
+
+export const addDepartment = bigPromise(async(req,res,next)=>{
+    const { title, description, status } = req.body;
+    
+    if (!title || !description){
+
+        return res.status(400).json({
+            success:false,
+            message:"Title and description of department is required."
+        })
+    }
+
+    const dept = await Department.create({
+        title,
+        description,
+        status
+    })
+
+    res.status(200).json({
+        success:true,
+        message:"Department Added Successfully!",
+        dept
+    })
+})
+
+export const getAllDepartment = bigPromise(async(req,res,next)=>{
+    const allDepartment = await Department.find({})
+
+    if(allDepartment.length===0){
+        return res.status(501).json({
+            success:false,
+            message:"No Department Added ! "
+        })
+    }
+
+    res.status(200).json({
+        data : allDepartment
+    })
+})
+
+
+export const updateDepartmentById = bigPromise(async(req,res,next)=>{
+
+    // console.log(isEmpty(req.body))
+    if(isEmpty(req.body)) {
+        return res.status(400).json({
+            success:"false",
+            message:"Nothing to update."
+        })
+    }
+    
+    const newData={
+        title:req.body.title,
+        description:req.body.description,
+        status:req.body.status
+    }
+
+    const dept= await Department.findByIdAndUpdate(req.params.id,newData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    })
+
+    res.status(200).json({
+        success:true,
+        dept
+
     })
 })

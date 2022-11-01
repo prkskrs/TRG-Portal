@@ -11,12 +11,11 @@ const questionBankSchema=new mongoose.Schema({
             type: String,
             enum: ['Objective', 'Subjective']
         }],
-        default: ['Objective']
     },
     question:{
         type:String
     },
-    option:{
+    options:{
         type: [{
             optionNumber: {
                 type: Number
@@ -32,12 +31,6 @@ const questionBankSchema=new mongoose.Schema({
               }
         }],
         default: undefined,
-        // validate: {
-        //   validator: function(value: any) {
-        //     return value && value.length === 4;
-        //   },
-        //   message: 'Answer options should be 4.'
-        // }
     },
     correctAnswer:{
         type:String
