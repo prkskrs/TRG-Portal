@@ -1,3 +1,0 @@
-npm i mongoose express morgan cors
-npm i nodemon -D
-
