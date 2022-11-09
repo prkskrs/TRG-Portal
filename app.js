@@ -1,13 +1,18 @@
 import express  from "express"
 import  dotenv  from "dotenv"
 import connectDB from "./config/db.js"
+import cors from "cors";
+
+
 dotenv.config();
 const app=express()
 import cookieParser from "cookie-parser"
 
-//cookies and filemiddleware
+// cookies and filemiddleware
 app.use(cookieParser())
 
+// cors
+app.use(cors())
 
 // morgan middlewares
 import morgan from "morgan"
