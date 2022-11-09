@@ -7,43 +7,43 @@ import { addBusiness, addCity, addCountry, addInterviewRound, addRound, getAllBu
 // import {isLoggedIn,customRole} from "../middlewares/userMiddlewares.js"
 
 // Business Header
-router.route("/addBusiness").post(addBusiness)
-router.route("/getAllBusiness").get(getAllBusiness)
-router.route("/updateBusinessById/:id").put(updateBusinessById)
+router.route("/business").post(addBusiness)
+router.route("/business").get(getAllBusiness)
+router.route("/business/:id").put(updateBusinessById)
 
 // City Header
-router.route("/addCity").post(addCity)
-router.route("/getAllCity").get(getAllCity)
-router.route("/updateCityById/:id").put(updateCityById)
+router.route("/city").post(addCity)
+router.route("/city").get(getAllCity)
+router.route("/city/:id").put(updateCityById)
 
 // Country Header
-router.route("/addCountry").post(addCountry)
-router.route("/getAllCountry").get(getAllCountry)
-router.route("/updateCountryById/:id").put(updateCountryById)
+router.route("/country").post(addCountry)
+router.route("/country").get(getAllCountry)
+router.route("/country/:id").put(updateCountryById)
 
 // Interview Round Header
-router.route("/addInterviewRound").post(addInterviewRound)
-router.route("/getAllInterviewRound").get(getAllInterviewRound)
-router.route("/updateInterviewRoundById/:id").put(updateInterviewRoundById)
+router.route("/interviewRound").post(addInterviewRound)
+router.route("/interviewRound").get(getAllInterviewRound)
+router.route("/interviewRound/:id").put(updateInterviewRoundById)
 
 // Round Header
-router.route("/addRound").post(addRound)
-router.route("/getAllRound").get(getAllRound)
-router.route("/updateRoundById/:id").put(updateRoundById)
+router.route("/round").post(addRound)
+router.route("/round").get(getAllRound)
+router.route("/round/:id").put(updateRoundById)
 
 // State Header
-router.route("/addState").post(addState)
-router.route("/getAllState").get(getAllState)
-router.route("/updateStateById/:id").put(updateStateById)
+router.route("/state").post(addState)
+router.route("/state").get(getAllState)
+router.route("/state/:id").put(updateStateById)
 
 // Question Bank Header
-router.route("/addQuestionBank").post(addQuestionBank)
-router.route("/getAllQuestionBank").get(getAllQuestionBank)
-router.route("/updateQuestionBankById/:id").put(updateQuestionBankById)
+router.route("/questionBank").post(addQuestionBank)
+router.route("/questionBank").get(getAllQuestionBank)
+router.route("/questionBank/:id").put(updateQuestionBankById)
 
 // Department Header
-router.route("/addDepartment").post(addDepartment)
-router.route("/getAllDepartment").get(getAllDepartment)
-router.route("/updateDepartmentById/:id").put(updateDepartmentById)
+router.route("/department").post(addDepartment)
+router.route("/department").get(getAllDepartment)
+router.route("/department/:id").put(updateDepartmentById)
 
 export default router;

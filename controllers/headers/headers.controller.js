@@ -411,6 +411,7 @@ export const updateStateById = bigPromise(async(req,res,next)=>{
         stateName:req.body.stateName,
         country:req.body.country
     }
+    
     const state= await State.findByIdAndUpdate(req.params.id,newData,{
         new:true,
         runValidators:true,

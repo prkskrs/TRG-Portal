@@ -7,10 +7,9 @@ const questionBankSchema=new mongoose.Schema({
         type:String,
     },
     questionType:{
-        type: [{
-            type: String,
-            enum: ['Objective', 'Subjective']
-        }],
+        type: String,
+        enum: ['Objective', 'Subjective'],
+        default: 'Objective'
     },
     question:{
         type:String
@@ -33,7 +32,7 @@ const questionBankSchema=new mongoose.Schema({
         default: undefined,
     },
     correctAnswer:{
-        type:String
+        type:Number
     }
 })
 
