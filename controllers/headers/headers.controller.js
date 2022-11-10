@@ -9,6 +9,10 @@ import State from "../../models/headers/states.js";
 import {isEmpty} from "../../utils/isEmpty.js";
 
 import bigPromise from "../../middlewares/bigPromise.js"
+import Profile from "../../models/headers/profile.js";
+import Workshift from "../../models/headers/workShift.js";
+import Worktype from "../../models/headers/workType.js";
+import Compensation from "../../models/headers/compensation.js";
 
 // Business Header
 
@@ -501,8 +505,6 @@ export const updateQuestionBankById = bigPromise(async(req,res,next)=>{
 
 
 // Department Header 
-
-
 export const addDepartment = bigPromise(async(req,res,next)=>{
     const { title, description, status } = req.body;
     
@@ -569,5 +571,288 @@ export const updateDepartmentById = bigPromise(async(req,res,next)=>{
         success:true,
         dept
 
+    })
+})
+
+// Profile
+
+export const addProfile = bigPromise(async(req,res,next)=>{
+    const { title, profileType, level, reportProfile,status } = req.body;
+    
+    if (!title || !profileType){
+
+        return res.status(400).json({
+            success:false,
+            message:"Title and ProfileType of profile is required."
+        })
+    }
+
+    const profile = await Profile.create({
+        title,
+        profileType, 
+        level, 
+        reportProfile,
+        status
+    })
+
+    res.status(200).json({
+        success:true,
+        message:"Profile Added Successfully!",
+        profile
+    })
+})
+
+
+export const getAllProfile = bigPromise(async(req,res,next)=>{
+    const allProfile = await Profile.find({})
+
+    if(allProfile.length===0){
+        return res.status(501).json({
+            success:false,
+            message:"No Profile Added ! "
+        })
+    }
+
+    res.status(200).json({
+        data : allProfile
+    })
+})
+
+
+export const updateProfileById = bigPromise(async(req,res,next)=>{
+
+    // console.log(isEmpty(req.body))
+    if(isEmpty(req.body)) {
+        return res.status(400).json({
+            success:"false",
+            message:"Nothing to update."
+        })
+    }
+    
+    const newData={
+        title:req.body.title,
+        profileType:req.body.profileType,
+        level:req.body.level,
+        reportProfile:req.body.reportProfile,
+        status:req.body.status
+    }
+
+    const profile= await Profile.findByIdAndUpdate(req.params.id,newData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    })
+
+    res.status(200).json({
+        success:true,
+        profile
+    })
+})
+
+// WorkShift
+
+export const addWorkShift= bigPromise(async(req,res,next)=>{
+    const { title,status } = req.body;
+    
+    if (!title){
+
+        return res.status(400).json({
+            success:false,
+            message:"Title of work shift is required."
+        })
+    }
+
+    const ws = await Workshift.create({
+        title,
+        status
+    })
+
+    res.status(200).json({
+        success:true,
+        message:"Work Shift Added Successfully!",
+        ws
+    })
+})
+
+
+export const getAllWorkShift = bigPromise(async(req,res,next)=>{
+    const allWorkShift = await Workshift.find({})
+
+    if(allWorkShift.length===0){
+        return res.status(501).json({
+            success:false,
+            message:"No WorkShift Added ! "
+        })
+    }
+
+    res.status(200).json({
+        data : allWorkShift
+    })
+})
+
+
+export const updateWorkShiftById = bigPromise(async(req,res,next)=>{
+
+    // console.log(isEmpty(req.body))
+    if(isEmpty(req.body)) {
+        return res.status(400).json({
+            success:"false",
+            message:"Nothing to update."
+        })
+    }
+    
+    const newData={
+        title:req.body.title,
+        status:req.body.status
+    }
+
+    const ws= await Workshift.findByIdAndUpdate(req.params.id,newData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    })
+
+    res.status(200).json({
+        success:true,
+        ws
+    })
+})
+
+// WorkType
+
+export const addWorkType= bigPromise(async(req,res,next)=>{
+    const { title,status } = req.body;
+    
+    if (!title){
+
+        return res.status(400).json({
+            success:false,
+            message:"Title of work type is required."
+        })
+    }
+
+    const wt = await Worktype.create({
+        title,
+        status
+    })
+
+    res.status(200).json({
+        success:true,
+        message:"Work Type Added Successfully!",
+        wt
+    })
+})
+
+
+export const getAllWorkType = bigPromise(async(req,res,next)=>{
+    const allWorkType = await Worktype.find({})
+
+    if(allWorkType.length===0){
+        return res.status(501).json({
+            success:false,
+            message:"No WorkType Added ! "
+        })
+    }
+
+    res.status(200).json({
+        data : allWorkType
+    })
+})
+
+
+export const updateWorkTypeById = bigPromise(async(req,res,next)=>{
+
+    // console.log(isEmpty(req.body))
+    if(isEmpty(req.body)) {
+        return res.status(400).json({
+            success:"false",
+            message:"Nothing to update."
+        })
+    }
+    
+    const newData={
+        title:req.body.title,
+        status:req.body.status
+    }
+
+    const wt= await Worktype.findByIdAndUpdate(req.params.id,newData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    })
+
+    res.status(200).json({
+        success:true,
+        wt
+    })
+})
+
+
+// Compensation
+
+export const addCompensation= bigPromise(async(req,res,next)=>{
+    const { data,status } = req.body;
+    
+    if (!data){
+
+        return res.status(400).json({
+            success:false,
+            message:"data of compensation is required."
+        })
+    }
+
+    const cs = await Compensation.create({
+        data,
+        status
+    })
+
+    res.status(200).json({
+        success:true,
+        message:"Compensation Added Successfully!",
+        cs
+    })
+})
+
+
+export const getAllCompensation = bigPromise(async(req,res,next)=>{
+    const allCompensation = await Compensation.find({})
+
+    if(allCompensation.length===0){
+        return res.status(501).json({
+            success:false,
+            message:"No Compensation Added ! "
+        })
+    }
+
+    res.status(200).json({
+        data : allCompensation
+    })
+})
+
+
+export const updateCompensationById = bigPromise(async(req,res,next)=>{
+
+    // console.log(isEmpty(req.body))
+    if(isEmpty(req.body)) {
+        return res.status(400).json({
+            success:"false",
+            message:"Nothing to update."
+        })
+    }
+    
+    const newData={
+        data:req.body.data,
+        status:req.body.status
+    }
+
+    const cs = await Compensation.findByIdAndUpdate(req.params.id,newData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    })
+
+    res.status(200).json({
+        success:true,
+        cs
     })
 })
