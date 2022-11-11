@@ -32,10 +32,8 @@ const userSchema=new mongoose.Schema({
     roles:{
         type: [{
             type: String,
-            enum: ['admin', 'user']
+            enum: ['Level 1', 'Level 2','Level 3',"Level 4","Level 5","Level 6","Level 7"]
         }],
-        // required:true,
-        default: ['user']
     },
      address1: {
 
