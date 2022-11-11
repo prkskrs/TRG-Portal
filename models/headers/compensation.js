@@ -15,8 +15,6 @@ const compensationSchema=new mongoose.Schema({
 })
 
 
-
-
 const Compensation = mongoose.model("Compensation",compensationSchema);
 
 export default Compensation;

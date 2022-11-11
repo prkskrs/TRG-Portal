@@ -20,8 +20,6 @@ const departmentSchema=new mongoose.Schema({
 })
 
 
-
-
 const Department = mongoose.model("Department",departmentSchema);
 
 export default Department;
