@@ -5,12 +5,12 @@ import { mailHelper } from "../utils/mailHelper.js";
 import crypto from "crypto";
 
 export const signup=bigPromise(async(req,res,next)=>{
-    const {name , email , password}=req.body;
-    console.log(name)
-    if(!email || !name || !password){
+    const {firstname , lastname, email , password ,role, level_, address1,address2}=req.body;
+    console.log(req.body)
+    if(!firstname || !lastname || !email || !password){
         return res.status(400).json({
             success:"false",
-            message:"Name, Email and Password fields are required."
+            message:"Firstname, Lastname, Email and Password fields are required."
         })
     }
 
@@ -24,9 +24,14 @@ export const signup=bigPromise(async(req,res,next)=>{
         })
     }
     const user= await User.create({
-        name,
+        firstname,
+        lastname,
         email:email.toLowerCase(),
-        password:password
+        password:password,
+        role,
+        level_,
+        address1,
+        address2
     })
     
     cookieToken(user,res,"Registered Successfully!");
@@ -186,8 +191,13 @@ export const changePassword=bigPromise(async(req,res,next)=>{
 export const updateUserDetails=bigPromise(async(req,res,next)=>{
 
     const newData={
-        name:req.body.name,   
-        email:req.body.email
+        firstname:req.body.firstname,   
+        lastname:req.body.lastname,   
+        email:req.body.email,
+        role:req.body.role,
+        level_:req.body.level_,
+        address1:req.body.address1,
+        address2:req.body.address2,
     }
 
     //also update user photo here

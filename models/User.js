@@ -29,23 +29,22 @@ const userSchema=new mongoose.Schema({
         minlength:[6,"Password should be of atleast 6 characters."],
         // select:false  // so that password will not go with model , we don't have to do user.password=undefined
     },
-    roles:{
-        type: [{
-            type: String,
-            enum: ['Level 1', 'Level 2','Level 3',"Level 4","Level 5","Level 6","Level 7"]
-        }],
+    role:{
+        type: String,
+    },
+    level_:{
+        type: Number,
     },
      address1: {
 
        type: String,
-         maxlength: [200, 'Address1 should be under 200 characters.']
+         maxlength: [300, 'Address1 should be under 200 characters.']
 
      },
-
      address2: {
 
        type: String,
-         maxlength: [200, 'Address1 should be under 200 characters.']
+         maxlength: [300, 'Address2 should be under 200 characters.']
 
      },
 

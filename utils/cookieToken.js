@@ -13,6 +13,11 @@ export const cookieToken=(user,res,message)=>{
         success:true,
         message:message,
         token,
-        user
+        _id:user._id,
+        firstname:user.firstname,
+        lastname:user.lastname,
+        email:user.email,
+        role:user.role,
+        level_:user.level_
     })
 }
