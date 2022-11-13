@@ -1,0 +1,32 @@
+import mongoose from "mongoose";
+
+
+const profileSchema = new mongoose.Schema({
+    title: {
+        type: String
+    },
+    profileType: {
+        type: String
+    },
+    level: {
+        type: Number
+    },
+    reportProfile: {
+        type: mongoose.Types.ObjectId,
+        default: null
+    },
+    status: {
+        type: [{
+            type: String,
+            enum: ['Active', 'Inactive']
+        }],
+        default: ['Active']
+    },
+})
+
+
+
+
+const Profile = mongoose.model("Profile", profileSchema);
+
+export default Profile;
