@@ -19,7 +19,7 @@ import bigPromise from "../../middlewares/bigPromise.js"
 // Business Header
 
 export const addBusiness = bigPromise(async (req, res, next) => {
-    const { businessName, address, bussinessUrl, businessCode, summary, businessLogo, description, status } = req.body;
+    const { businessName, address, businessUrl, businessCode, summary, businessLogo, description, status } = req.body;
 
     if (!businessName || !address) {
         return res.status(400).json({
@@ -31,7 +31,7 @@ export const addBusiness = bigPromise(async (req, res, next) => {
     const business = await Business.create({
         businessName,
         address,
-        bussinessUrl,
+        businessUrl,
         businessCode,
         summary,
         businessLogo,
@@ -75,7 +75,7 @@ export const updateBusinessById = bigPromise(async (req, res, next) => {
     const newData = {
         businessName: req.body.businessName,
         address: req.body.address,
-        bussinessUrl: req.body.bussinessUrl,
+        businessUrl: req.body.businessUrl,
         businessCode: req.body.businessCode,
         summary: req.body.summary,
         businessLogo: req.body.businessLogo,
