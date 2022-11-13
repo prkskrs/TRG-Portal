@@ -125,12 +125,7 @@ export const addCity = bigPromise(async (req, res, next) => {
 export const getAllCity = bigPromise(async (req, res, next) => {
     const allCity = await City.find({})
 
-    if (allCity.length === 0) {
-        return res.status(501).json({
-            success: false,
-            message: "No City Added ! "
-        })
-    }
+
 
     res.status(200).json({
         data: allCity
@@ -193,12 +188,7 @@ export const addCountry = bigPromise(async (req, res, next) => {
 export const getAllCountry = bigPromise(async (req, res, next) => {
     const allCountry = await Country.find({})
 
-    if (allCountry.length === 0) {
-        return res.status(501).json({
-            success: false,
-            message: "No Country Added ! "
-        })
-    }
+  
 
     res.status(200).json({
         data: allCountry
@@ -390,13 +380,6 @@ export const addState = bigPromise(async (req, res, next) => {
 
 export const getAllState = bigPromise(async (req, res, next) => {
     const allState = await State.find({})
-
-    if (allState.length === 0) {
-        return res.status(501).json({
-            success: false,
-            message: "No States Added ! "
-        })
-    }
 
     res.status(200).json({
         data: allState
@@ -612,9 +595,9 @@ export const getAllProfile = bigPromise(async (req, res, next) => {
     })
 
     if (allProfile === null) {
-        return res.status(501).json({
+        return res.status(500).json({
             success: false,
-            message: "No Profile Added ! "
+            message: "Internal server error! "
         })
     }
 
