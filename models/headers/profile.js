@@ -1,28 +1,21 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
 
-const profileSchema=new mongoose.Schema({
-    title:{
-        type:String
+const profileSchema = new mongoose.Schema({
+    title: {
+        type: String
     },
-    profileType:{
-        type: [{
-            type: String,
-            enum: ['All', 'Business Specific', "Country Specific"]
-        }],
-        default: ['All']
+    profileType: {
+        type: String
     },
-    level:{
-        type:Number
+    level: {
+        type: Number
     },
-    reportProfile:{
-        type: [{
-            type: String,
-            enum: ['GROUP CEO', 'HR Manager']
-        }],
-        default: ['None']
+    reportProfile: {
+        type: mongoose.Types.ObjectId,
+        default: null
     },
-    status:{
+    status: {
         type: [{
             type: String,
             enum: ['Active', 'Inactive']
@@ -34,6 +27,6 @@ const profileSchema=new mongoose.Schema({
 
 
 
-const Profile = mongoose.model("Profile",profileSchema);
+const Profile = mongoose.model("Profile", profileSchema);
 
 export default Profile;

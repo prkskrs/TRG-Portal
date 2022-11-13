@@ -8,8 +8,6 @@ const roundsSchema=new mongoose.Schema({
 })
 
 
-
-
 const Round = mongoose.model("Round",roundsSchema);
 
 export default Round;
