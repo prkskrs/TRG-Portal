@@ -12,7 +12,7 @@ const businessSchema=new mongoose.Schema({
         required:[true,'Please provide a address.'],
         maxlength:[250,'Address should be under 100 characters.']
     },
-    bussinessUrl:{
+    businessUrl:{
         type:String,
     },
     businessCode:{
