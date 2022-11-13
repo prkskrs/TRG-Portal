@@ -2,7 +2,7 @@ import mongoose  from "mongoose";
 
 
 const citiesSchema=new mongoose.Schema({
-    cityName:{
+    name:{
         type:String,
         required:[true,'Please provide a title'],
         maxlength:[80,'Title should be under 80 characters.']

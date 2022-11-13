@@ -98,9 +98,9 @@ export const updateBusinessById = bigPromise(async (req, res, next) => {
 // Cities Header
 
 export const addCity = bigPromise(async (req, res, next) => {
-    const { cityName, state, country, status } = req.body;
+    const { name, state, country, status } = req.body;
 
-    if (!cityName || !state || !country) {
+    if (!name || !state || !country) {
 
         return res.status(400).json({
             success: false,
@@ -109,7 +109,7 @@ export const addCity = bigPromise(async (req, res, next) => {
     }
 
     const city = await City.create({
-        cityName,
+        name,
         state,
         country,
         status
@@ -143,7 +143,7 @@ export const updateCityById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
-        cityName: req.body.cityName,
+        name: req.body.name,
         state: req.body.state,
         country: req.body.country,
     }
@@ -162,9 +162,9 @@ export const updateCityById = bigPromise(async (req, res, next) => {
 // Country Header
 
 export const addCountry = bigPromise(async (req, res, next) => {
-    const { countryName, code, status } = req.body;
+    const { name, code, status } = req.body;
 
-    if (!countryName || !code) {
+    if (!name || !code) {
 
         return res.status(400).json({
             success: false,
@@ -173,7 +173,7 @@ export const addCountry = bigPromise(async (req, res, next) => {
     }
 
     const country = await Country.create({
-        countryName,
+        name,
         code,
         status
     })
@@ -206,7 +206,7 @@ export const updateCountryById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
-        countryName: req.body.countryName,
+        name: req.body.name,
         code: req.body.code,
     }
     const country = await Country.findByIdAndUpdate(req.params.id, newData, {
@@ -355,9 +355,9 @@ export const updateRoundById = bigPromise(async (req, res, next) => {
 
 // State Header
 export const addState = bigPromise(async (req, res, next) => {
-    const { stateName, country, status } = req.body;
+    const { name, country, status } = req.body;
 
-    if (!stateName || !country) {
+    if (!name || !country) {
         return res.status(400).json({
             success: false,
             message: "State Name and Country is required."
@@ -365,7 +365,7 @@ export const addState = bigPromise(async (req, res, next) => {
     }
 
     const state = await State.create({
-        stateName,
+        name,
         country,
         status
     })
@@ -397,7 +397,7 @@ export const updateStateById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
-        stateName: req.body.stateName,
+        name: req.body.name,
         country: req.body.country
     }
 
