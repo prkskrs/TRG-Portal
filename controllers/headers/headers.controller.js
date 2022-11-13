@@ -19,7 +19,7 @@ import bigPromise from "../../middlewares/bigPromise.js"
 // Business Header
 
 export const addBusiness = bigPromise(async (req, res, next) => {
-    const { businessName, address, bussinessUrl, businessCode, summary, businessLogo, description, status } = req.body;
+    const { businessName, address, businessUrl, businessCode, summary, businessLogo, description, status } = req.body;
 
     if (!businessName || !address) {
         return res.status(400).json({
@@ -31,7 +31,7 @@ export const addBusiness = bigPromise(async (req, res, next) => {
     const business = await Business.create({
         businessName,
         address,
-        bussinessUrl,
+        businessUrl,
         businessCode,
         summary,
         businessLogo,
@@ -48,12 +48,15 @@ export const addBusiness = bigPromise(async (req, res, next) => {
 })
 
 export const getAllBusiness = bigPromise(async (req, res, next) => {
-    const allBusiness = await Business.find({})
+    const allBusiness = await Business.find({}).catch(err=>{
+        console.log(`error getting business :: ${err}`)
+        return null
+    })
 
-    if (allBusiness.length === 0) {
+    if (allBusiness === null) {
         return res.status(501).json({
             success: false,
-            message: "No Business Added ! "
+            message: "Internal Server error !"
         })
     }
 
@@ -75,7 +78,7 @@ export const updateBusinessById = bigPromise(async (req, res, next) => {
     const newData = {
         businessName: req.body.businessName,
         address: req.body.address,
-        bussinessUrl: req.body.bussinessUrl,
+        businessUrl: req.body.businessUrl,
         businessCode: req.body.businessCode,
         summary: req.body.summary,
         businessLogo: req.body.businessLogo,
@@ -98,9 +101,9 @@ export const updateBusinessById = bigPromise(async (req, res, next) => {
 // Cities Header
 
 export const addCity = bigPromise(async (req, res, next) => {
-    const { cityName, state, country, status } = req.body;
+    const { name, state, country, status } = req.body;
 
-    if (!cityName || !state || !country) {
+    if (!name || !state || !country) {
 
         return res.status(400).json({
             success: false,
@@ -109,7 +112,7 @@ export const addCity = bigPromise(async (req, res, next) => {
     }
 
     const city = await City.create({
-        cityName,
+        name,
         state,
         country,
         status
@@ -123,14 +126,19 @@ export const addCity = bigPromise(async (req, res, next) => {
 })
 
 export const getAllCity = bigPromise(async (req, res, next) => {
-    const allCity = await City.find({})
+    const allCity = await City.find({}).catch(err=>{
+        console.log(`error getting city :: ${err}`)
+        return null
+    })
 
-    if (allCity.length === 0) {
+    if (allCity === null) {
         return res.status(501).json({
             success: false,
-            message: "No City Added ! "
+            message: "Internal Server error !"
         })
     }
+
+
 
     res.status(200).json({
         data: allCity
@@ -148,7 +156,7 @@ export const updateCityById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
-        cityName: req.body.cityName,
+        name: req.body.name,
         state: req.body.state,
         country: req.body.country,
     }
@@ -167,9 +175,9 @@ export const updateCityById = bigPromise(async (req, res, next) => {
 // Country Header
 
 export const addCountry = bigPromise(async (req, res, next) => {
-    const { countryName, code, status } = req.body;
+    const { name, code, status } = req.body;
 
-    if (!countryName || !code) {
+    if (!name || !code) {
 
         return res.status(400).json({
             success: false,
@@ -178,7 +186,7 @@ export const addCountry = bigPromise(async (req, res, next) => {
     }
 
     const country = await Country.create({
-        countryName,
+        name,
         code,
         status
     })
@@ -191,14 +199,17 @@ export const addCountry = bigPromise(async (req, res, next) => {
 })
 
 export const getAllCountry = bigPromise(async (req, res, next) => {
-    const allCountry = await Country.find({})
+    const allCountry = await Country.find({}).catch(err=>{
+        console.log(`error getting country :: ${err}`)
+    })
 
-    if (allCountry.length === 0) {
+    if (allCountry === null) {
         return res.status(501).json({
             success: false,
-            message: "No Country Added ! "
+            message: "Internal Server error !"
         })
     }
+  
 
     res.status(200).json({
         data: allCountry
@@ -216,7 +227,7 @@ export const updateCountryById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
-        countryName: req.body.countryName,
+        name: req.body.name,
         code: req.body.code,
     }
     const country = await Country.findByIdAndUpdate(req.params.id, newData, {
@@ -258,12 +269,14 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
 })
 
 export const getAllInterviewRound = bigPromise(async (req, res, next) => {
-    const allInterviewRound = await InterviewRound.find({})
+    const allInterviewRound = await InterviewRound.find({}).catch(err=>{
+        console.log(`error getting interview round :: ${err}`)
+    })
 
-    if (allInterviewRound.length === 0) {
+    if (allInterviewRound === null) {
         return res.status(501).json({
             success: false,
-            message: "No Interview Round Added ! "
+            message: "Internal server error!"
         })
     }
 
@@ -323,14 +336,18 @@ export const addRound = bigPromise(async (req, res, next) => {
 
 
 export const getAllRound = bigPromise(async (req, res, next) => {
-    const allRound = await Round.find({})
+    const allRound = await Round.find({}).catch(err=>{
+        console.log(`error getting round :: ${err}`)
+    })
 
-    if (allRound.length === 0) {
+    if (allRound === null) {
         return res.status(501).json({
             success: false,
-            message: "No Rounds Added ! "
+            message: "Internal server error!"
         })
     }
+
+  
 
     res.status(200).json({
         data: allRound
@@ -365,9 +382,9 @@ export const updateRoundById = bigPromise(async (req, res, next) => {
 
 // State Header
 export const addState = bigPromise(async (req, res, next) => {
-    const { stateName, country, status } = req.body;
+    const { name, country, status } = req.body;
 
-    if (!stateName || !country) {
+    if (!name || !country) {
         return res.status(400).json({
             success: false,
             message: "State Name and Country is required."
@@ -375,7 +392,7 @@ export const addState = bigPromise(async (req, res, next) => {
     }
 
     const state = await State.create({
-        stateName,
+        name,
         country,
         status
     })
@@ -389,12 +406,14 @@ export const addState = bigPromise(async (req, res, next) => {
 
 
 export const getAllState = bigPromise(async (req, res, next) => {
-    const allState = await State.find({})
+    const allState = await State.find({}).catch(err=>{
+        console.log(`error getting state :: ${err}`)
+    })
 
-    if (allState.length === 0) {
+    if (allState === null) {
         return res.status(501).json({
             success: false,
-            message: "No States Added ! "
+            message: "Internal server error!"
         })
     }
 
@@ -414,7 +433,7 @@ export const updateStateById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
-        stateName: req.body.stateName,
+        name: req.body.name,
         country: req.body.country
     }
 
@@ -460,14 +479,17 @@ export const addQuestionBank = bigPromise(async (req, res, next) => {
 
 
 export const getAllQuestionBank = bigPromise(async (req, res, next) => {
-    const allQuestionBank = await QuestionBank.find({})
+    const allQuestionBank = await QuestionBank.find({}).catch(err=>{
+        console.log(`error getting question bank :: ${err}`)
+    })
 
-    if (allQuestionBank.length === 0) {
+    if (allQuestionBank === null) {
         return res.status(501).json({
             success: false,
-            message: "No Question Bank Added ! "
+            message: "Internal server error!"
         })
     }
+
 
     res.status(200).json({
         data: allQuestionBank
@@ -532,14 +554,18 @@ export const addDepartment = bigPromise(async (req, res, next) => {
 })
 
 export const getAllDepartment = bigPromise(async (req, res, next) => {
-    const allDepartment = await Department.find({})
+    const allDepartment = await Department.find({}).catch(err=>{
+        console.log(`error getting department :: ${err}`)
+    })
 
-    if (allDepartment.length === 0) {
+    if (allDepartment === null) {
         return res.status(501).json({
             success: false,
-            message: "No Department Added ! "
+            message: "Internal server error!"
         })
     }
+
+
 
     res.status(200).json({
         data: allDepartment
@@ -607,14 +633,14 @@ export const addProfile = bigPromise(async (req, res, next) => {
 
 export const getAllProfile = bigPromise(async (req, res, next) => {
     const allProfile = await Profile.find({}).catch(err => {
-        console.log(`error gettign profile :: ${err}`)
+        console.log(`error getting profile :: ${err}`)
         return null
     })
 
     if (allProfile === null) {
-        return res.status(501).json({
+        return res.status(500).json({
             success: false,
-            message: "No Profile Added ! "
+            message: "Internal server error! "
         })
     }
 
@@ -681,12 +707,15 @@ export const addWorkShift = bigPromise(async (req, res, next) => {
 
 
 export const getAllWorkShift = bigPromise(async (req, res, next) => {
-    const allWorkShift = await Workshift.find({})
+    const allWorkShift = await Workshift.find({}).catch(err => {
+        console.log(`error getting workshift :: ${err}`)
+        return null
+    })
 
-    if (allWorkShift.length === 0) {
+    if (allWorkShift === null) {
         return res.status(501).json({
             success: false,
-            message: "No WorkShift Added ! "
+            message: "Internal Server Error !"
         })
     }
 
@@ -750,14 +779,18 @@ export const addWorkType = bigPromise(async (req, res, next) => {
 
 
 export const getAllWorkType = bigPromise(async (req, res, next) => {
-    const allWorkType = await Worktype.find({})
+    const allWorkType = await Worktype.find({}).catch(err=>{
+        console.log(`error getting worktype :: ${err}`)
+    })
 
-    if (allWorkType.length === 0) {
+    if (allWorkType === null) {
         return res.status(501).json({
             success: false,
-            message: "No WorkType Added ! "
+            message: "Internal server error!"
         })
     }
+
+
 
     res.status(200).json({
         data: allWorkType
@@ -820,12 +853,14 @@ export const addCompensation = bigPromise(async (req, res, next) => {
 
 
 export const getAllCompensation = bigPromise(async (req, res, next) => {
-    const allCompensation = await Compensation.find({})
+    const allCompensation = await Compensation.find({}).catch(err=>{
+        console.log(`error getting interview round :: ${err}`)
+    })
 
-    if (allCompensation.length === 0) {
+    if (allCompensation === null) {
         return res.status(501).json({
             success: false,
-            message: "No Compensation Added ! "
+            message: "Internal server error!"
         })
     }
 
