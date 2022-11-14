@@ -1,7 +1,7 @@
 import mongoose  from "mongoose";
 
 const countrySchema=new mongoose.Schema({
-    countryName:{
+    name:{
         type:String,
         required:[true,'Please provide a country name.'],
         maxlength:[80,'Title should be under 40 characters.']

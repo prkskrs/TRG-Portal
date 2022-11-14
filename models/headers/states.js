@@ -2,7 +2,7 @@ import mongoose  from "mongoose";
 
 
 const statesSchema=new mongoose.Schema({
-    stateName:{
+    name:{
         type:String,
         required:[true,'Please provide a title'],
         maxlength:[80,'Title should be under 80 characters.']
