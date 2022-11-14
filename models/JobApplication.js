@@ -7,26 +7,20 @@ import crypto from "crypto";
 
 const jobapplicationSchema = new mongoose.Schema({
 
-  applicationid:{
-
-    type: ObjectId,
-
+  applicationId:{
+    type: mongoose.Schema.ObjectId,
   },
 
-  jobid:{
-    type: ObjectId,
+  jobId:{
+    type: mongoose.Schema.ObjectId,
   },
-
-  jobseekerid:{
-    type: ObjectId,
+  jobseekerId:{
+    type: mongoose.Schema.ObjectId,
+    ref: "Jobseeker"
   },
-
-  recuiterid:{
-
-    type: ObjectId,
+  recuiterId:{
+    type: mongoose.Schema.ObjectId,
   }
-
-
 })
 
 const JobApplication = new mongoose.model("JobApplication" , jobapplicationSchema);
