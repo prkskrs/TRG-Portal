@@ -188,7 +188,7 @@ export const addCountry = bigPromise(async (req, res, next) => {
 export const getAllCountry = bigPromise(async (req, res, next) => {
     const allCountry = await Country.find({})
 
-  
+
 
     res.status(200).json({
         data: allCountry
@@ -291,17 +291,19 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
 
 // Rounds Header
 export const addRound = bigPromise(async (req, res, next) => {
-    const { roundName } = req.body;
+    const { name } = req.body;
 
-    if (!roundName) {
+    if (!name) {
         return res.status(400).json({
             success: false,
-            message: "Round name is required."
+            message: "Name is required."
         })
     }
 
     const round = await Round.create({
-        roundName
+        name
+    }).catch(err => {
+        console(`error creating Round :: ${err}`)
     })
 
     res.status(200).json({
@@ -313,23 +315,26 @@ export const addRound = bigPromise(async (req, res, next) => {
 
 
 export const getAllRound = bigPromise(async (req, res, next) => {
-    const allRound = await Round.find({})
+    const allRound = await Round.find({}).catch(err => {
+        console(`error getting rounds :: ${err}`)
+        return null
+    })
 
-    if (allRound.length === 0) {
-        return res.status(501).json({
+    if (!allRound) {
+        return res.status(500).json({
             success: false,
-            message: "No Rounds Added ! "
+            message: "Internal Server Error"
         })
     }
 
     res.status(200).json({
+        success: true,
         data: allRound
     })
 })
 
 export const updateRoundById = bigPromise(async (req, res, next) => {
 
-    // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
         return res.status(400).json({
             success: "false",
@@ -601,7 +606,7 @@ export const getAllProfile = bigPromise(async (req, res, next) => {
         })
     }
 
-   return res.status(200).json({
+    return res.status(200).json({
         data: allProfile
     })
 })
