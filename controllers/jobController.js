@@ -33,12 +33,14 @@ export const addJob = bigPromise(async(req,res,next)=>{
 })
 
 export const getAllJobs = bigPromise(async(req,res,next)=>{
-    const allJobs = await Job.find({})
+    const allJobs = await Job.find({}).catch(err=>{
+        console.log(`error getting jobs :: ${err}`)
+    })
 
-    if(allJobs.length===0){
+    if (allJobs === null) {
         return res.status(501).json({
-            success:false,
-            message:"No Jobs Added ! "
+            success: false,
+            message: "Internal server error!"
         })
     }
 

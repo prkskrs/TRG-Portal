@@ -92,14 +92,14 @@ const jobsSchema = new mongoose.Schema({
   departmentId:{
     type:mongoose.Schema.ObjectId,
   },
-  businessId:{
-    type:mongoose.Schema.ObjectId,
+  business:{
+    type:String
   },
-  cityId:{
-    type:mongoose.Schema.ObjectId,
+  city:{
+    type:String
   },
-  countryId:{
-    type:mongoose.Schema.ObjectId,
+  country:{
+    type:String
   },
   interviewRoundId:{
     type:mongoose.Schema.ObjectId,
@@ -110,11 +110,11 @@ const jobsSchema = new mongoose.Schema({
   roundId:{
     type:mongoose.Schema.ObjectId,
   },
-  stateId:{
-    type:mongoose.Schema.ObjectId,
+  state:{
+    type:String
   },
-  profileId:{
-    type:mongoose.Schema.ObjectId,
+  profile:{
+    type:String
   },
   workShiftId:{
     type:mongoose.Schema.ObjectId,
