@@ -212,6 +212,7 @@ export const getAllCountry = bigPromise(async (req, res, next) => {
   
 
     res.status(200).json({
+        success:true,
         data: allCountry
     })
 })
@@ -300,6 +301,7 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
         noOfRound: req.body.noOfRound,
         noOfQuestion: req.body.noOfQuestion
     }
+    
     const ir = await InterviewRound.findByIdAndUpdate(req.params.id, newData, {
         new: true,
         runValidators: true,

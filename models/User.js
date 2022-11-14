@@ -11,12 +11,9 @@ const userSchema=new mongoose.Schema({
         maxlength:[80,'Name should be under 40 characters.']
     },
     lastname:{
-                type:String,
-
-                maxlength: [80, 'Name should be under 40 characters.']
-
+        type:String,
+        maxlength: [80, 'Name should be under 40 characters.']
     },
-
     email:{
         type:String,
         required:[true,'Please provide an email'],
@@ -25,9 +22,7 @@ const userSchema=new mongoose.Schema({
     },
     password:{
         type:String,
-        // required:[true,'Please provide a password'],
         minlength:[6,"Password should be of atleast 6 characters."],
-        // select:false  // so that password will not go with model , we don't have to do user.password=undefined
     },
     role:{
         type: String,
@@ -36,16 +31,13 @@ const userSchema=new mongoose.Schema({
         type: Number,
     },
      address1: {
-
-       type: String,
-         maxlength: [300, 'Address1 should be under 200 characters.']
+        type: String,
+        maxlength: [300, 'Address1 should be under 200 characters.']
 
      },
      address2: {
-
-       type: String,
-         maxlength: [300, 'Address2 should be under 200 characters.']
-
+        type: String,
+        maxlength: [300, 'Address2 should be under 200 characters.']
      },
 
     forgotPasswordToken:String,

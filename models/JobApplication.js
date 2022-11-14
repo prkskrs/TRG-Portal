@@ -1,9 +1,4 @@
 import mongoose  from "mongoose";
-import validator from "validator";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import crypto from "crypto";
-
 
 const jobapplicationSchema = new mongoose.Schema({
 
@@ -16,7 +11,6 @@ const jobapplicationSchema = new mongoose.Schema({
   },
   jobseekerId:{
     type: mongoose.Schema.ObjectId,
-    ref: "Jobseeker"
   },
   recuiterId:{
     type: mongoose.Schema.ObjectId,

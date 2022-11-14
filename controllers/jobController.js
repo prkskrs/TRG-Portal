@@ -9,12 +9,12 @@ export const addJob = bigPromise(async(req,res,next)=>{
         questionBankId, roundId, stateId, profileId, workShiftId, workTypeId, compensationId, createdBy
     } = req.body;
 
-    // if ( !businessName ||!location){
-    //     return res.status(400).json({
-    //         success:false,
-    //         message:"opportunityId, businessName and location of Job is required."
-    //     })
-    // }
+    if ( !businessName ||!location){
+        return res.status(400).json({
+            success:false,
+            message:"opportunityId, businessName and location of Job is required."
+        })
+    }
 
     const job = await Job.create({
         opportunityId,businessName,location,headcount, 

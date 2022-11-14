@@ -1,8 +1,7 @@
-  import mongoose  from "mongoose";
-  import validator from "validator";
-  import bcrypt from "bcryptjs";
-  import jwt from "jsonwebtoken";
-  import crypto from "crypto";
+import mongoose  from "mongoose";
+import validator from "validator";
+import bcrypt from "bcryptjs/dist/bcrypt.js"
+import jwt from "jsonwebtoken"
 
 
 const jobseekerSchema = new mongoose.Schema({
@@ -20,6 +19,13 @@ const jobseekerSchema = new mongoose.Schema({
     type: String,
     minlength:[6,"Password should be of atleast 6 characters."],
   },
+  address:{
+    type:String
+  },
+  phoneNumber:{
+    type:String,
+    match: /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/
+  },
   experience:{
     type:Number
   },
@@ -33,23 +39,62 @@ const jobseekerSchema = new mongoose.Schema({
     type: String,
     maxlength: [350 , 'Bio should not be more then 350 characters,']
   },
-  resume:[{
+  resume:{
     id:{
       type:String
     },
     secure_url:{
       type:String
     }
-  }],
-  profile_img:[{
+  },
+  profile_img:{
     id:{
       type:String
     },
     secure_url:{
       type:String
     }
-  }]
+  },
+  forgotPasswordToken:String,
+  forgotPasswordExpiry:Date,
+  
 })
+
+// encrypt password before save
+jobseekerSchema.pre('save',async function(next) {
+  if (!this.isModified('password')){
+      return next();
+  }
+  this.password=await bcrypt.hash(this.password,10)
+})
+
+// validate the password with passed on user password
+jobseekerSchema.methods.isValidatedPassword= async function(usersendPassword, password){
+  return await bcrypt.compare(usersendPassword,password);
+}
+
+// create and return jwt token
+jobseekerSchema.methods.getJwtToken=function(){
+  return jwt.sign({id:this._id},process.env.JWT_SECRET,{
+      expiresIn:process.env.JWT_EXPIRY
+  })
+}
+
+// generate forget password token (string)
+jobseekerSchema.methods.getForgotPasswordToken = function(){
+  // generate a long and random string
+  const forgotToken = crypto.randomBytes(20).toString("hex");
+
+  // getting a hash - make sure to get a hash on backend
+  this.forgotPasswordToken=crypto.createHash("sha256").update(forgotToken).digest("hex")
+
+  // time of token
+  this.forgotPasswordExpiry=Date.now()+20*60*1000;  // 20 mins to expire password reset token
+
+  return forgotToken;
+}
+
+
   
 const Jobseeker = new mongoose.model("Jobseeker" , jobseekerSchema);
 
