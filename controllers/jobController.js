@@ -7,8 +7,35 @@ import User from "../models/User.js"
 
 import { isEmpty } from "../utils/isEmpty.js"
 
+
+
+const getDeatils = async (job) => {
+    const [data1, data2, data3, data4] = await Promise.all([
+        Profile.findById(job.profileId).lean().catch(err => {
+            console.log(`error getting profile with id :: ${job.profileId} :: ${err}`)
+            return null
+        }),
+        Business.findById(job.businessId).lean().catch(err => {
+            console.log(`error getting Business with id :: ${job.businessId} :: ${err}`)
+            return null
+        }),
+        City.findById(job.cityId).lean().catch(err => {
+            console.log(`error getting Business with id :: ${job.businessId} :: ${err}`)
+            return null
+        }),
+        User.findById(job?.createdBy).lean().catch(err => {
+            console.log(`error getting User with id :: ${job.createdBy} :: ${err}`)
+            return null
+        })
+    ])
+
+    return { data1, data2, data3, data4 }
+
+}
+
+
 export const addJob = bigPromise(async (req, res, next) => {
-    const { opportunityId, numberOfopenings, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
+    const { opportunityId, numberOfOpenings, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
         questionBankId, roundId, stateId, profileId, workShiftId, workTypeId, compensationId, createdBy
     } = req.body;
 
@@ -20,15 +47,19 @@ export const addJob = bigPromise(async (req, res, next) => {
     }
 
     const job = await Job.create({
-        opportunityId, numberOfopenings, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
+        opportunityId, numberOfOpenings, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
         questionBankId, roundId, stateId, profileId, workShiftId, workTypeId, compensationId, createdBy
     }).catch(err => {
         console.log(`error creating jobs :: ${err}`)
-        return res.status(500).json({
+        return null
+    })
+
+    if (!job) {
+        res.status(500).json({
             success: false,
             message: "Internal server error",
         })
-    })
+    }
 
     res.status(200).json({
         success: true,
@@ -40,8 +71,9 @@ export const addJob = bigPromise(async (req, res, next) => {
 })
 
 export const getAllJobs = bigPromise(async (req, res, next) => {
-    const allJobs = await Job.find({}).catch(err => {
+    const allJobs = await Job.find({}).lean().catch(err => {
         console.log(`error getting jobs :: ${err}`)
+        return null
     })
 
     if (allJobs === null) {
@@ -49,6 +81,15 @@ export const getAllJobs = bigPromise(async (req, res, next) => {
             success: false,
             message: "Internal server error!"
         })
+    }
+
+    for (var j of allJobs) {
+        const { data1, data2, data3, data4 } = await getDeatils(j)
+
+        j.profileName = data1?.title
+        j.businessName = data2?.name
+        j.cityName = data3?.name
+        j.userName = data4?.name
     }
 
     res.status(200).json({
@@ -162,9 +203,6 @@ export const getJobById = bigPromise(async (req, res, next) => {
             return null
         })
     ])
-
-    console.log(data1)
-
 
 
     res.status(200).json({

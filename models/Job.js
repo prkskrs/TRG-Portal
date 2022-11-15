@@ -9,7 +9,7 @@ const jobsSchema = new mongoose.Schema({
   opportunityId: {
     type: mongoose.Schema.ObjectId,
   },
-  numberOfopenings: {
+  numberOfOpenings: {
     type: Number
   },
   headcount:
@@ -63,11 +63,9 @@ const jobsSchema = new mongoose.Schema({
       type: Date,
     },
     status: {
-      type: [{
-        type: String,
-        enum: ['APPROVED', 'PENDING', 'DECLINED']
-      }],
-      default: ['PENDING']
+      type: String,
+      enum: ['APPROVED', 'PENDING', 'DECLINED'],
+      default: 'PENDING'
     }
   },
   approver_2: {
@@ -79,11 +77,9 @@ const jobsSchema = new mongoose.Schema({
       type: Date,
     },
     status: {
-      type: [{
-        type: String,
-        enum: ['APPROVED', 'PENDING', 'DECLINED']
-      }],
-      default: ['PENDING']
+      type: String,
+      enum: ['APPROVED', 'PENDING', 'DECLINED'],
+      default: 'PENDING'
     }
   },
 
@@ -96,11 +92,9 @@ const jobsSchema = new mongoose.Schema({
       type: Date,
     },
     status: {
-      type: [{
-        type: String,
-        enum: ['APPROVED', 'PENDING', 'DECLINED']
-      }],
-      default: ['PENDING']
+      type: String,
+      enum: ['APPROVED', 'PENDING', 'DECLINED'],
+      default: 'PENDING'
     }
   },
 
@@ -113,12 +107,16 @@ const jobsSchema = new mongoose.Schema({
       type: Date,
     },
     status: {
-      type: [{
-        type: String,
-        enum: ['APPROVED', 'PENDING', 'DECLINED']
-      }],
-      default: ['PENDING']
+      type: String,
+      enum: ['APPROVED', 'PENDING', 'DECLINED'],
+      default: 'PENDING'
     }
+  },
+
+  status: {
+    type: String,
+    enum: ['APPROVED', 'PENDING', 'DECLINED'],
+    default: 'PENDING'
   },
 
   createdBy: {
@@ -127,7 +125,8 @@ const jobsSchema = new mongoose.Schema({
       ref: 'User'
     }
   }
-
+}, {
+  timestamps: true
 })
 
 const Jobs = mongoose.model("Jobs", jobsSchema);
