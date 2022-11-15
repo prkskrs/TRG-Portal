@@ -9,7 +9,7 @@ import { isEmpty } from "../utils/isEmpty.js"
 
 
 
-const getDeatils = async (job) => {
+const getDetails = async (job) => {
     const [data1, data2, data3, data4] = await Promise.all([
         Profile.findById(job.profileId).lean().catch(err => {
             console.log(`error getting profile with id :: ${job.profileId} :: ${err}`)
@@ -51,15 +51,11 @@ export const addJob = bigPromise(async (req, res, next) => {
         questionBankId, roundId, stateId, profileId, workShiftId, workTypeId, compensationId, createdBy
     }).catch(err => {
         console.log(`error creating jobs :: ${err}`)
-        return null
-    })
-
-    if (!job) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error",
         })
-    }
+    })
 
     res.status(200).json({
         success: true,
@@ -84,7 +80,7 @@ export const getAllJobs = bigPromise(async (req, res, next) => {
     }
 
     for (var j of allJobs) {
-        const { data1, data2, data3, data4 } = await getDeatils(j)
+        const { data1, data2, data3, data4 } = await getDetails(j)
 
         j.profileName = data1?.title
         j.businessName = data2?.name

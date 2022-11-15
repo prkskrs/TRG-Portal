@@ -24,7 +24,7 @@ export const addBusiness = bigPromise(async (req, res, next) => {
     if (!name || !address) {
         return res.status(400).json({
             success: false,
-            message: "Business name and address is required."
+            message: "Bad Request"
         })
     }
 
@@ -39,16 +39,20 @@ export const addBusiness = bigPromise(async (req, res, next) => {
         status
     }).catch(err => {
         console.log(`error creating business :: ${err}`)
-        return res.status(500).json({
-            success: false,
-            message: "error creating business"
-        })
+        return null
     })
+
+    if(business===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal Server Error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Business Added Successfully!",
-        business
+        data:business
     })
 })
 
@@ -66,6 +70,7 @@ export const getAllBusiness = bigPromise(async (req, res, next) => {
     }
 
     res.status(200).json({
+        success:true,
         data: allBusiness
     })
 })
@@ -90,15 +95,26 @@ export const updateBusinessById = bigPromise(async (req, res, next) => {
         description: req.body.description,
         // status:req.body.status
     }
+    
     const business = await Business.findByIdAndUpdate(req.params.id, newData, {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating business :: ${err}`);
+        return null;
     })
+
+    if(business===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        business
+        data: business
     })
 })
 
@@ -109,10 +125,9 @@ export const addCity = bigPromise(async (req, res, next) => {
     const { name, state, country, status } = req.body;
 
     if (!name || !state || !country) {
-
         return res.status(400).json({
             success: false,
-            message: "City name, State and Country is required."
+            message: "Bad Request"
         })
     }
 
@@ -121,12 +136,22 @@ export const addCity = bigPromise(async (req, res, next) => {
         state,
         country,
         status
+    }).catch(err=>{
+        console.log(`error creating cities :: ${city}`);
+        return null;
     })
+
+    if(city===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal Server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "City Added Successfully!",
-        city
+        data:city
     })
 })
 
@@ -143,9 +168,8 @@ export const getAllCity = bigPromise(async (req, res, next) => {
         })
     }
 
-
-
     res.status(200).json({
+        success:true,
         data: allCity
     })
 })
@@ -169,11 +193,21 @@ export const updateCityById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating city :: ${err}`);
+        return null;
     })
+
+    if(city===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal Server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        city
+        data:city
     })
 })
 
@@ -183,10 +217,9 @@ export const addCountry = bigPromise(async (req, res, next) => {
     const { name, code, status } = req.body;
 
     if (!name || !code) {
-
         return res.status(400).json({
             success: false,
-            message: "Country name and Country Code is required."
+            message: "Bad Request"
         })
     }
 
@@ -194,18 +227,29 @@ export const addCountry = bigPromise(async (req, res, next) => {
         name,
         code,
         status
+    }).catch(err=>{
+        console.log(`error creating country ${err}`);
+        return null;
     })
+
+    if(country===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Country Added Successfully!",
-        country
+        data:country
     })
 })
 
 export const getAllCountry = bigPromise(async (req, res, next) => {
     const allCountry = await Country.find({}).catch(err => {
         console.log(`error getting country :: ${err}`)
+        return null
     })
 
     if (allCountry === null) {
@@ -215,8 +259,7 @@ export const getAllCountry = bigPromise(async (req, res, next) => {
         })
     }
 
-
-    res.status(200).json({
+    return res.status(200).json({
         success: true,
         data: allCountry
     })
@@ -240,11 +283,21 @@ export const updateCountryById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating country ${err}`);
+        return null;
     })
+
+    if(country === null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        country
+        data:country
     })
 })
 
@@ -257,7 +310,7 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
     if (!profile) {
         return res.status(400).json({
             success: false,
-            message: "Profile is required."
+            message: "Bad Request"
         })
     }
 
@@ -265,18 +318,29 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
         profile,
         noOfRound,
         noOfQuestion
+    }).catch(err=>{
+        console.log(`error creating interview round :: ${err}`);
+        return null;
     })
+
+    if(ir===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Interview Round Added Successfully!",
-        ir
+        data:ir
     })
 })
 
 export const getAllInterviewRound = bigPromise(async (req, res, next) => {
     const allInterviewRound = await InterviewRound.find({}).catch(err => {
         console.log(`error getting interview round :: ${err}`)
+        return null;
     })
 
     if (allInterviewRound === null) {
@@ -287,6 +351,7 @@ export const getAllInterviewRound = bigPromise(async (req, res, next) => {
     }
 
     res.status(200).json({
+        success:true,
         data: allInterviewRound
     })
 })
@@ -311,11 +376,21 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating interview round ${err}`);
+        return null
     })
 
-    res.status(200).json({
+    if(ir===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
+
+    return res.status(200).json({
         success: true,
-        ir
+        data:ir
     })
 })
 
@@ -326,7 +401,7 @@ export const addRound = bigPromise(async (req, res, next) => {
     if (!name) {
         return res.status(400).json({
             success: false,
-            message: "Name is required."
+            message: "Bad Request"
         })
     }
 
@@ -334,12 +409,20 @@ export const addRound = bigPromise(async (req, res, next) => {
         name
     }).catch(err => {
         console(`error creating Round :: ${err}`)
+        return null
     })
+
+    if(round===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Round Added Successfully!",
-        round
+        data:round
     })
 })
 
@@ -351,14 +434,12 @@ export const getAllRound = bigPromise(async (req, res, next) => {
         return null
     })
 
-    if (!allRound) {
-        return res.status(500).json({
+    if (allRound==null) {
+        return res.status(501).json({
             success: false,
             message: "Internal Server Error"
         })
     }
-
-
 
     res.status(200).json({
         success: true,
@@ -382,11 +463,21 @@ export const updateRoundById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating round :: ${err}`);
+        return null
     })
+
+    if(round===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal Server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        round
+        data:round
     })
 })
 
@@ -398,7 +489,7 @@ export const addState = bigPromise(async (req, res, next) => {
     if (!name || !country) {
         return res.status(400).json({
             success: false,
-            message: "State Name and Country is required."
+            message: "Bad Request"
         })
     }
 
@@ -406,12 +497,22 @@ export const addState = bigPromise(async (req, res, next) => {
         name,
         country,
         status
+    }).catch(err=>{
+        console.log(`error creating state :: ${err}`);
+        return null
     })
+
+    if(state===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Round Added Successfully!",
-        state
+        data:state
     })
 })
 
@@ -419,6 +520,7 @@ export const addState = bigPromise(async (req, res, next) => {
 export const getAllState = bigPromise(async (req, res, next) => {
     const allState = await State.find({}).catch(err => {
         console.log(`error getting state :: ${err}`)
+        return null
     })
 
     if (allState === null) {
@@ -429,6 +531,7 @@ export const getAllState = bigPromise(async (req, res, next) => {
     }
 
     res.status(200).json({
+        success:true,
         data: allState
     })
 })
@@ -452,11 +555,21 @@ export const updateStateById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating state :: ${err}`);
+        return null
     })
+
+    if(state===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        state
+        data:state
     })
 })
 
@@ -466,10 +579,9 @@ export const addQuestionBank = bigPromise(async (req, res, next) => {
     const { departmentName, questionType, question, options, correctAnswer } = req.body;
 
     if (!departmentName) {
-
         return res.status(400).json({
             success: false,
-            message: "Department name is required."
+            message: "Bad Request"
         })
     }
 
@@ -479,12 +591,22 @@ export const addQuestionBank = bigPromise(async (req, res, next) => {
         question,
         options,
         correctAnswer
+    }).catch(err=>{
+        console.log(`error creating question bank :: ${err}`);
+        return null
     })
+
+    if(qb===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Question Bank Added Successfully!",
-        qb
+        data:qb
     })
 })
 
@@ -492,6 +614,7 @@ export const addQuestionBank = bigPromise(async (req, res, next) => {
 export const getAllQuestionBank = bigPromise(async (req, res, next) => {
     const allQuestionBank = await QuestionBank.find({}).catch(err => {
         console.log(`error getting question bank :: ${err}`)
+        return null
     })
 
     if (allQuestionBank === null) {
@@ -501,8 +624,8 @@ export const getAllQuestionBank = bigPromise(async (req, res, next) => {
         })
     }
 
-
     res.status(200).json({
+        success:true,
         data: allQuestionBank
     })
 })
@@ -529,12 +652,21 @@ export const updateQuestionBankById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating question bank :: ${err}`);
+        return null
     })
+
+    if(qbank===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        qbank
-
+        data:qbank
     })
 })
 
@@ -544,10 +676,9 @@ export const addDepartment = bigPromise(async (req, res, next) => {
     const { title, description, status } = req.body;
 
     if (!title || !description) {
-
         return res.status(400).json({
             success: false,
-            message: "Title and description of department is required."
+            message: "Bad Request"
         })
     }
 
@@ -555,18 +686,29 @@ export const addDepartment = bigPromise(async (req, res, next) => {
         title,
         description,
         status
+    }).catch(err=>{
+        console.log(`error creating department ::  ${err}`);
+        return null
     })
+
+    if(dept===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Department Added Successfully!",
-        dept
+        data : dept
     })
 })
 
 export const getAllDepartment = bigPromise(async (req, res, next) => {
     const allDepartment = await Department.find({}).catch(err => {
         console.log(`error getting department :: ${err}`)
+        return null;
     })
 
     if (allDepartment === null) {
@@ -576,9 +718,8 @@ export const getAllDepartment = bigPromise(async (req, res, next) => {
         })
     }
 
-
-
     res.status(200).json({
+        success:true,
         data: allDepartment
     })
 })
@@ -604,12 +745,21 @@ export const updateDepartmentById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating department ${err}`);
+        return null;
     })
+
+    if(dept === null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        dept
-
+        data:dept
     })
 })
 
@@ -619,10 +769,9 @@ export const addProfile = bigPromise(async (req, res, next) => {
     const { title, profileType, level, reportProfile, status } = req.body;
 
     if (!title || !profileType) {
-
         return res.status(400).json({
             success: false,
-            message: "Title and ProfileType of profile is required."
+            message: "Bad Request"
         })
     }
 
@@ -632,12 +781,22 @@ export const addProfile = bigPromise(async (req, res, next) => {
         level,
         reportProfile,
         status
+    }).catch(err=>{
+        console.log(`error creating profile ${err}`);
+        return null
     })
+    
+    if(profile===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Profile Added Successfully!",
-        profile
+        data:profile
     })
 })
 
@@ -649,13 +808,14 @@ export const getAllProfile = bigPromise(async (req, res, next) => {
     })
 
     if (allProfile === null) {
-        return res.status(500).json({
+        return res.status(501).json({
             success: false,
             message: "Internal server error! "
         })
     }
 
     return res.status(200).json({
+        success:true,
         data: allProfile
     })
 })
@@ -683,11 +843,21 @@ export const updateProfileById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating profile :: ${err}`);
+        return null
     })
+
+    if(profile===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        profile
+        data:profile
     })
 })
 
@@ -697,22 +867,31 @@ export const addWorkShift = bigPromise(async (req, res, next) => {
     const { title, status } = req.body;
 
     if (!title) {
-
         return res.status(400).json({
             success: false,
-            message: "Title of work shift is required."
+            message: "Bad Request"
         })
     }
 
     const ws = await Workshift.create({
         title,
         status
+    }).catch(err=>{
+        console.log(`error creating work shift :: ${err}`);
+        return null;
     })
+
+    if(ws===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Work Shift Added Successfully!",
-        ws
+        data:ws
     })
 })
 
@@ -731,13 +910,13 @@ export const getAllWorkShift = bigPromise(async (req, res, next) => {
     }
 
     res.status(200).json({
+        success:true,
         data: allWorkShift
     })
 })
 
 
 export const updateWorkShiftById = bigPromise(async (req, res, next) => {
-
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
         return res.status(400).json({
@@ -755,11 +934,21 @@ export const updateWorkShiftById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating works shift :: ${ws}`);
+        return null
     })
+
+    if(ws===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        ws
+        data:ws
     })
 })
 
@@ -769,22 +958,31 @@ export const addWorkType = bigPromise(async (req, res, next) => {
     const { title, status } = req.body;
 
     if (!title) {
-
         return res.status(400).json({
             success: false,
-            message: "Title of work type is required."
+            message: "Bad request"
         })
     }
 
     const wt = await Worktype.create({
         title,
         status
+    }).catch(err=>{
+        console.log(`error creating work type ::  ${err}`);
+        return null;
     })
+
+    if(wt===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Work Type Added Successfully!",
-        wt
+        data:wt
     })
 })
 
@@ -792,6 +990,7 @@ export const addWorkType = bigPromise(async (req, res, next) => {
 export const getAllWorkType = bigPromise(async (req, res, next) => {
     const allWorkType = await Worktype.find({}).catch(err => {
         console.log(`error getting worktype :: ${err}`)
+        return null
     })
 
     if (allWorkType === null) {
@@ -801,9 +1000,8 @@ export const getAllWorkType = bigPromise(async (req, res, next) => {
         })
     }
 
-
-
     res.status(200).json({
+        success:true,
         data: allWorkType
     })
 })
@@ -828,11 +1026,21 @@ export const updateWorkTypeById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating work type ::  ${err}`);
+        return null;
     })
+
+    if(wt===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        wt
+        data:wt
     })
 })
 
@@ -846,26 +1054,37 @@ export const addCompensation = bigPromise(async (req, res, next) => {
 
         return res.status(400).json({
             success: false,
-            message: "data of compensation is required."
+            message: "Bad Request"
         })
     }
 
     const cs = await Compensation.create({
         data,
         status
+    }).catch(err=>{
+        console.log(`error creating compensation :: ${err}`);
+        return null
     })
+
+    if(cs===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
         message: "Compensation Added Successfully!",
-        cs
+        data:cs
     })
 })
 
 
 export const getAllCompensation = bigPromise(async (req, res, next) => {
     const allCompensation = await Compensation.find({}).catch(err => {
-        console.log(`error getting interview round :: ${err}`)
+        console.log(`error getting compensation :: ${err}`)
+        return null;
     })
 
     if (allCompensation === null) {
@@ -876,6 +1095,7 @@ export const getAllCompensation = bigPromise(async (req, res, next) => {
     }
 
     res.status(200).json({
+        success:true,
         data: allCompensation
     })
 })
@@ -900,10 +1120,20 @@ export const updateCompensationById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating compensation :: ${err}`);
+        return null
     })
+
+    if(cs===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
 
     res.status(200).json({
         success: true,
-        cs
+        data : cs
     })
 })

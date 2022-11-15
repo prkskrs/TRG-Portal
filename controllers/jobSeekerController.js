@@ -95,6 +95,7 @@ export const logout=bigPromise(async(req,res,next)=>{
 export const getLoggedInJobSeekerDetails=bigPromise(async(req,res,next)=>{
     const jobseeker =await Jobseeker.findById(req.user.id).catch(err=>{
         console.log(`error finding jobseeker details ${err}`);
+        return null
     })
     jobseeker.password=undefined
 
