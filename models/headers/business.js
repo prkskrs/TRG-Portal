@@ -1,49 +1,49 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
 
-const businessSchema=new mongoose.Schema({
-    businessName:{
-        type:String,
-        required:[true,'Please provide a business name.'],
-        maxlength:[80,'Business name should be under 40 characters.']
+const businessSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: [true, 'Please provide a business name.'],
+        maxlength: [80, 'Business name should be under 40 characters.']
     },
-    address:{
-        type:String,
-        required:[true,'Please provide a address.'],
-        maxlength:[250,'Address should be under 100 characters.']
+    address: {
+        type: String,
+        required: [true, 'Please provide a address.'],
+        maxlength: [250, 'Address should be under 100 characters.']
     },
-    businessUrl:{
-        type:String,
+    url: {
+        type: String,
     },
-    businessCode:{
-        type:String
+    code: {
+        type: String
     },
-    summary:{
-        type:String
+    summary: {
+        type: String
     },
-    businessLogo:{
-        id:{
-            type:String,
+    logo: {
+        id: {
+            type: String,
         },
-        secure_url:{
-            type:String,
+        secure_url: {
+            type: String,
         }
     },
-    description:{
-        type:String,
+    description: {
+        type: String,
     },
-    status:{
+    status: {
         type: [{
             type: String,
-            enum: ['Active', 'Inactive']
+            enum: ['ACTIVE', 'INACTIVE']
         }],
-        default: ['Active']
+        default: ['ACTIVE']
     },
 })
 
 
 
 
-const Business = mongoose.model("Business",businessSchema);
+const Business = mongoose.model("Business", businessSchema);
 
 export default Business;

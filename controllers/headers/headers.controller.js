@@ -19,9 +19,9 @@ import bigPromise from "../../middlewares/bigPromise.js"
 // Business Header
 
 export const addBusiness = bigPromise(async (req, res, next) => {
-    const { businessName, address, businessUrl, businessCode, summary, businessLogo, description, status } = req.body;
+    const { name, address, url, code, summary, logo, description, status } = req.body;
 
-    if (!businessName || !address) {
+    if (!name || !address) {
         return res.status(400).json({
             success: false,
             message: "Business name and address is required."
@@ -29,15 +29,20 @@ export const addBusiness = bigPromise(async (req, res, next) => {
     }
 
     const business = await Business.create({
-        businessName,
+        name,
         address,
-        businessUrl,
-        businessCode,
+        url,
+        code,
         summary,
-        businessLogo,
+        logo,
         description,
         status
-
+    }).catch(err => {
+        console.log(`error creating business :: ${err}`)
+        return res.status(500).json({
+            success: false,
+            message: "error creating business"
+        })
     })
 
     res.status(200).json({

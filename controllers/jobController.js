@@ -1,39 +1,46 @@
 import bigPromise from "../middlewares/bigPromise.js";
 import Job from "../models/Job.js";
-import {isEmpty} from  "../utils/isEmpty.js"
+import Profile from "../models/headers/profile.js"
+import City from "../models/headers/cities.js"
+import Business from "../models/headers/business.js"
+import User from "../models/User.js"
 
-export const addJob = bigPromise(async(req,res,next)=>{
-    const {opportunityId,businessName,location,headcount, 
-        approver_1,approver_2,approver_3,approver_4,
-        departmentId, businessId, cityId, countryId, interviewRoundId,
+import { isEmpty } from "../utils/isEmpty.js"
+
+export const addJob = bigPromise(async (req, res, next) => {
+    const { opportunityId, numberOfopenings, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
         questionBankId, roundId, stateId, profileId, workShiftId, workTypeId, compensationId, createdBy
     } = req.body;
 
-    if ( !businessName ||!location){
+    if (!businessId || !cityId) {
         return res.status(400).json({
-            success:false,
-            message:"opportunityId, businessName and location of Job is required."
+            success: false,
+            message: "Bad Request"
         })
     }
 
     const job = await Job.create({
-        opportunityId,businessName,location,headcount, 
-        approver_1,approver_2,approver_3,approver_4,
-        departmentId, businessId, cityId, countryId, interviewRoundId,
+        opportunityId, numberOfopenings, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
         questionBankId, roundId, stateId, profileId, workShiftId, workTypeId, compensationId, createdBy
+    }).catch(err => {
+        console.log(`error creating jobs :: ${err}`)
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        })
     })
 
-    res.status(201).json({
-        success:true,
-        message:"Job Added Successfully !",
-        data : job
+    res.status(200).json({
+        success: true,
+        message: "Job Added Successfully !",
+        data: job
     })
 
 
 })
 
-export const getAllJobs = bigPromise(async(req,res,next)=>{
-    const allJobs = await Job.find({}).catch(err=>{
+export const getAllJobs = bigPromise(async (req, res, next) => {
+    const allJobs = await Job.find({}).catch(err => {
         console.log(`error getting jobs :: ${err}`)
     })
 
@@ -45,74 +52,129 @@ export const getAllJobs = bigPromise(async(req,res,next)=>{
     }
 
     res.status(200).json({
-        success:true,
-        data : allJobs
+        success: true,
+        data: allJobs
     })
 })
 
 
 
-export const updateJobById = bigPromise(async(req,res,next)=>{
+export const updateJobById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
-    if(isEmpty(req.body)) {
+    if (isEmpty(req.body)) {
         return res.status(400).json({
-            success:"false",
-            message:"Nothing to update."
+            success: "false",
+            message: "Nothing to update."
         })
     }
-    
-    const newData={
-        opportunityId : req.body.opportunityId,
-        businessName : req.body.businessName,
-        location : req.body.location,
-        headcount : req.body.headcount, 
-        approver_1 : req.body.approver_1,
-        approver_2 : req.body.approver_2,
-        approver_3 : req.body.approver_3,
-        approver_4 : req.body.approver_4,
-        departmentId : req.body.departmentId,
-        businessId : req.body.businessId,
-        cityId : req.body.cityId,
-        countryId : req.body.countryId,
-        interviewRoundId : req.body.interviewRoundId,
-        questionBankId : req.body.questionBankId,
-        roundId : req.body.roundId,
-        stateId : req.body.stateId,
-        profileId : req.body.profileId,
-        workShiftId : req.body.workShiftId,
-        workTypeId : req.body.workTypeId,
-        compensationId : req.body.compensationId,
-        createdBy : req.body.createdBy
+
+    const newData = {
+        opportunityId: req.body.opportunityId,
+        businessName: req.body.businessName,
+        location: req.body.location,
+        headcount: req.body.headcount,
+        approver_1: req.body.approver_1,
+        approver_2: req.body.approver_2,
+        approver_3: req.body.approver_3,
+        approver_4: req.body.approver_4,
+        departmentId: req.body.departmentId,
+        businessId: req.body.businessId,
+        cityId: req.body.cityId,
+        countryId: req.body.countryId,
+        interviewRoundId: req.body.interviewRoundId,
+        questionBankId: req.body.questionBankId,
+        roundId: req.body.roundId,
+        stateId: req.body.stateId,
+        profileId: req.body.profileId,
+        workShiftId: req.body.workShiftId,
+        workTypeId: req.body.workTypeId,
+        compensationId: req.body.compensationId,
+        createdBy: req.body.createdBy
     }
 
-    const job = await Job.findByIdAndUpdate(req.params.id,newData,{
-        new:true,
-        runValidators:true,
-        useFindAndModify:false
+    const job = await Job.findByIdAndUpdate(req.params.id, newData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
     })
 
     res.status(200).json({
-        success:true,
-        date:job
+        success: true,
+        date: job
     })
 })
 
-export const deletedJobById = bigPromise(async(req,res,next)=>{
+export const deletedJobById = bigPromise(async (req, res, next) => {
 
-    const job= await Job.findById(req.params.id)
+    const job = await Job.findById(req.params.id)
 
     // console.log(job)
-    if(!job){
+    if (!job) {
         return res.status(501).json({
-            success:false,
-            message:"No job found with this id "
+            success: false,
+            message: "No job found with this id "
         })
     }
     await job.remove()
     res.status(200).json({
-        success:true,
-        message:"Job Deleted Succesfully!",
-        deletedJob:job
+        success: true,
+        message: "Job Deleted Succesfully!",
+        deletedJob: job
+    })
+})
+
+
+
+export const getJobById = bigPromise(async (req, res, next) => {
+
+    const { id } = req.params
+
+
+    let job = await Job.findById(req.params.id).catch(err => {
+        console.log(`error getting job by id :: ${id} :: ${err}`)
+        return null;
+    })
+
+    if (!job) {
+        return res.status(500).json({
+            success: false,
+            mesage: "Internal Server Error"
+        })
+    }
+
+
+    const [data1, data2, data3, data4] = await Promise.all([
+        Profile.findById(job.profileId).catch(err => {
+            console.log(`error getting profile with id :: ${job.profileId} :: ${err}`)
+            return null
+        }),
+        Business.findById(job.businessId).catch(err => {
+            console.log(`error getting Business with id :: ${job.businessId} :: ${err}`)
+            return null
+        }),
+        City.findById(job.cityId).catch(err => {
+            console.log(`error getting Business with id :: ${job.businessId} :: ${err}`)
+            return null
+        }),
+        User.findById(job?.createdBy).catch(err => {
+            console.log(`error getting User with id :: ${job.createdBy} :: ${err}`)
+            return null
+        })
+    ])
+
+    console.log(data1)
+
+
+
+    res.status(200).json({
+        success: true,
+        data: {
+            job: job,
+            profileName: data1?.title,
+            businessName: data2?.name,
+            cityName: data3?.name,
+            userName: data4?.name,
+        }
     })
 })

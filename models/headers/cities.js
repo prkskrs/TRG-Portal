@@ -1,32 +1,32 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
 
-const citiesSchema=new mongoose.Schema({
-    name:{
-        type:String,
-        required:[true,'Please provide a title'],
-        maxlength:[80,'Title should be under 80 characters.']
+const citiesSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: [true, 'Please provide a title'],
+        maxlength: [80, 'Title should be under 80 characters.']
     },
-    state:{
-        type:String,
-        required:[true,'Please provide a state name.'],
+    state: {
+        type: mongoose.Types.ObjectId,
+        default: null
     },
-    country:{
-        type:String,
-        required:[true,'Please provide a country name.'],
+    country: {
+        type: mongoose.Types.ObjectId,
+        default: null,
     },
-    status:{
+    status: {
         type: [{
             type: String,
-            enum: ['Active', 'Inactive']
+            enum: ['ACTIVE', 'INACTIVE']
         }],
-        default: ['Active']
+        default: ['ACTIVE']
     },
 })
 
 
 
 
-const City = mongoose.model("City",citiesSchema);
+const City = mongoose.model("City", citiesSchema);
 
 export default City;
