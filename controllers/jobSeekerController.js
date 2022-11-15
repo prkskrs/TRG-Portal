@@ -18,12 +18,13 @@ export const signUpJobSeeker=bigPromise(async(req,res,next)=>{
 
     const existingUser = await Jobseeker.findOne({email}).catch(err=>{
         console.log(`error finding jobseeker ${err}`);
+        return null;
     });
 
     console.log(existingUser)
     
-    if(existingUser){
-        return res.status(400).json({
+    if(existingUser!=null){
+        return res.status(401).json({
             success:"false",
             message:"Jobseeker with this email already exists"
         })
@@ -42,7 +43,15 @@ export const signUpJobSeeker=bigPromise(async(req,res,next)=>{
         profile_img
     }).catch(err=>{
         console.log(`error creating jobseeker ${err} `);
+        return null
     })
+
+    if(jobseeker===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal Server error"
+        })
+    }
     
     cookieTokenJobseeker(jobseeker,res,"Jobseeker registered successfully!")
 
@@ -59,9 +68,10 @@ export const loginJobSeeker=bigPromise(async(req,res,next)=>{
     }
     const jobseeker=await Jobseeker.findOne({email:email}).catch(err=>{
         console.log(`error finding jobseeker ${err}`);
+        return null;
     })
 
-    if(!jobseeker){
+    if(jobseeker===null){
         return res.status(400).json({
             success:"false",
             message:"You're not registered in our app"
