@@ -33,11 +33,9 @@ const businessSchema = new mongoose.Schema({
         type: String,
     },
     status: {
-        type: [{
-            type: String,
-            enum: ['ACTIVE', 'INACTIVE']
-        }],
-        default: ['ACTIVE']
+        type: String,
+        enum: ['ACTIVE', 'INACTIVE'],
+        default: "ACTIVE"
     },
 })
 

@@ -11,6 +11,8 @@ const applicationSchema = new mongoose.Scherma({
     type:String,
     enum:["Disable","Unemployed","Student"]
   }
+}, {
+  timestamps: true
 })
 
 const Application = mongoose.model("Application" , applicationSchema);

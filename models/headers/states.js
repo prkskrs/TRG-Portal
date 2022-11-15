@@ -12,11 +12,9 @@ const statesSchema = new mongoose.Schema({
         default: null
     },
     status: {
-        type: [{
-            type: String,
-            enum: ['ACTIVE', 'INACTIVE']
-        }],
-        default: ['ACTIVE']
+        type: String,
+        enum: ['ACTIVE', 'INACTIVE'],
+        default: "ACTIVE"
     },
 })
 

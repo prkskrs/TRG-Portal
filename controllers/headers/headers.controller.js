@@ -22,7 +22,7 @@ export const addBusiness = bigPromise(async (req, res, next) => {
     const { name, address, url, code, summary, logo, description, status } = req.body;
 
     if (!name || !address) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -49,7 +49,7 @@ export const addBusiness = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Business Added Successfully!",
         data:business
@@ -69,7 +69,7 @@ export const getAllBusiness = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success:true,
         data: allBusiness
     })
@@ -79,7 +79,7 @@ export const updateBusinessById = bigPromise(async (req, res, next) => {
 
     console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -112,7 +112,7 @@ export const updateBusinessById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data: business
     })
@@ -125,7 +125,7 @@ export const addCity = bigPromise(async (req, res, next) => {
     const { name, state, country, status } = req.body;
 
     if (!name || !state || !country) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -148,7 +148,7 @@ export const addCity = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "City Added Successfully!",
         data:city
@@ -168,7 +168,7 @@ export const getAllCity = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success:true,
         data: allCity
     })
@@ -178,7 +178,7 @@ export const updateCityById = bigPromise(async (req, res, next) => {
 
     console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -205,7 +205,7 @@ export const updateCityById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data:city
     })
@@ -217,7 +217,7 @@ export const addCountry = bigPromise(async (req, res, next) => {
     const { name, code, status } = req.body;
 
     if (!name || !code) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -239,7 +239,7 @@ export const addCountry = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Country Added Successfully!",
         data:country
@@ -259,7 +259,7 @@ export const getAllCountry = bigPromise(async (req, res, next) => {
         })
     }
 
-    return res.status(200).json({
+    return res.status(201).json({
         success: true,
         data: allCountry
     })
@@ -269,7 +269,7 @@ export const updateCountryById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -295,7 +295,7 @@ export const updateCountryById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data:country
     })
@@ -308,7 +308,7 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
     const { profile, noOfRound, noOfQuestion } = req.body;
 
     if (!profile) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -330,7 +330,7 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Interview Round Added Successfully!",
         data:ir
@@ -350,7 +350,7 @@ export const getAllInterviewRound = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success:true,
         data: allInterviewRound
     })
@@ -360,7 +360,7 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -388,7 +388,7 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
         })
     }
 
-    return res.status(200).json({
+    return res.status(201).json({
         success: true,
         data:ir
     })
@@ -399,7 +399,7 @@ export const addRound = bigPromise(async (req, res, next) => {
     const { name } = req.body;
 
     if (!name) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -419,7 +419,7 @@ export const addRound = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Round Added Successfully!",
         data:round
@@ -441,7 +441,7 @@ export const getAllRound = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data: allRound
     })
@@ -450,7 +450,7 @@ export const getAllRound = bigPromise(async (req, res, next) => {
 export const updateRoundById = bigPromise(async (req, res, next) => {
 
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -475,7 +475,7 @@ export const updateRoundById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data:round
     })
@@ -487,7 +487,7 @@ export const addState = bigPromise(async (req, res, next) => {
     const { name, country, status } = req.body;
 
     if (!name || !country) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -509,7 +509,7 @@ export const addState = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Round Added Successfully!",
         data:state
@@ -530,7 +530,7 @@ export const getAllState = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success:true,
         data: allState
     })
@@ -540,7 +540,7 @@ export const updateStateById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -567,7 +567,7 @@ export const updateStateById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data:state
     })
@@ -579,7 +579,7 @@ export const addQuestionBank = bigPromise(async (req, res, next) => {
     const { departmentName, questionType, question, options, correctAnswer } = req.body;
 
     if (!departmentName) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -603,7 +603,7 @@ export const addQuestionBank = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Question Bank Added Successfully!",
         data:qb
@@ -624,7 +624,7 @@ export const getAllQuestionBank = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success:true,
         data: allQuestionBank
     })
@@ -634,7 +634,7 @@ export const updateQuestionBankById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -664,7 +664,7 @@ export const updateQuestionBankById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data:qbank
     })
@@ -676,7 +676,7 @@ export const addDepartment = bigPromise(async (req, res, next) => {
     const { title, description, status } = req.body;
 
     if (!title || !description) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -698,7 +698,7 @@ export const addDepartment = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Department Added Successfully!",
         data : dept
@@ -718,7 +718,7 @@ export const getAllDepartment = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success:true,
         data: allDepartment
     })
@@ -729,7 +729,7 @@ export const updateDepartmentById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -757,7 +757,7 @@ export const updateDepartmentById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data:dept
     })
@@ -769,7 +769,7 @@ export const addProfile = bigPromise(async (req, res, next) => {
     const { title, profileType, level, reportProfile, status } = req.body;
 
     if (!title || !profileType) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -793,7 +793,7 @@ export const addProfile = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Profile Added Successfully!",
         data:profile
@@ -814,7 +814,7 @@ export const getAllProfile = bigPromise(async (req, res, next) => {
         })
     }
 
-    return res.status(200).json({
+    return res.status(201).json({
         success:true,
         data: allProfile
     })
@@ -825,7 +825,7 @@ export const updateProfileById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -855,7 +855,7 @@ export const updateProfileById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data:profile
     })
@@ -867,7 +867,7 @@ export const addWorkShift = bigPromise(async (req, res, next) => {
     const { title, status } = req.body;
 
     if (!title) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -888,7 +888,7 @@ export const addWorkShift = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Work Shift Added Successfully!",
         data:ws
@@ -909,7 +909,7 @@ export const getAllWorkShift = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success:true,
         data: allWorkShift
     })
@@ -919,7 +919,7 @@ export const getAllWorkShift = bigPromise(async (req, res, next) => {
 export const updateWorkShiftById = bigPromise(async (req, res, next) => {
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -946,7 +946,7 @@ export const updateWorkShiftById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data:ws
     })
@@ -958,7 +958,7 @@ export const addWorkType = bigPromise(async (req, res, next) => {
     const { title, status } = req.body;
 
     if (!title) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad request"
         })
@@ -979,7 +979,7 @@ export const addWorkType = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Work Type Added Successfully!",
         data:wt
@@ -1000,7 +1000,7 @@ export const getAllWorkType = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success:true,
         data: allWorkType
     })
@@ -1011,7 +1011,7 @@ export const updateWorkTypeById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -1038,7 +1038,7 @@ export const updateWorkTypeById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data:wt
     })
@@ -1052,7 +1052,7 @@ export const addCompensation = bigPromise(async (req, res, next) => {
 
     if (!data) {
 
-        return res.status(400).json({
+        return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
@@ -1073,7 +1073,7 @@ export const addCompensation = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Compensation Added Successfully!",
         data:cs
@@ -1094,7 +1094,7 @@ export const getAllCompensation = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success:true,
         data: allCompensation
     })
@@ -1105,7 +1105,7 @@ export const updateCompensationById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
     if (isEmpty(req.body)) {
-        return res.status(400).json({
+        return res.status(401).json({
             success: "false",
             message: "Nothing to update."
         })
@@ -1132,7 +1132,7 @@ export const updateCompensationById = bigPromise(async (req, res, next) => {
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data : cs
     })

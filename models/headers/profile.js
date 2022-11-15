@@ -16,11 +16,9 @@ const profileSchema = new mongoose.Schema({
         default: null
     },
     status: {
-        type: [{
-            type: String,
-            enum: ['Active', 'Inactive']
-        }],
-        default: ['Active']
+        type: String,
+        enum: ['ACTIVE', 'INACTIVE'],
+        default: "ACTIVE"
     },
 })
 
