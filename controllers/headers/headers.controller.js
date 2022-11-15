@@ -86,14 +86,14 @@ export const updateBusinessById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
-        businessName: req.body.businessName,
+        name: req.body.name,
         address: req.body.address,
-        businessUrl: req.body.businessUrl,
-        businessCode: req.body.businessCode,
+        url: req.body.url,
+        code: req.body.code,
         summary: req.body.summary,
-        businessLogo: req.body.businessLogo,
+        logo: req.body.logo,
         description: req.body.description,
-        // status:req.body.status
+        status:req.body.status
     }
     
     const business = await Business.findByIdAndUpdate(req.params.id, newData, {
@@ -188,6 +188,7 @@ export const updateCityById = bigPromise(async (req, res, next) => {
         name: req.body.name,
         state: req.body.state,
         country: req.body.country,
+        status:req.body.status
     }
     const city = await City.findByIdAndUpdate(req.params.id, newData, {
         new: true,
@@ -278,6 +279,7 @@ export const updateCountryById = bigPromise(async (req, res, next) => {
     const newData = {
         name: req.body.name,
         code: req.body.code,
+        status: req.body.status,
     }
     const country = await Country.findByIdAndUpdate(req.params.id, newData, {
         new: true,
@@ -396,7 +398,7 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
 
 // Rounds Header
 export const addRound = bigPromise(async (req, res, next) => {
-    const { name } = req.body;
+    const { name ,status} = req.body;
 
     if (!name) {
         return res.status(401).json({
@@ -406,7 +408,8 @@ export const addRound = bigPromise(async (req, res, next) => {
     }
 
     const round = await Round.create({
-        name
+        name,
+        status
     }).catch(err => {
         console(`error creating Round :: ${err}`)
         return null
@@ -457,7 +460,8 @@ export const updateRoundById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
-        roundName: req.body.roundName
+        name: req.body.name,
+        status: req.body.status
     }
     const round = await Round.findByIdAndUpdate(req.params.id, newData, {
         new: true,
@@ -548,7 +552,8 @@ export const updateStateById = bigPromise(async (req, res, next) => {
 
     const newData = {
         name: req.body.name,
-        country: req.body.country
+        country: req.body.country,
+        status: req.body.status
     }
 
     const state = await State.findByIdAndUpdate(req.params.id, newData, {
@@ -576,7 +581,7 @@ export const updateStateById = bigPromise(async (req, res, next) => {
 // QuestionBank Header
 
 export const addQuestionBank = bigPromise(async (req, res, next) => {
-    const { departmentName, questionType, question, options, correctAnswer } = req.body;
+    const { departmentName, questionType, question, options } = req.body;
 
     if (!departmentName) {
         return res.status(401).json({
@@ -589,8 +594,7 @@ export const addQuestionBank = bigPromise(async (req, res, next) => {
         departmentName,
         questionType,
         question,
-        options,
-        correctAnswer
+        options
     }).catch(err=>{
         console.log(`error creating question bank :: ${err}`);
         return null
@@ -644,8 +648,7 @@ export const updateQuestionBankById = bigPromise(async (req, res, next) => {
         departmentName: req.body.departmentName,
         questionType: req.body.questionType,
         question: req.body.question,
-        options: req.body.options,
-        correctAnswer: req.body.correctAnswer,
+        options: req.body.options
     }
 
     const qbank = await QuestionBank.findByIdAndUpdate(req.params.id, newData, {
@@ -673,9 +676,9 @@ export const updateQuestionBankById = bigPromise(async (req, res, next) => {
 
 // Department Header 
 export const addDepartment = bigPromise(async (req, res, next) => {
-    const { title, description, status } = req.body;
+    const { name, description, status } = req.body;
 
-    if (!title || !description) {
+    if (!name || !description) {
         return res.status(401).json({
             success: false,
             message: "Bad Request"
@@ -683,7 +686,7 @@ export const addDepartment = bigPromise(async (req, res, next) => {
     }
 
     const dept = await Department.create({
-        title,
+        name,
         description,
         status
     }).catch(err=>{
@@ -736,7 +739,7 @@ export const updateDepartmentById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
-        title: req.body.title,
+        name: req.body.name,
         description: req.body.description,
         status: req.body.status
     }

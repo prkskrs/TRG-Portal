@@ -1,7 +1,7 @@
 import mongoose  from "mongoose";
 
 const departmentSchema=new mongoose.Schema({
-    title:{
+    name:{
         type:String,
         required:[true,'Please provide a title'],
         maxlength:[80,'Title should be under 80 characters.']

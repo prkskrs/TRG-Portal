@@ -31,9 +31,6 @@ const questionBankSchema=new mongoose.Schema({
         }],
         default: undefined,
     },
-    correctAnswer:{
-        type:Number
-    }
 })
 
 
