@@ -52,6 +52,7 @@ const jobsSchema = new mongoose.Schema({
   compensationId: {
     type: mongoose.Schema.ObjectId,
   },
+  
   approver_1: {
     id: {
       type: mongoose.Schema.ObjectId,
@@ -66,6 +67,7 @@ const jobsSchema = new mongoose.Schema({
       default: 'PENDING'
     }
   },
+
   approver_2: {
     id: {
       type: mongoose.Schema.ObjectId,
