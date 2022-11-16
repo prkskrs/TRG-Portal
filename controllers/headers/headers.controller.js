@@ -581,7 +581,7 @@ export const updateStateById = bigPromise(async (req, res, next) => {
 // QuestionBank Header
 
 export const addQuestionBank = bigPromise(async (req, res, next) => {
-    const { departmentName, questionType, question, options } = req.body;
+    const { departmentName, questionType, question, options,correctAnswer } = req.body;
 
     if (!departmentName) {
         return res.status(401).json({
@@ -594,7 +594,8 @@ export const addQuestionBank = bigPromise(async (req, res, next) => {
         departmentName,
         questionType,
         question,
-        options
+        options,
+        correctAnswer
     }).catch(err=>{
         console.log(`error creating question bank :: ${err}`);
         return null
@@ -648,7 +649,8 @@ export const updateQuestionBankById = bigPromise(async (req, res, next) => {
         departmentName: req.body.departmentName,
         questionType: req.body.questionType,
         question: req.body.question,
-        options: req.body.options
+        options: req.body.options,
+        correctAnswer: req.body.correctAnswer,
     }
 
     const qbank = await QuestionBank.findByIdAndUpdate(req.params.id, newData, {
