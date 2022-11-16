@@ -43,8 +43,6 @@ const jobsSchema = new mongoose.Schema({
   roundId: {
     type: mongoose.Schema.ObjectId,
   },
-
-
   workShiftId: {
     type: mongoose.Schema.ObjectId,
   },
