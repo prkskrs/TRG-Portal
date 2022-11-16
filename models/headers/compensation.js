@@ -5,12 +5,10 @@ const compensationSchema=new mongoose.Schema({
     data:{
         type:String
     },
-    status:{
-        type: [{
-            type: String,
-            enum: ['Active', 'Inactive']
-        }],
-        default: ['Active']
+    status: {
+        type: String,
+        enum: ['ACTIVE', 'INACTIVE'],
+        default: "ACTIVE"
     },
 })
 

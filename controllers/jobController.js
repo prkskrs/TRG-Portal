@@ -9,7 +9,7 @@ import { isEmpty } from "../utils/isEmpty.js"
 
 
 
-const getDeatils = async (job) => {
+const getDetails = async (job) => {
     const [data1, data2, data3, data4] = await Promise.all([
         Profile.findById(job.profileId).lean().catch(err => {
             console.log(`error getting profile with id :: ${job.profileId} :: ${err}`)
@@ -28,9 +28,7 @@ const getDeatils = async (job) => {
             return null
         })
     ])
-
     return { data1, data2, data3, data4 }
-
 }
 
 
@@ -54,20 +52,18 @@ export const addJob = bigPromise(async (req, res, next) => {
         return null
     })
 
-    if (!job) {
-        res.status(500).json({
+    if(job===null){
+        return res.status(501).json({
             success: false,
             message: "Internal server error",
         })
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Job Added Successfully !",
         data: job
     })
-
-
 })
 
 export const getAllJobs = bigPromise(async (req, res, next) => {
@@ -84,15 +80,14 @@ export const getAllJobs = bigPromise(async (req, res, next) => {
     }
 
     for (var j of allJobs) {
-        const { data1, data2, data3, data4 } = await getDeatils(j)
-
+        const { data1, data2, data3, data4 } = await getDetails(j)
         j.profileName = data1?.title
         j.businessName = data2?.name
         j.cityName = data3?.name
         j.userName = data4?.name
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data: allJobs
     })
@@ -138,9 +133,19 @@ export const updateJobById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
+    }).catch(err=>{
+        console.log(`error updating job :: ${err}`);
+        return null
     })
 
-    res.status(200).json({
+    if(job===null){
+        return res.status(501).json({
+            success:false,
+            message:"Internal Server error"
+        })
+    }
+
+    res.status(201).json({
         success: true,
         date: job
     })
@@ -148,17 +153,20 @@ export const updateJobById = bigPromise(async (req, res, next) => {
 
 export const deletedJobById = bigPromise(async (req, res, next) => {
 
-    const job = await Job.findById(req.params.id)
+    const job = await Job.findById(req.params.id).catch(err=>{
+        console.log(`error finding job :: ${err}`);
+        return null
+    })
 
-    // console.log(job)
-    if (!job) {
+    if(job===null){
         return res.status(501).json({
-            success: false,
-            message: "No job found with this id "
+            success:false,
+            message:"Internal Server error"
         })
     }
+
     await job.remove()
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "Job Deleted Succesfully!",
         deletedJob: job
@@ -178,7 +186,7 @@ export const getJobById = bigPromise(async (req, res, next) => {
     })
 
     if (!job) {
-        return res.status(500).json({
+        return res.status(501).json({
             success: false,
             mesage: "Internal Server Error"
         })
@@ -205,7 +213,7 @@ export const getJobById = bigPromise(async (req, res, next) => {
     ])
 
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data: {
             job: job,

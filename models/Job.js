@@ -1,8 +1,4 @@
 import mongoose from "mongoose";
-import validator from "validator";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import crypto from "crypto";
 
 
 const jobsSchema = new mongoose.Schema({
@@ -43,8 +39,6 @@ const jobsSchema = new mongoose.Schema({
   roundId: {
     type: mongoose.Schema.ObjectId,
   },
-
-
   workShiftId: {
     type: mongoose.Schema.ObjectId,
   },
@@ -54,6 +48,7 @@ const jobsSchema = new mongoose.Schema({
   compensationId: {
     type: mongoose.Schema.ObjectId,
   },
+
   approver_1: {
     id: {
       type: mongoose.Schema.ObjectId,
@@ -68,6 +63,7 @@ const jobsSchema = new mongoose.Schema({
       default: 'PENDING'
     }
   },
+
   approver_2: {
     id: {
       type: mongoose.Schema.ObjectId,

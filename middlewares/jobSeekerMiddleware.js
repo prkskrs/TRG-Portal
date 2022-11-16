@@ -5,7 +5,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 export const isLoggedIn=bigPromise(async(req,res,next)=>{
-    const token=req.cookies.token||req.header("Authorization").replace("Bearer ","")
+    const token=req.cookies.token
     // console.log(token)
     if(!token){
         return res.status(403).json({

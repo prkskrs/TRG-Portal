@@ -24,16 +24,12 @@ const questionBankSchema=new mongoose.Schema({
                 minlength: 1,
                 maxlength: 200,
               },
-              isCorrectAnswer: { 
-                type: Boolean,
-                default: false
-              }
         }],
         default: undefined,
     },
-    correctAnswer:{
-        type:Number
-    }
+    correctAnswer: { 
+        type: Number
+      }
 })
 
 
