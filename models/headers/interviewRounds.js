@@ -11,6 +11,9 @@ const interviewRoundSchema=new mongoose.Schema({
     noOfQuestion:{
         type:Number,
     },
+    question:[{
+        type:mongoose.Types.ObjectId
+    }]
 })
 
 
