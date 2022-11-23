@@ -10,7 +10,7 @@ export const cookieToken = (user, res, message) => {
     }
     user.password = undefined
 
-    res.status(200).cookie('token', token, options).json({
+    res.status(201).cookie('token', token, options).json({
         success: true,
         message: message,
         token,

@@ -52,7 +52,7 @@ export const addJob = bigPromise(async (req, res, next) => {
         return null
     })
 
-    if(job===null){
+    if (job === null) {
         return res.status(501).json({
             success: false,
             message: "Internal server error",
@@ -85,6 +85,19 @@ export const getAllJobs = bigPromise(async (req, res, next) => {
         j.businessName = data2?.name
         j.cityName = data3?.name
         j.userName = data4?.name
+
+        let jobApproval = 0;
+
+        if (j.approver_1?.status === "PENDING") {
+            jobApproval = 1
+        } else if (j.approver_2?.status === "PENDING") {
+            jobApproval = 2
+        } else if (j.approver_3?.status === "PENDING") {
+            jobApproval = 3
+        } else if (j.approver_4?.status === "PENDING") {
+            jobApproval = 4
+        }
+        j.jobApproval = jobApproval
     }
 
     res.status(201).json({
@@ -133,15 +146,15 @@ export const updateJobById = bigPromise(async (req, res, next) => {
         new: true,
         runValidators: true,
         useFindAndModify: false
-    }).catch(err=>{
+    }).catch(err => {
         console.log(`error updating job :: ${err}`);
         return null
     })
 
-    if(job===null){
+    if (job === null) {
         return res.status(501).json({
-            success:false,
-            message:"Internal Server error"
+            success: false,
+            message: "Internal Server error"
         })
     }
 
@@ -153,15 +166,15 @@ export const updateJobById = bigPromise(async (req, res, next) => {
 
 export const deletedJobById = bigPromise(async (req, res, next) => {
 
-    const job = await Job.findById(req.params.id).catch(err=>{
+    const job = await Job.findById(req.params.id).catch(err => {
         console.log(`error finding job :: ${err}`);
         return null
     })
 
-    if(job===null){
+    if (job === null) {
         return res.status(501).json({
-            success:false,
-            message:"Internal Server error"
+            success: false,
+            message: "Internal Server error"
         })
     }
 
@@ -213,6 +226,19 @@ export const getJobById = bigPromise(async (req, res, next) => {
     ])
 
 
+    let jobApproval = 0;
+
+    if (job.approver_1?.status === "PENDING") {
+        jobApproval = 1
+    } else if (job.approver_2?.status === "PENDING") {
+        jobApproval = 2
+    } else if (job.approver_3?.status === "PENDING") {
+        jobApproval = 3
+    } else if (job.approver_4?.status === "PENDING") {
+        jobApproval = 4
+    }
+
+
     res.status(201).json({
         success: true,
         data: {
@@ -221,6 +247,7 @@ export const getJobById = bigPromise(async (req, res, next) => {
             businessName: data2?.name,
             cityName: data3?.name,
             userName: data4?.name,
+            jobApproval: jobApproval
         }
     })
 })
