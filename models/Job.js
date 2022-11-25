@@ -45,6 +45,9 @@ const jobsSchema = new mongoose.Schema({
   workTypeId: {
     type: mongoose.Schema.ObjectId,
   },
+  eligibilty: {
+    type: String
+  },
   compensationId: {
     type: mongoose.Schema.ObjectId,
   },
@@ -57,6 +60,9 @@ const jobsSchema = new mongoose.Schema({
     approved_at: {
       type: Date,
     },
+    remarks: {
+      type: String
+    },
     status: {
       type: String,
       enum: ['APPROVED', 'PENDING', 'DECLINED'],
@@ -68,6 +74,9 @@ const jobsSchema = new mongoose.Schema({
     id: {
       type: mongoose.Schema.ObjectId,
       ref: 'User'
+    },
+    remarks: {
+      type: String
     },
     approved_at: {
       type: Date,
@@ -83,6 +92,9 @@ const jobsSchema = new mongoose.Schema({
     id: {
       type: mongoose.Schema.ObjectId,
       ref: 'User'
+    },
+    remarks: {
+      type: String
     },
     approved_at: {
       type: Date,
@@ -102,6 +114,9 @@ const jobsSchema = new mongoose.Schema({
     approved_at: {
       type: Date,
     },
+    remarks: {
+      type: String
+    },
     status: {
       type: String,
       enum: ['APPROVED', 'PENDING', 'DECLINED'],
@@ -111,7 +126,7 @@ const jobsSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['APPROVED', 'PENDING', 'DECLINED'],
+    enum: ['APPROVED1', 'APPROVED2', "APPROVED3", 'APPROVED', 'PENDING', 'DECLINED1', 'DECLINED1', 'DECLINED2', 'DECLINED3', 'DECLINED4'],
     default: 'PENDING'
   },
 

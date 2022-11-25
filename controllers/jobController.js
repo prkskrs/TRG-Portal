@@ -137,9 +137,11 @@ export const updateJobById = bigPromise(async (req, res, next) => {
         stateId: req.body.stateId,
         profileId: req.body.profileId,
         workShiftId: req.body.workShiftId,
+        eligibility: req.body.eligibility,
         workTypeId: req.body.workTypeId,
         compensationId: req.body.compensationId,
-        createdBy: req.body.createdBy
+        createdBy: req.body.createdBy,
+        status: req.body.status
     }
 
     const job = await Job.findByIdAndUpdate(req.params.id, newData, {
