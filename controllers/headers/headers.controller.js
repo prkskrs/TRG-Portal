@@ -904,7 +904,7 @@ export const addWorkShift = bigPromise(async (req, res, next) => {
 
 
 export const getAllWorkShift = bigPromise(async (req, res, next) => {
-    const allWorkShift = await Workshift.find({}).catch(err => {
+    const allWorkShift = await Workshift.find({}).lean().catch(err => {
         console.log(`error getting workshift :: ${err}`)
         return null
     })

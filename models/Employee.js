@@ -5,8 +5,11 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
 const employeeSchema = new mongoose.Schema({
+  employeeId:{
+    type: mongoose.Types.ObjectId
+  },
   userId: {
-    type: ObjectId
+    type: mongoose.Types.ObjectId
   },
   firstName: {
     type: String,
@@ -42,7 +45,7 @@ const employeeSchema = new mongoose.Schema({
   },
   address2: {
     type: String,
-    maxlength: [250, 'Address1 should be under 200 characters.']
+    maxlength: [250, 'Address2 should be under 200 characters.']
   },
   city: {
     type: String,
