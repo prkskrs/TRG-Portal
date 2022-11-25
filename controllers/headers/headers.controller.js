@@ -852,9 +852,10 @@ export const updateProfileById = bigPromise(async (req, res, next) => {
 // filter based on band and departmentId
 export const getAllProfile = bigPromise(async(req,res,next)=>{
     console.log(req.query.band)
-    const profiles = await Profile.find({"band":{$lte:req.query.band},"departmentId":req.query.departmentId}).lean()
+    // const profiles = await Profile.find({"band":{$lte:req.query.band},"departmentId":req.query.departmentId}).lean()
+    const profiles = await Profile.find().where({"band":{$lte:req.query.band},"departmentId":req.query.departmentId}).lean()
     .catch(err=>{
-        console.log(`error getting profiles :: ${err}`)
+        console.log(`error getting profiles by band and department :: ${err}`)
         return null
     })
 
