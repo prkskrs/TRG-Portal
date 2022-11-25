@@ -14,7 +14,9 @@ import Compensation from "../../models/headers/compensation.js";
 
 import { isEmpty } from "../../utils/isEmpty.js";
 import bigPromise from "../../middlewares/bigPromise.js"
+import Employee from "../../models/Employee.js";
 
+import { WhereClause } from "../../utils/whereClause.js";
 
 // Business Header
 
@@ -808,27 +810,6 @@ export const addProfile = bigPromise(async (req, res, next) => {
     })
 })
 
-
-export const getAllProfile = bigPromise(async (req, res, next) => {
-    const allProfile = await Profile.find({}).catch(err => {
-        console.log(`error getting profile :: ${err}`)
-        return null
-    })
-
-    if (allProfile === null) {
-        return res.status(501).json({
-            success: false,
-            message: "Internal server error! "
-        })
-    }
-
-    return res.status(201).json({
-        success:true,
-        data: allProfile
-    })
-})
-
-
 export const updateProfileById = bigPromise(async (req, res, next) => {
 
     // console.log(isEmpty(req.body))
@@ -868,6 +849,30 @@ export const updateProfileById = bigPromise(async (req, res, next) => {
         success: true,
         data:profile
     })
+})
+
+// filter based on band and departmentId
+export const getAllProfile = bigPromise(async(req,res,next)=>{
+    console.log(req.query.band)
+    // const profiles = await Profile.find({"band":{$lte:req.query.band},"departmentId":req.query.departmentId}).lean()
+    const profiles = await Profile.find().where({"band":{$lte:req.query.band},"departmentId":req.query.departmentId}).lean()
+    .catch(err=>{
+        console.log(`error getting profiles by band and department :: ${err}`)
+        return null
+    })
+
+    if (profiles === null) {
+        return res.status(501).json({
+            success: false,
+            message: "Internal Server Error !"
+        })
+    }
+
+    res.status(201).json({
+        success:true,
+        data:profiles
+    })
+
 })
 
 // WorkShift
