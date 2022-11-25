@@ -1,4 +1,6 @@
 import User from "../models/User.js"
+import Employee from "../models/Employee.js"
+
 import bigPromise from "../middlewares/bigPromise.js"
 import { cookieToken } from "../utils/cookieToken.js";
 import { mailHelper } from "../utils/mailHelper.js";
@@ -54,6 +56,11 @@ export const login = bigPromise(async (req, res, next) => {
         })
     }
 
+    const employee = await Employee.findOne({ user_id: user?._id }).catch(err => {
+        console.log(`error getting employee :: ${err}`)
+        return null
+    })
+
     const isPasswordCorrect = await user.isValidatedPassword(password, user.password)
 
     if (!isPasswordCorrect) {
@@ -62,7 +69,16 @@ export const login = bigPromise(async (req, res, next) => {
             message: "Incorrect Password"
         })
     }
-    cookieToken(user, res, "Loggined Successfully!");
+    const emp = {}
+if(employee){
+    emp.firstName = employee.firstName
+    emp.lastName = employee.lastName
+    emp.businessId = employee.businessId
+    emp.departmentId = employee.departmentId
+    emp.band = employee.band
+}
+
+    cookieToken(user, res, "Loggined Successfully!", emp);
 
 })
 

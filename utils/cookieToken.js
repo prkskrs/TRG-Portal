@@ -1,5 +1,5 @@
 
-export const cookieToken = (user, res, message) => {
+export const cookieToken = (user, res, message, employee) => {
     const token = user.getJwtToken();
 
     const options = {
@@ -19,7 +19,8 @@ export const cookieToken = (user, res, message) => {
         lastName: user.lastName,
         email: user.email,
         role: user.role,
-        level: user.level
+        level: user.level,
+        employee: employee
     })
 }
 

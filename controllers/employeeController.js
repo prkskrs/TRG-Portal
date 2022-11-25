@@ -20,7 +20,7 @@ const getDetails = async (emp) => {
 
 
 export const addEmployee = bigPromise(async(req,res,next)=>{
-    const {employeeId,userId,firstName,lastName,departmentId,band,email,roles,phoneNumber,address1,address2,city,state,postalCode} = req.body;
+    const {employeeId,userId,firstName,lastName,departmentId, businessId, band,email,roles,phoneNumber,address1,address2,city,state,postalCode} = req.body;
     if (!firstName || !lastName || !band ) {
         return res.status(400).json({
             success: false,
@@ -29,7 +29,7 @@ export const addEmployee = bigPromise(async(req,res,next)=>{
     }
 
     const emp = await Employee.create({
-        employeeId,userId,firstName,lastName,departmentId,band,email,roles,
+        employeeId,userId,firstName,lastName,departmentId, businessId, band,email,roles,
         phoneNumber,address1,address2,city,state,postalCode
     }).catch(err => {
         console.log(`error creating jobs :: ${err}`)

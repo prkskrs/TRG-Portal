@@ -33,7 +33,6 @@ const userSchema = new mongoose.Schema({
     address1: {
         type: String,
         maxlength: [300, 'Address1 should be under 200 characters.']
-
     },
     address2: {
         type: String,
