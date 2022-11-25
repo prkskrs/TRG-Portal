@@ -2,6 +2,9 @@ import mongoose  from "mongoose";
 
 
 const interviewRoundSchema=new mongoose.Schema({
+    name:{
+        type:String,
+    },
     profile:{
         type:String,
     },
