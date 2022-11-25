@@ -20,7 +20,7 @@ const employeeSchema = new mongoose.Schema({
     maxlength: [80, 'Lastname should be under 80 characters.']
   },
   departmentId: {
-    type: mongoose.type.ObjectId
+    type: mongoose.Types.ObjectId
   },
   band: {
     type: Number

@@ -1,7 +1,7 @@
-import Employee from "../models/Employee";
-import bigPromise from "../middlewares/bigPromise";
-import { get } from "mongoose";
-import Department from "../models/headers/department";
+import Employee from "../models/Employee.js";
+import bigPromise from "../middlewares/bigPromise.js";
+import Department from "../models/headers/department.js";
+import User from "../models/User.js"
 
 const getDetails = async (emp) => {
     const [data1, data2 ] = await Promise.all([
