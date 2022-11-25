@@ -307,7 +307,7 @@ export const updateCountryById = bigPromise(async (req, res, next) => {
 // Interview Round
 
 export const addInterviewRound = bigPromise(async (req, res, next) => {
-    const { profile, noOfRound, noOfQuestion } = req.body;
+    const { profile, noOfRound, noOfQuestion, name } = req.body;
 
     if (!profile) {
         return res.status(401).json({
@@ -317,6 +317,7 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
     }
 
     const ir = await InterviewRound.create({
+        name,
         profile,
         noOfRound,
         noOfQuestion
@@ -369,6 +370,7 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
+        name: req.body.name,
         profile: req.body.profile,
         noOfRound: req.body.noOfRound,
         noOfQuestion: req.body.noOfQuestion
@@ -580,7 +582,7 @@ export const updateStateById = bigPromise(async (req, res, next) => {
 
 // QuestionBank Header
 
-export const addQuestionBank = bigPromise(async (req, res, next) => {
+export const addQuestionBank = bigPromise(async (req, res) => {
     const { departmentName, questionType, question, options,correctAnswer } = req.body;
 
     if (!departmentName) {
