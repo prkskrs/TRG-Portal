@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
 const employeeSchema = new mongoose.Schema({
-
   userId: {
     type: ObjectId
   },
@@ -17,7 +16,7 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     maxlength: [80, 'Lastname should be under 80 characters.']
   },
-  department: {
+  departmentId: {
     type: mongoose.type.ObjectId
   },
   band: {
