@@ -5,7 +5,7 @@ import { mailHelper } from "../utils/mailHelper.js";
 import crypto from "crypto";
 
 export const signup = bigPromise(async (req, res, next) => {
-    const { firstName, lastName, email, password, role, level, address1, address2 } = req.body;
+    const { firstName, lastName, email, password, role, band, address1, address2 } = req.body;
 
     if (!firstName || !lastName || !email || !password) {
         return res.status(400).json({
@@ -29,7 +29,7 @@ export const signup = bigPromise(async (req, res, next) => {
         email: email.toLowerCase(),
         password: password,
         role,
-        level,
+        band,
         address1,
         address2
     })
@@ -195,7 +195,7 @@ export const updateUserDetails = bigPromise(async (req, res, next) => {
         lastname: req.body.lastname,
         email: req.body.email,
         role: req.body.role,
-        level_: req.body.level_,
+        band: req.body.band,
         address1: req.body.address1,
         address2: req.body.address2,
     }

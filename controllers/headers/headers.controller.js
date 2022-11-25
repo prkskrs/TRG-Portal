@@ -773,7 +773,7 @@ export const updateDepartmentById = bigPromise(async (req, res, next) => {
 // Profile
 
 export const addProfile = bigPromise(async (req, res, next) => {
-    const { title, profileType, level, reportProfile, status } = req.body;
+    const { title, profileType,departmentId, band, reportProfile, status } = req.body;
 
     if (!title || !profileType) {
         return res.status(401).json({
@@ -785,7 +785,8 @@ export const addProfile = bigPromise(async (req, res, next) => {
     const profile = await Profile.create({
         title,
         profileType,
-        level,
+        departmentId,
+        band,
         reportProfile,
         status
     }).catch(err=>{
@@ -841,7 +842,8 @@ export const updateProfileById = bigPromise(async (req, res, next) => {
     const newData = {
         title: req.body.title,
         profileType: req.body.profileType,
-        level: req.body.level,
+        departmentId: req.body.departmentId,
+        band: req.body.band,
         reportProfile: req.body.reportProfile,
         status: req.body.status
     }

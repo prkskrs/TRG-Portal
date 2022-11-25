@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
     },
-    level: {
+    band: {
         type: Number,
     },
     address1: {
