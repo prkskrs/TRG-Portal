@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
 
 const profileSchema = new mongoose.Schema({
@@ -8,7 +8,10 @@ const profileSchema = new mongoose.Schema({
     profileType: {
         type: String
     },
-    level: {
+    departmentId:{
+        type: mongoose.Types.ObjectId
+    },
+    band: {
         type: Number
     },
     reportProfile: {
