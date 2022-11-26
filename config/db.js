@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
-const MONGO_URL = process.env.MONGO_URL || "mongodb://localhost:27017/test"
-// console.log(MONGO_URL)
+const MONGO_URL = process.env.MONGO_URI || "mongodb://localhost:27017/trgDB"
 
 // Connect Database
 export const connectDB = mongoose.connect(MONGO_URL,{
