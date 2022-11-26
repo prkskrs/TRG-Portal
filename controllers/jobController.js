@@ -62,7 +62,7 @@ export const addJob = bigPromise(async (req, res, next) => {
     res.status(201).json({
         success: true,
         message: "Job Added Successfully !",
-        data: job.jobId
+        data: job
     })
 })
 
