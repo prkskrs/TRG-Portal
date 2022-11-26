@@ -523,7 +523,7 @@ export const addState = bigPromise(async (req, res, next) => {
 
     res.status(201).json({
         success: true,
-        message: "Round Added Successfully!",
+        message: "State Added Successfully!",
         data:state
     })
 })
