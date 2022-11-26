@@ -70,13 +70,13 @@ export const login = bigPromise(async (req, res, next) => {
         })
     }
     const emp = {}
-if(employee){
-    emp.firstName = employee.firstName
-    emp.lastName = employee.lastName
-    emp.businessId = employee.businessId
-    emp.departmentId = employee.departmentId
-    emp.band = employee.band
-}
+    if (employee) {
+        emp.firstName = employee.firstName
+        emp.lastName = employee.lastName
+        emp.businessId = employee.businessId
+        emp.departmentId = employee.departmentId
+        emp.band = employee.band
+    }
 
     cookieToken(user, res, "Loggined Successfully!", emp);
 
