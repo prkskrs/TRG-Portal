@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 const MONGO_URL = process.env.MONGO_URI || "mongodb://localhost:27017/trgDB"
+// console.log(MONGO_URL)
 
 // Connect Database
 export const connectDB = mongoose.connect(MONGO_URL,{
