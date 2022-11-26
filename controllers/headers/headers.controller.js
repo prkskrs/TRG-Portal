@@ -157,23 +157,26 @@ export const addCity = bigPromise(async (req, res, next) => {
     })
 })
 
-export const getAllCity = bigPromise(async (req, res, next) => {
-    const allCity = await City.find({}).catch(err => {
-        console.log(`error getting city :: ${err}`)
+export const getAllCity = bigPromise(async(req,res,next)=>{
+    console.log(req.query.stateId)
+    const cities = await City.find().where({"state":req.query.stateId}).lean()
+    .catch(err=>{
+        console.log(`error getting city by state id :: ${err}`)
         return null
     })
 
-    if (allCity === null) {
+    if (cities === null) {
         return res.status(501).json({
             success: false,
-            message: "Internal Server error !"
+            message: "Internal Server Error !"
         })
     }
 
     res.status(201).json({
         success:true,
-        data: allCity
+        data:cities
     })
+
 })
 
 export const updateCityById = bigPromise(async (req, res, next) => {
@@ -526,23 +529,26 @@ export const addState = bigPromise(async (req, res, next) => {
 })
 
 
-export const getAllState = bigPromise(async (req, res, next) => {
-    const allState = await State.find({}).catch(err => {
-        console.log(`error getting state :: ${err}`)
+export const getAllState = bigPromise(async(req,res,next)=>{
+    console.log(req.query.countryId)
+    const states = await State.find().where({"country":req.query.countryId}).lean()
+    .catch(err=>{
+        console.log(`error getting state by country id :: ${err}`)
         return null
     })
 
-    if (allState === null) {
+    if (states === null) {
         return res.status(501).json({
             success: false,
-            message: "Internal server error!"
+            message: "Internal Server Error !"
         })
     }
 
     res.status(201).json({
         success:true,
-        data: allState
+        data:states
     })
+
 })
 
 export const updateStateById = bigPromise(async (req, res, next) => {
