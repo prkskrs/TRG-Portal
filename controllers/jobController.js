@@ -2,6 +2,8 @@ import bigPromise from "../middlewares/bigPromise.js";
 import Job from "../models/Job.js";
 import Profile from "../models/headers/profile.js"
 import City from "../models/headers/cities.js"
+import State from "../models/headers/states.js"
+import Country from "../models/headers/country.js"
 import Business from "../models/headers/business.js"
 import User from "../models/User.js"
 
@@ -10,7 +12,7 @@ import { isEmpty } from "../utils/isEmpty.js"
 
 
 const getDetails = async (job) => {
-    const [data1, data2, data3, data4] = await Promise.all([
+    const [data1, data2, data3, data4, data5, data6] = await Promise.all([
         Profile.findById(job.profileId).lean().catch(err => {
             console.log(`error getting profile with id :: ${job.profileId} :: ${err}`)
             return null
@@ -26,9 +28,17 @@ const getDetails = async (job) => {
         User.findById(job?.createdBy).lean().catch(err => {
             console.log(`error getting User with id :: ${job.createdBy} :: ${err}`)
             return null
-        })
+        }),
+        State.findById(job.stateId).lean().catch(err => {
+            console.log(`error getting State with id :: ${job.stateId} :: ${err}`)
+            return null
+        }),
+        Country.findById(job.countryId).lean().catch(err => {
+            console.log(`error getting State with id :: ${job.countryId} :: ${err}`)
+            return null
+        }),
     ])
-    return { data1, data2, data3, data4 }
+    return { data1, data2, data3, data4, data5, data6 }
 }
 
 
@@ -80,11 +90,15 @@ export const getAllJobs = bigPromise(async (req, res, next) => {
     }
 
     for (var j of allJobs) {
-        const { data1, data2, data3, data4 } = await getDetails(j)
+        const { data1, data2, data3, data4, data5, data6 } = await getDetails(j)
         j.profileName = data1?.title
         j.businessName = data2?.name
         j.cityName = data3?.name
         j.userName = data4?.name
+        j.countryName = data6?.name
+        j.stateName = data5?.name
+
+
 
         let jobApproval = 0;
 

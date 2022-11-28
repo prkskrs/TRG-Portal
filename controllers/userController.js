@@ -47,7 +47,10 @@ export const login = bigPromise(async (req, res, next) => {
             message: "Email and Password fields are required."
         })
     }
-    const user = await User.findOne({ email: email })
+    const user = await User.findOne({ email: email }).catch(err => {
+        console.log(`error getting the user`);
+        return null
+    })
 
     if (!user) {
         return res.status(400).json({
@@ -56,7 +59,9 @@ export const login = bigPromise(async (req, res, next) => {
         })
     }
 
-    const employee = await Employee.findOne({ user_id: user?._id }).catch(err => {
+    console.log(user?._id)
+
+    const employee = await Employee.findOne({ "userId": user?._id }).lean().catch(err => {
         console.log(`error getting employee :: ${err}`)
         return null
     })

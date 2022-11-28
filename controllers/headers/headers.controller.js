@@ -875,11 +875,11 @@ export const getAllProfile = bigPromise(async (req, res, next) => {
 
     const condition = {}
 
-    if (req.query.band && req.query.band !== 'null') {
+    if (req.query.band && req.query.band !== 'null' && req.query.band !== 'undefined') {
         condition.band = { $lte: parseInt(req.query.band) }
     }
 
-    if (req.query.departmentId) {
+    if (req.query.departmentId && req.query.departmentId !== 'null' && req.query.departmentId !== 'undefined') {
         condition.departmentId = req.query.departmentId
     }
 
