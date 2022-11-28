@@ -2,11 +2,13 @@ import mongoose from "mongoose";
 
 
 const jobsSchema = new mongoose.Schema({
+  jobId:{
+    type:Number,
+    unique:true,
+    seq: { type: Number, default: 0 }
+  },
   opportunityId: {
     type: mongoose.Schema.ObjectId,
-  },
-  numberOfOpenings: {
-    type: Number
   },
   headcount:
   {
@@ -139,6 +141,21 @@ const jobsSchema = new mongoose.Schema({
 }, {
   timestamps: true
 })
+
+jobsSchema.pre('save', function (next) {
+  // Only increment when the document is new
+  if (this.isNew) {
+      Jobs.count().then(res => {
+          this.jobId = res+7000000; // Increment count
+          
+          next();
+      });
+  } else {
+      next();
+  }
+});
+
+
 
 const Jobs = mongoose.model("Jobs", jobsSchema);
 

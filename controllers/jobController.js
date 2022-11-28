@@ -43,7 +43,7 @@ const getDetails = async (job) => {
 
 
 export const addJob = bigPromise(async (req, res, next) => {
-    const { opportunityId, numberOfOpenings, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
+    const { jobId,opportunityId, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
         questionBankId, roundId, stateId, profileId, workShiftId, workTypeId, compensationId, createdBy
     } = req.body;
 
@@ -55,7 +55,7 @@ export const addJob = bigPromise(async (req, res, next) => {
     }
 
     const job = await Job.create({
-        opportunityId, numberOfOpenings, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
+        jobId,opportunityId, headcount, departmentId, businessId, cityId, countryId, interviewRoundId,
         questionBankId, roundId, stateId, profileId, workShiftId, workTypeId, compensationId, createdBy
     }).catch(err => {
         console.log(`error creating jobs :: ${err}`)
@@ -133,6 +133,7 @@ export const updateJobById = bigPromise(async (req, res, next) => {
     }
 
     const newData = {
+        jobId:req.body.jobId,
         opportunityId: req.body.opportunityId,
         businessName: req.body.businessName,
         location: req.body.location,
