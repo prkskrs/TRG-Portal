@@ -1,4 +1,4 @@
-# Pharma-Chain
+# Pharmaceutical Supply Chain Using Blockchain
 A supply chain for the safe distribution of medicines using Blockchain.
 ## ✨ Motivation
 At present, counterfeit drugs pose a serious threat as it is difficult for people to know the true value of purchased medicines due to a significant lack of transparency in the current system. Also, tampering within the supply chain is difficult to investigate when suspicion of illegal or unethical practices.
