@@ -9,12 +9,12 @@ import crypto from "crypto";
 export const signup = bigPromise(async (req, res, next) => {
     const { firstName, lastName, email, password, role, band, address1, address2 } = req.body;
 
-    if (!firstName || !lastName || !email || !password) {
-        return res.status(400).json({
-            success: "false",
-            message: "Firstname, Lastname, Email and Password fields are required."
-        })
-    }
+    // if (!firstName || !lastName || !email || !password) {
+    //     return res.status(400).json({
+    //         success: "false",
+    //         message: "Firstname, Lastname, Email and Password fields are required."
+    //     })
+    // }
 
     const existingUser = await User.findOne({ email });
     console.log(existingUser)
