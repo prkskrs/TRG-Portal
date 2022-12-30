@@ -640,7 +640,17 @@ export const addQuestionBank = bigPromise(async (req, res) => {
 
 
 export const getAllQuestionBank = bigPromise(async (req, res, next) => {
-    const allQuestionBank = await QuestionBank.find({}).catch(err => {
+
+    const { departmentName } = req.query
+
+    const condition = {}
+
+    if (departmentName) {
+        condition.departmentName = departmentName
+    }
+    console.log(condition)
+
+    const allQuestionBank = await QuestionBank.find(condition).catch(err => {
         console.log(`error getting question bank :: ${err}`)
         return null
     })
