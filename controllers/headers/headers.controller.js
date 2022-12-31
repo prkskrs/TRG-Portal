@@ -606,13 +606,26 @@ export const updateStateById = bigPromise(async (req, res, next) => {
 export const addQuestionBank = bigPromise(async (req, res) => {
     const { departmentName, questionType, question, options, correctAnswer } = req.body;
 
-    if (!departmentName) {
+    const department =  await Department.findOne({
+        name:departmentName
+    })
+
+    if (!department) {
         return res.status(401).json({
             success: false,
             message: "Bad Request"
         })
     }
 
+    if(questionType==="Subjective"){
+        const qb = await QuestionBank.create({
+            departmentName,
+            questionType,
+            question,
+            options,
+            correctAnswer
+        })
+    }
     const qb = await QuestionBank.create({
         departmentName,
         questionType,
