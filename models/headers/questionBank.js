@@ -1,40 +1,35 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 import validator from "validator";
 
-
-const questionBankSchema=new mongoose.Schema({
-    departmentName:{
-        type:String,
-    },
-    questionType:{
+const questionBankSchema = new mongoose.Schema({
+  departmentName: {
+    type: String,
+  },
+  questionType: {
+    type: String,
+    enum: ["Objective", "Subjective"],
+    default: "Objective",
+  },
+  question: {
+    type: String,
+  },
+  options: [
+    {
+      optionNumber: {
+        type: Number,
+      },
+      answerBody: {
         type: String,
-        enum: ['Objective', 'Subjective'],
-        default: 'Objective'
+        minlength: 1,
+        maxlength: 200,
+      },
     },
-    question:{
-        type:String
-    },
-    options:{
-        type: [{
-            optionNumber: {
-                type: Number
-              },
-              answerBody: {
-                type: String,
-                minlength: 1,
-                maxlength: 200,
-              },
-        }],
-        default: undefined,
-    },
-    correctAnswer: { 
-        type: Number
-      }
-})
+  ],
+  correctAnswer: {
+    type: String,
+  },
+});
 
-
-
-
-const QuestionBank = mongoose.model("QuestionBank",questionBankSchema);
+const QuestionBank = mongoose.model("QuestionBank", questionBankSchema);
 
 export default QuestionBank;
