@@ -314,7 +314,7 @@ export const updateCountryById = bigPromise(async (req, res, next) => {
 // Interview Round
 
 export const addInterviewRound = bigPromise(async (req, res, next) => {
-  const { profile, noOfRound, noOfQuestion, name } = req.body;
+  const { profile, noOfRound, noOfQuestion, rounds } = req.body;
 
   if (!profile) {
     return res.status(401).json({
@@ -322,18 +322,48 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
       message: "Bad Request",
     });
   }
+  var sQuest = {};
+  sQuest.a=0;
+  for (let i = 0; i < rounds.length; i++) {
+    if (rounds[i].roundName || rounds[i].question) {
+      console.log(rounds[i].question);
+      var allSubjectiveQuestions = await QuestionBank.find({
+        _id: {
+          $in: rounds[i].question,
+        },
+        questionType: "Subjective",
+      });
+      rounds[i].subjectiveQuestion=allSubjectiveQuestions.length;
+      
+      var allObjectiveQuestions = await QuestionBank.find({
+        _id: {
+          $in: rounds[i].question,
+        },
+        questionType: "Objective",
+      });
+      rounds[i].objectiveQuestion=allObjectiveQuestions.length;
+      sQuest.a = sQuest.a + allObjectiveQuestions.length + allSubjectiveQuestions.length;
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: "RoundName and question not selected",
+      });
+    }
+  }
 
-  const ir = await InterviewRound.create({
-    name,
+  console.log(rounds);
+
+  const iRound = await InterviewRound.create({
     profile,
-    noOfRound,
-    noOfQuestion,
+    noOfRound:rounds.length,
+    noOfQuestion:sQuest.a,
+    rounds,
   }).catch((err) => {
     console.log(`error creating interview round :: ${err}`);
     return null;
   });
 
-  if (ir === null) {
+  if (iRound === null) {
     return res.status(501).json({
       success: false,
       message: "Internal server error",
@@ -343,7 +373,11 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
   res.status(201).json({
     success: true,
     message: "Interview Round Added Successfully!",
-    data: ir,
+    data: {
+        profile:iRound?.profile,
+        noOfQuestion:iRound?.noOfQuestion,
+        noOfRound:iRound?.noOfRound,
+    },
   });
 });
 

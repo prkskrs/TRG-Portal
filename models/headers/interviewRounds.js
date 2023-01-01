@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 
 const interviewRoundSchema = new mongoose.Schema({
-  name: {
-    type: String,
-  },
   profile: {
     type: String,
   },
@@ -13,9 +10,31 @@ const interviewRoundSchema = new mongoose.Schema({
   noOfQuestion: {
     type: Number,
   },
-  question: [
+  rounds: [
     {
-      type: mongoose.Types.ObjectId,
+      roundName:{
+        type:String,
+      },
+      question: [
+        {
+          type: mongoose.Types.ObjectId,
+        },
+      ],
+      subjectiveQuestion:{
+        type:Number
+      },
+      objectiveQuestion:{
+        type:Number
+      },
+      time: {
+        type: Number,
+      },
+      totalMarks: {
+        type: Number,
+      },
+      disclaimer: {
+        type: String,
+      },
     },
   ],
 });
