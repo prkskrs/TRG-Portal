@@ -60,7 +60,11 @@ export const addBusiness = bigPromise(async (req, res, next) => {
 });
 
 export const getAllBusiness = bigPromise(async (req, res, next) => {
-  const allBusiness = await Business.find({}).catch((err) => {
+
+  const condition = {
+    status : ["ACTIVE","INACTIVE"]
+  }
+  const allBusiness = await Business.find(condition).catch((err) => {
     console.log(`error getting business :: ${err}`);
     return null;
   });
