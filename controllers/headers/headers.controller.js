@@ -60,10 +60,9 @@ export const addBusiness = bigPromise(async (req, res, next) => {
 });
 
 export const getAllBusiness = bigPromise(async (req, res, next) => {
-
   const condition = {
-    status : ["ACTIVE","INACTIVE"]
-  }
+    status: ["ACTIVE", "INACTIVE"],
+  };
   const allBusiness = await Business.find(condition).catch((err) => {
     console.log(`error getting business :: ${err}`);
     return null;
@@ -161,13 +160,11 @@ export const addCity = bigPromise(async (req, res, next) => {
 });
 
 export const getAllCity = bigPromise(async (req, res, next) => {
-  const condition = {};
+  const condition = {
+    status: ["ACTIVE", "INACTIVE"],
+  };
 
-  if (req.query.state) {
-    condition.state = req.query.state;
-  }
-
-  const cities = await City.find()
+  const cities = await City.find(condition)
     .where(condition)
     .lean()
     .catch((err) => {
@@ -261,10 +258,15 @@ export const addCountry = bigPromise(async (req, res, next) => {
 });
 
 export const getAllCountry = bigPromise(async (req, res, next) => {
-  const allCountry = await Country.find({}).catch((err) => {
-    console.log(`error getting country :: ${err}`);
-    return null;
-  });
+  const condition = {
+    status: ["ACTIVE", "INACTIVE"],
+  };
+  const allCountry = await Country.find(condition)
+    .lean()
+    .catch((err) => {
+      console.log(`error getting country :: ${err}`);
+      return null;
+    });
 
   if (allCountry === null) {
     return res.status(501).json({
@@ -327,7 +329,7 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
     });
   }
   var sQuest = {};
-  sQuest.a=0;
+  sQuest.a = 0;
   for (let i = 0; i < rounds.length; i++) {
     if (rounds[i].roundName || rounds[i].question) {
       console.log(rounds[i].question);
@@ -337,16 +339,17 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
         },
         questionType: "Subjective",
       });
-      rounds[i].subjectiveQuestion=allSubjectiveQuestions.length;
-      
+      rounds[i].subjectiveQuestion = allSubjectiveQuestions.length;
+
       var allObjectiveQuestions = await QuestionBank.find({
         _id: {
           $in: rounds[i].question,
         },
         questionType: "Objective",
       });
-      rounds[i].objectiveQuestion=allObjectiveQuestions.length;
-      sQuest.a = sQuest.a + allObjectiveQuestions.length + allSubjectiveQuestions.length;
+      rounds[i].objectiveQuestion = allObjectiveQuestions.length;
+      sQuest.a =
+        sQuest.a + allObjectiveQuestions.length + allSubjectiveQuestions.length;
     } else {
       return res.status(401).json({
         success: false,
@@ -359,8 +362,8 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
 
   const iRound = await InterviewRound.create({
     profile,
-    noOfRound:rounds.length,
-    noOfQuestion:sQuest.a,
+    noOfRound: rounds.length,
+    noOfQuestion: sQuest.a,
     rounds,
   }).catch((err) => {
     console.log(`error creating interview round :: ${err}`);
@@ -378,9 +381,9 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
     success: true,
     message: "Interview Round Added Successfully!",
     data: {
-        profile:iRound?.profile,
-        noOfQuestion:iRound?.noOfQuestion,
-        noOfRound:iRound?.noOfRound,
+      profile: iRound?.profile,
+      noOfQuestion: iRound?.noOfQuestion,
+      noOfRound: iRound?.noOfRound,
     },
   });
 });
@@ -547,7 +550,7 @@ export const addState = bigPromise(async (req, res, next) => {
     console.log(`error creating state :: ${err}`);
     return null;
   });
-  
+
   console.log(state);
 
   if (state === null) {
@@ -565,11 +568,9 @@ export const addState = bigPromise(async (req, res, next) => {
 });
 
 export const getAllState = bigPromise(async (req, res, next) => {
-  const condition = {};
-
-  if (req.query.country) {
-    condition.country = req.query.country;
-  }
+  const condition = {
+    status: ["ACTIVE", "INACTIVE"],
+  };
 
   const states = await State.find(condition)
     .lean()
@@ -807,7 +808,11 @@ export const addDepartment = bigPromise(async (req, res, next) => {
 });
 
 export const getAllDepartment = bigPromise(async (req, res, next) => {
-  const allDepartment = await Department.find({}).catch((err) => {
+  const condition = {
+    status: ["ACTIVE", "INACTIVE"],
+  };
+
+  const allDepartment = await Department.find(condition).catch((err) => {
     console.log(`error getting department :: ${err}`);
     return null;
   });
