@@ -6,7 +6,7 @@ const roundsSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["ACTIVE", "INACTIVE"],
+    enum: ["ACTIVE", "INACTIVE","DELETED"],
     default: "ACTIVE",
   },
 });
