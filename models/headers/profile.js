@@ -11,15 +11,28 @@ const profileSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
   },
   band: {
-    type: Number,
+    type: String,
   },
   reportProfile: {
     type: mongoose.Types.ObjectId,
     default: null,
   },
+  approvingAuthority: [
+    {
+      profile: {
+        type: mongoose.Types.ObjectId,
+        default: null,
+      },
+      tasks: [
+        {
+          type: String,
+        },
+      ],
+    },
+  ],
   status: {
     type: String,
-    enum: ["ACTIVE", "INACTIVE","DELETED"],
+    enum: ["ACTIVE", "INACTIVE", "DELETED"],
     default: "ACTIVE",
   },
 });

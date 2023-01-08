@@ -2,7 +2,7 @@ import express from "express"
 const router = express.Router()
 
 // import controller 
-import { addBusiness, addCity, addCountry, addInterviewRound, addRound, getAllBusiness, getAllCity, getAllCountry, getAllInterviewRound, getAllRound, updateBusinessById, updateCityById, updateCountryById, updateInterviewRoundById, updateRoundById, addState, getAllState, updateStateById, addQuestionBank, getAllQuestionBank, updateQuestionBankById, addDepartment, getAllDepartment, updateDepartmentById, addProfile, getAllProfile, updateProfileById, addWorkShift, getAllWorkShift, updateWorkShiftById, addWorkType, getAllWorkType, updateWorkTypeById, addCompensation, getAllCompensation, updateCompensationById } from "../controllers/headers/headers.controller.js"
+import { addBusiness, addCity, addCountry, addInterviewRound, addRound, getAllBusiness, getAllCity, getAllCountry, getAllInterviewRound, getAllRound, updateBusinessById, updateCityById, updateCountryById, updateInterviewRoundById, updateRoundById, addState, getAllState, updateStateById, addQuestionBank, getAllQuestionBank, updateQuestionBankById, addDepartment, getAllDepartment, updateDepartmentById, addProfile, getAllProfile, updateProfileById, addWorkMode, getAllWorkMode, updateWorkModeById } from "../controllers/headers/headers.controller.js"
 // import userMiddlewares
 // import {isLoggedIn,customRole} from "../middlewares/userMiddlewares.js"
 
@@ -51,19 +51,9 @@ router.route("/profile").post(addProfile)
 router.route("/profile").get(getAllProfile)
 router.route("/profile/:id").put(updateProfileById)
 
-// WorkShift Header
-router.route("/workShift").post(addWorkShift)
-router.route("/workShift").get(getAllWorkShift)
-router.route("/workShift/:id").put(updateWorkShiftById)
-
-// WorkType Header
-router.route("/workType").post(addWorkType)
-router.route("/workType").get(getAllWorkType)
-router.route("/workType/:id").put(updateWorkTypeById)
-
-// Compensation Header
-router.route("/compensation").post(addCompensation)
-router.route("/compensation").get(getAllCompensation)
-router.route("/compensation/:id").put(updateCompensationById)
+// WorkMode Header
+router.route("/work").post(addWorkMode)
+router.route("/work").get(getAllWorkMode)
+router.route("/work/:id").put(updateWorkModeById)
 
 export default router;

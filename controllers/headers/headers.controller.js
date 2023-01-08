@@ -8,9 +8,7 @@ import QuestionBank from "../../models/headers/questionBank.js";
 import Round from "../../models/headers/rounds.js";
 import State from "../../models/headers/states.js";
 import Profile from "../../models/headers/profile.js";
-import Workshift from "../../models/headers/workShift.js";
-import Worktype from "../../models/headers/workType.js";
-import Compensation from "../../models/headers/compensation.js";
+import WorkMode from "../../models/headers/workMode.js";
 
 import { isEmpty } from "../../utils/isEmpty.js";
 import bigPromise from "../../middlewares/bigPromise.js";
@@ -870,8 +868,15 @@ export const updateDepartmentById = bigPromise(async (req, res, next) => {
 // Profile
 
 export const addProfile = bigPromise(async (req, res, next) => {
-  const { title, profileType, departmentId, band, reportProfile, status } =
-    req.body;
+  const {
+    title,
+    profileType,
+    departmentId,
+    band,
+    reportProfile,
+    approvingAuthority,
+    status,
+  } = req.body;
 
   if (!title || !profileType) {
     return res.status(401).json({
@@ -886,6 +891,7 @@ export const addProfile = bigPromise(async (req, res, next) => {
     departmentId,
     band,
     reportProfile,
+    approvingAuthority,
     status,
   }).catch((err) => {
     console.log(`error creating profile ${err}`);
@@ -921,6 +927,7 @@ export const updateProfileById = bigPromise(async (req, res, next) => {
     departmentId: req.body.departmentId,
     band: req.body.band,
     reportProfile: req.body.reportProfile,
+    approvingAuthority: req.body.approvingAuthority,
     status: req.body.status,
   };
 
@@ -988,23 +995,24 @@ export const getAllProfile = bigPromise(async (req, res, next) => {
   });
 });
 
-// WorkShift
+// WorkMode
 
-export const addWorkShift = bigPromise(async (req, res, next) => {
-  const { title, status } = req.body;
+export const addWorkMode = bigPromise(async (req, res, next) => {
+  const { workType, workShift, workStyle, status } = req.body;
 
-  if (!title) {
+  if (!workType || !workShift || !workStyle) {
     return res.status(401).json({
       success: false,
       message: "Bad Request",
     });
   }
 
-  const ws = await Workshift.create({
-    title,
-    status,
+  const ws = await WorkMode.create({
+    workType,
+    workShift,
+    workStyle,
   }).catch((err) => {
-    console.log(`error creating work shift :: ${err}`);
+    console.log(`error creating work mode :: ${err}`);
     return null;
   });
 
@@ -1017,20 +1025,20 @@ export const addWorkShift = bigPromise(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    message: "Work Shift Added Successfully!",
+    message: "Work Mode Added Successfully!",
     data: ws,
   });
 });
 
-export const getAllWorkShift = bigPromise(async (req, res, next) => {
-  const allWorkShift = await Workshift.find({})
+export const getAllWorkMode = bigPromise(async (req, res, next) => {
+  const allWorkMode = await WorkMode.find({})
     .lean()
     .catch((err) => {
-      console.log(`error getting workshift :: ${err}`);
+      console.log(`error getting workmode :: ${err}`);
       return null;
     });
 
-  if (allWorkShift === null) {
+  if (allWorkMode === null) {
     return res.status(501).json({
       success: false,
       message: "Internal Server Error !",
@@ -1039,12 +1047,11 @@ export const getAllWorkShift = bigPromise(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    data: allWorkShift,
+    data: allWorkMode,
   });
 });
 
-export const updateWorkShiftById = bigPromise(async (req, res, next) => {
-  // console.log(isEmpty(req.body))
+export const updateWorkModeById = bigPromise(async (req, res, next) => {
   if (isEmpty(req.body)) {
     return res.status(401).json({
       success: "false",
@@ -1053,16 +1060,17 @@ export const updateWorkShiftById = bigPromise(async (req, res, next) => {
   }
 
   const newData = {
-    title: req.body.title,
-    status: req.body.status,
+    workType: req.body.workType,
+    workShift: req.body.workShift,
+    workStyle: req.body.workStyle,
   };
 
-  const ws = await Workshift.findByIdAndUpdate(req.params.id, newData, {
+  const ws = await WorkMode.findByIdAndUpdate(req.params.id, newData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   }).catch((err) => {
-    console.log(`error updating works shift :: ${ws}`);
+    console.log(`error updating works mode :: ${ws}`);
     return null;
   });
 
@@ -1076,183 +1084,5 @@ export const updateWorkShiftById = bigPromise(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: ws,
-  });
-});
-
-// WorkType
-
-export const addWorkType = bigPromise(async (req, res, next) => {
-  const { title, status } = req.body;
-
-  if (!title) {
-    return res.status(401).json({
-      success: false,
-      message: "Bad request",
-    });
-  }
-
-  const wt = await Worktype.create({
-    title,
-    status,
-  }).catch((err) => {
-    console.log(`error creating work type ::  ${err}`);
-    return null;
-  });
-
-  if (wt === null) {
-    return res.status(501).json({
-      success: false,
-      message: "Internal server error",
-    });
-  }
-
-  res.status(201).json({
-    success: true,
-    message: "Work Type Added Successfully!",
-    data: wt,
-  });
-});
-
-export const getAllWorkType = bigPromise(async (req, res, next) => {
-  const allWorkType = await Worktype.find({}).catch((err) => {
-    console.log(`error getting worktype :: ${err}`);
-    return null;
-  });
-
-  if (allWorkType === null) {
-    return res.status(501).json({
-      success: false,
-      message: "Internal server error!",
-    });
-  }
-
-  res.status(201).json({
-    success: true,
-    data: allWorkType,
-  });
-});
-
-export const updateWorkTypeById = bigPromise(async (req, res, next) => {
-  // console.log(isEmpty(req.body))
-  if (isEmpty(req.body)) {
-    return res.status(401).json({
-      success: "false",
-      message: "Nothing to update.",
-    });
-  }
-
-  const newData = {
-    title: req.body.title,
-    status: req.body.status,
-  };
-
-  const wt = await Worktype.findByIdAndUpdate(req.params.id, newData, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  }).catch((err) => {
-    console.log(`error updating work type ::  ${err}`);
-    return null;
-  });
-
-  if (wt === null) {
-    return res.status(501).json({
-      success: false,
-      message: "Internal server error",
-    });
-  }
-
-  res.status(201).json({
-    success: true,
-    data: wt,
-  });
-});
-
-// Compensation
-
-export const addCompensation = bigPromise(async (req, res, next) => {
-  const { data, status } = req.body;
-
-  if (!data) {
-    return res.status(401).json({
-      success: false,
-      message: "Bad Request",
-    });
-  }
-
-  const cs = await Compensation.create({
-    data,
-    status,
-  }).catch((err) => {
-    console.log(`error creating compensation :: ${err}`);
-    return null;
-  });
-
-  if (cs === null) {
-    return res.status(501).json({
-      success: false,
-      message: "Internal server error",
-    });
-  }
-
-  res.status(201).json({
-    success: true,
-    message: "Compensation Added Successfully!",
-    data: cs,
-  });
-});
-
-export const getAllCompensation = bigPromise(async (req, res, next) => {
-  const allCompensation = await Compensation.find({}).catch((err) => {
-    console.log(`error getting compensation :: ${err}`);
-    return null;
-  });
-
-  if (allCompensation === null) {
-    return res.status(501).json({
-      success: false,
-      message: "Internal server error!",
-    });
-  }
-
-  res.status(201).json({
-    success: true,
-    data: allCompensation,
-  });
-});
-
-export const updateCompensationById = bigPromise(async (req, res, next) => {
-  // console.log(isEmpty(req.body))
-  if (isEmpty(req.body)) {
-    return res.status(401).json({
-      success: "false",
-      message: "Nothing to update.",
-    });
-  }
-
-  const newData = {
-    data: req.body.data,
-    status: req.body.status,
-  };
-
-  const cs = await Compensation.findByIdAndUpdate(req.params.id, newData, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  }).catch((err) => {
-    console.log(`error updating compensation :: ${err}`);
-    return null;
-  });
-
-  if (cs === null) {
-    return res.status(501).json({
-      success: false,
-      message: "Internal server error",
-    });
-  }
-
-  res.status(201).json({
-    success: true,
-    data: cs,
   });
 });
