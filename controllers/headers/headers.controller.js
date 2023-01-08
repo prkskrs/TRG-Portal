@@ -636,7 +636,7 @@ export const addQuestionBank = bigPromise(async (req, res) => {
     const { departmentId, questionType, question, options, correctAnswer } =
       req.body;
 
-    if (!departmentName || !questionType) {
+    if (!departmentId || !questionType) {
       return res.status(400).json({
         success: false,
         message: "Please select department and question type",
