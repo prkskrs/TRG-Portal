@@ -25,14 +25,9 @@ const questionBankSchema = new mongoose.Schema({
       },
     },
   ],
-  correctAnswer: [{
-    correctOption: {
-      type: String,
-    },
-    answerBody: {
-      type: String
-    },
-  }],
+  correctAnswer: {
+    type:String
+  }
    
 });
 
