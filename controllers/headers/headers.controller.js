@@ -9,7 +9,6 @@ import Round from "../../models/headers/rounds.js";
 import State from "../../models/headers/states.js";
 import Profile from "../../models/headers/profile.js";
 import WorkMode from "../../models/headers/workMode.js";
-
 import { isEmpty } from "../../utils/isEmpty.js";
 import bigPromise from "../../middlewares/bigPromise.js";
 import Employee from "../../models/Employee.js";
@@ -709,12 +708,14 @@ export const addQuestionBank = bigPromise(async (req, res) => {
 
 export const getAllQuestionBank = bigPromise(async (req, res, next) => {
   // fetch question button
-  const { departmentName } = req.query;
+  const { departmentId } = req.query;
 
-  const condition = {};
+  const condition = {
+    status:["INACTIVE","ACTIVE"]
+  };
 
-  if (departmentName) {
-    condition.departmentName = departmentName;
+  if (departmentId) {
+    condition.departmentId = departmentId;
   }
   console.log(condition);
 
@@ -746,7 +747,7 @@ export const updateQuestionBankById = bigPromise(async (req, res, next) => {
   }
 
   const newData = {
-    departmentName: req.body.departmentName,
+    departmentId: req.body.departmentId,
     questionType: req.body.questionType,
     question: req.body.question,
     options: req.body.options,
@@ -1114,11 +1115,18 @@ export const addJobDescription = bigPromise(async (req, res, next) => {
   }
 
   const jd = await JobDescription.create({
-    ...req.body,
+    profile,
+    dailyJob,
+    responsibilities,
+    kpi,
+    eligibilityCriteria,
+    status,
   }).catch((err) => {
     console.log(`error Job Description :: ${err}`);
     return null;
   });
+
+  console.log(jd);
 
   if (jd === null) {
     return res.status(501).json({
