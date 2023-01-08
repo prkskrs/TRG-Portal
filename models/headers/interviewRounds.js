@@ -13,7 +13,7 @@ const interviewRoundSchema = new mongoose.Schema({
   rounds: [
     {
       round: {
-        type: String,
+        type: mongoose.Types.ObjectId,
       },
       question: [
         {
