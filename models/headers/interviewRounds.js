@@ -12,19 +12,19 @@ const interviewRoundSchema = new mongoose.Schema({
   },
   rounds: [
     {
-      roundName:{
-        type:String,
+      roundName: {
+        type: String,
       },
       question: [
         {
           type: mongoose.Types.ObjectId,
         },
       ],
-      subjectiveQuestion:{
-        type:Number
+      subjectiveQuestion: {
+        type: Number,
       },
-      objectiveQuestion:{
-        type:Number
+      objectiveQuestion: {
+        type: Number,
       },
       time: {
         type: Number,
@@ -39,7 +39,7 @@ const interviewRoundSchema = new mongoose.Schema({
   ],
   status: {
     type: String,
-    enum: ["ACTIVE", "INACTIVE","DELETED"],
+    enum: ["ACTIVE", "INACTIVE", "DELETED"],
     default: "ACTIVE",
   },
 });
