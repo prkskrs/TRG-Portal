@@ -2,7 +2,7 @@ import express from "express"
 const router = express.Router()
 
 // import controller 
-import { addBusiness, addCity, addCountry, addInterviewRound, addRound, getAllBusiness, getAllCity, getAllCountry, getAllInterviewRound, getAllRound, updateBusinessById, updateCityById, updateCountryById, updateInterviewRoundById, updateRoundById, addState, getAllState, updateStateById, addQuestionBank, getAllQuestionBank, updateQuestionBankById, addDepartment, getAllDepartment, updateDepartmentById, addProfile, getAllProfile, updateProfileById, addWorkMode, getAllWorkMode, updateWorkModeById, addJobDescription, getAllJobDescription, updateJobDescriptionById } from "../controllers/headers/headers.controller.js"
+import { addBusiness, addCity, addCountry, addInterviewRound, addRound, getAllBusiness, getAllCity, getAllCountry, getAllInterviewRound, getAllRound, updateBusinessById, updateCityById, updateCountryById, updateInterviewRoundById, updateRoundById, addState, getAllState, updateStateById, addQuestionBank, getAllQuestionBank, updateQuestionBankById, addDepartment, getAllDepartment, updateDepartmentById, addProfile, getAllProfile, updateProfileById, addWorkMode, getAllWorkMode, updateWorkModeById, addJobDescription, getAllJobDescription, updateJobDescriptionById, getQuestionByInterviewId } from "../controllers/headers/headers.controller.js"
 import { addJob } from "../controllers/jobController.js"
 // import userMiddlewares
 // import {isLoggedIn,customRole} from "../middlewares/userMiddlewares.js"
@@ -26,6 +26,7 @@ router.route("/country/:id").put(updateCountryById)
 router.route("/interviewRound").post(addInterviewRound)
 router.route("/interviewRound").get(getAllInterviewRound)
 router.route("/interviewRound/:id").put(updateInterviewRoundById)
+router.route("/interviewRound/:id").get(getQuestionByInterviewId)
 
 // Round Header
 router.route("/round").post(addRound)

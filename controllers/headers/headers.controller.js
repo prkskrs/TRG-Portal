@@ -388,12 +388,14 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
 
 export const getAllInterviewRound = bigPromise(async (req, res, next) => {
   const condition = {
-    status:["INACTIVE","ACTIVE"]
-  }
-  const allInterviewRound = await InterviewRound.find(condition).catch((err) => {
-    console.log(`error getting interview round :: ${err}`);
-    return null;
-  });
+    status: ["INACTIVE", "ACTIVE"],
+  };
+  const allInterviewRound = await InterviewRound.find(condition).catch(
+    (err) => {
+      console.log(`error getting interview round :: ${err}`);
+      return null;
+    }
+  );
 
   if (allInterviewRound === null) {
     return res.status(501).json({
@@ -446,6 +448,39 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
   });
 });
 
+export const getQuestionByInterviewId = bigPromise(async (req, res, next) => {
+  const interviewId = req.params.id;
+  
+  if (!interviewId) {
+    return res.status(401).json({
+      success: false,
+      message: "Bad request",
+    });
+  }
+
+  const qsIds = [];
+  const interview = await InterviewRound.findById({ _id: interviewId });
+
+  for (let i = 0; i < interview.rounds.length; i++) {
+    for (let j = 0; j < interview.rounds[i].question.length; j++) {
+      qsIds.push(interview.rounds[i].question[j]);
+    }
+    console.log(qsIds);
+  }
+
+  const questions = await QuestionBank.find({
+    _id: {
+      $in: qsIds,
+    },
+  });
+
+  return res.status(201).json({
+    success: true,
+    message: "Questions of this interview round.",
+    data: questions,
+  });
+});
+
 // Rounds Header
 export const addRound = bigPromise(async (req, res, next) => {
   const { name, status } = req.body;
@@ -480,10 +515,9 @@ export const addRound = bigPromise(async (req, res, next) => {
 });
 
 export const getAllRound = bigPromise(async (req, res, next) => {
-
   const condition = {
-    status : ["ACTIVE","INACTIVE"]
-  }
+    status: ["ACTIVE", "INACTIVE"],
+  };
   const allRound = await Round.find(condition).catch((err) => {
     console(`error getting rounds :: ${err}`);
     return null;
@@ -674,7 +708,7 @@ export const addQuestionBank = bigPromise(async (req, res) => {
         questionType,
         question,
         correctAnswer,
-        status
+        status,
       }).catch((err) => {
         console.log(`error creating question bank :: ${err}`);
         return null;
@@ -692,7 +726,7 @@ export const addQuestionBank = bigPromise(async (req, res) => {
         question,
         options,
         correctAnswer,
-        status
+        status,
       }).catch((err) => {
         console.log(`error creating question bank :: ${err}`);
         return null;
@@ -767,7 +801,7 @@ export const updateQuestionBankById = bigPromise(async (req, res, next) => {
     question: req.body.question,
     options: req.body.options,
     correctAnswer: req.body.correctAnswer,
-    status:req.body.status
+    status: req.body.status,
   };
 
   const qbank = await QuestionBank.findByIdAndUpdate(req.params.id, newData, {
