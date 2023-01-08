@@ -15,6 +15,7 @@ import bigPromise from "../../middlewares/bigPromise.js";
 import Employee from "../../models/Employee.js";
 
 import { WhereClause } from "../../utils/whereClause.js";
+import JobDescription from "../../models/headers/jobDescription.js";
 
 // Business Header
 
@@ -956,7 +957,7 @@ export const updateProfileById = bigPromise(async (req, res, next) => {
 // filter based on band and departmentId
 export const getAllProfile = bigPromise(async (req, res, next) => {
   const condition = {
-    status:["INACTIVE","ACTIVE"]
+    status: ["INACTIVE", "ACTIVE"],
   };
 
   if (
@@ -1013,7 +1014,7 @@ export const addWorkMode = bigPromise(async (req, res, next) => {
     workType,
     workShift,
     workStyle,
-    status
+    status,
   }).catch((err) => {
     console.log(`error creating work mode :: ${err}`);
     return null;
@@ -1087,5 +1088,108 @@ export const updateWorkModeById = bigPromise(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: ws,
+  });
+});
+
+// Job Description
+
+export const addJobDescription = bigPromise(async (req, res, next) => {
+  const {
+    profile,
+    dailyJob,
+    responsibilities,
+    kpi,
+    eligibilityCriteria,
+    status,
+  } = req.body;
+
+  if (!profile || !dailyJob || !responsibilities) {
+    return res.status(401).json({
+      success: false,
+      message: "Bad Request",
+    });
+  }
+
+  const jd = await JobDescription.create({
+    ...req.body,
+  }).catch((err) => {
+    console.log(`error Job Description :: ${err}`);
+    return null;
+  });
+
+  if (jd === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    message: "Job Description Added Successfully!",
+    data: jd,
+  });
+});
+
+export const getAllJobDescription = bigPromise(async (req, res, next) => {
+  const condition = {
+    status: ["ACTIVE", "INACTIVE"],
+  };
+  const allJd = await JobDescription.find(condition)
+    .lean()
+    .catch((err) => {
+      console.log(`error getting job description :: ${err}`);
+      return null;
+    });
+
+  if (allJd === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal Server Error !",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    data: allJd,
+  });
+});
+
+export const updateJobDescriptionById = bigPromise(async (req, res, next) => {
+  if (isEmpty(req.body)) {
+    return res.status(401).json({
+      success: "false",
+      message: "Nothing to update.",
+    });
+  }
+
+  const newData = {
+    profile:req.body.profile,
+    dailyJob:req.body.dailyJob,
+    responsibilities:req.body.responsibilities,
+    kpi:req.body.kpi,
+    eligibilityCriteria:req.body.eligibilityCriteria,
+    status:req.body.status
+  };
+
+  const jd = await JobDescription.findByIdAndUpdate(req.params.id, newData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  }).catch((err) => {
+    console.log(`error updating job description :: ${err}`);
+    return null;
+  });
+
+  if (jd === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    data: jd,
   });
 });
