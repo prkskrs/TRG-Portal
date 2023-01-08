@@ -632,8 +632,14 @@ export const updateStateById = bigPromise(async (req, res, next) => {
 export const addQuestionBank = bigPromise(async (req, res) => {
   try {
     var qb;
-    const { departmentId, questionType, question, options, correctAnswer } =
-      req.body;
+    const {
+      departmentId,
+      questionType,
+      question,
+      options,
+      correctAnswer,
+      status,
+    } = req.body;
 
     if (!departmentId || !questionType) {
       return res.status(400).json({
@@ -641,12 +647,12 @@ export const addQuestionBank = bigPromise(async (req, res) => {
         message: "Please select department and question type",
       });
     }
-    const department = await Department.findById({
-      _id: departmentId,
-    },
-    [
-      "name"
-    ]);
+    const department = await Department.findById(
+      {
+        _id: departmentId,
+      },
+      ["name"]
+    );
 
     if (!department) {
       return res.status(400).json({
@@ -661,6 +667,7 @@ export const addQuestionBank = bigPromise(async (req, res) => {
         questionType,
         question,
         correctAnswer,
+        status
       }).catch((err) => {
         console.log(`error creating question bank :: ${err}`);
         return null;
@@ -678,6 +685,7 @@ export const addQuestionBank = bigPromise(async (req, res) => {
         question,
         options,
         correctAnswer,
+        status
       }).catch((err) => {
         console.log(`error creating question bank :: ${err}`);
         return null;
@@ -711,7 +719,7 @@ export const getAllQuestionBank = bigPromise(async (req, res, next) => {
   const { departmentId } = req.query;
 
   const condition = {
-    status:["INACTIVE","ACTIVE"]
+    status: ["INACTIVE", "ACTIVE"],
   };
 
   if (departmentId) {
@@ -752,6 +760,7 @@ export const updateQuestionBankById = bigPromise(async (req, res, next) => {
     question: req.body.question,
     options: req.body.options,
     correctAnswer: req.body.correctAnswer,
+    status:req.body.status
   };
 
   const qbank = await QuestionBank.findByIdAndUpdate(req.params.id, newData, {
@@ -1175,12 +1184,12 @@ export const updateJobDescriptionById = bigPromise(async (req, res, next) => {
   }
 
   const newData = {
-    profile:req.body.profile,
-    dailyJob:req.body.dailyJob,
-    responsibilities:req.body.responsibilities,
-    kpi:req.body.kpi,
-    eligibilityCriteria:req.body.eligibilityCriteria,
-    status:req.body.status
+    profile: req.body.profile,
+    dailyJob: req.body.dailyJob,
+    responsibilities: req.body.responsibilities,
+    kpi: req.body.kpi,
+    eligibilityCriteria: req.body.eligibilityCriteria,
+    status: req.body.status,
   };
 
   const jd = await JobDescription.findByIdAndUpdate(req.params.id, newData, {

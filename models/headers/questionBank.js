@@ -27,7 +27,12 @@ const questionBankSchema = new mongoose.Schema({
   ],
   correctAnswer: {
     type:String
-  }
+  },
+  status: {
+    type: String,
+    enum: ["ACTIVE", "INACTIVE", "DELETED"],
+    default: "ACTIVE",
+  },
    
 });
 
