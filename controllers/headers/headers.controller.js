@@ -318,7 +318,7 @@ export const updateCountryById = bigPromise(async (req, res, next) => {
 // Interview Round
 
 export const addInterviewRound = bigPromise(async (req, res, next) => {
-  const { profile, noOfRound, noOfQuestion, rounds } = req.body;
+  const { profile, noOfRound, noOfQuestion, rounds,status } = req.body;
 
   if (!profile) {
     return res.status(401).json({
@@ -363,6 +363,7 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
     noOfRound: rounds.length,
     noOfQuestion: sQuest.a,
     rounds,
+    status
   }).catch((err) => {
     console.log(`error creating interview round :: ${err}`);
     return null;
@@ -381,7 +382,7 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
     data: {
       profile: iRound?.profile,
       noOfQuestion: iRound?.noOfQuestion,
-      noOfRound: iRound?.noOfRound,
+      noOfRound: iRound?.noOfRound
     },
   });
 });
@@ -420,10 +421,11 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
   }
 
   const newData = {
-    name: req.body.name,
     profile: req.body.profile,
     noOfRound: req.body.noOfRound,
     noOfQuestion: req.body.noOfQuestion,
+    rounds: req.body.rounds,
+    status:req.body.status
   };
 
   const ir = await InterviewRound.findByIdAndUpdate(req.params.id, newData, {
@@ -450,7 +452,7 @@ export const updateInterviewRoundById = bigPromise(async (req, res, next) => {
 
 export const getQuestionByInterviewId = bigPromise(async (req, res, next) => {
   const interviewId = req.params.id;
-  
+
   if (!interviewId) {
     return res.status(401).json({
       success: false,
@@ -766,7 +768,11 @@ export const getAllQuestionBank = bigPromise(async (req, res, next) => {
   if (departmentId) {
     condition.departmentId = departmentId;
   }
+  
+
   console.log(condition);
+
+
 
   const allQuestionBank = await QuestionBank.find(condition).catch((err) => {
     console.log(`error getting question bank :: ${err}`);
