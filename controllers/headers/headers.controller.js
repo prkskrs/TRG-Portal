@@ -1011,6 +1011,7 @@ export const addWorkMode = bigPromise(async (req, res, next) => {
     workType,
     workShift,
     workStyle,
+    status
   }).catch((err) => {
     console.log(`error creating work mode :: ${err}`);
     return null;
