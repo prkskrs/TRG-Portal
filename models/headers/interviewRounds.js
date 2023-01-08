@@ -12,7 +12,7 @@ const interviewRoundSchema = new mongoose.Schema({
   },
   rounds: [
     {
-      roundName: {
+      round: {
         type: String,
       },
       question: [
