@@ -37,6 +37,11 @@ const interviewRoundSchema = new mongoose.Schema({
       },
     },
   ],
+  status: {
+    type: String,
+    enum: ["ACTIVE", "INACTIVE","DELETED"],
+    default: "ACTIVE",
+  },
 });
 
 const InterviewRound = mongoose.model("InterviewRound", interviewRoundSchema);

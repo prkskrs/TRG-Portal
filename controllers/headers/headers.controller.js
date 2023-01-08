@@ -387,7 +387,10 @@ export const addInterviewRound = bigPromise(async (req, res, next) => {
 });
 
 export const getAllInterviewRound = bigPromise(async (req, res, next) => {
-  const allInterviewRound = await InterviewRound.find({}).catch((err) => {
+  const condition = {
+    status:["INACTIVE","ACTIVE"]
+  }
+  const allInterviewRound = await InterviewRound.find(condition).catch((err) => {
     console.log(`error getting interview round :: ${err}`);
     return null;
   });
@@ -479,7 +482,7 @@ export const addRound = bigPromise(async (req, res, next) => {
 export const getAllRound = bigPromise(async (req, res, next) => {
 
   const condition = {
-    status =["ACTIVE","INACTIVE"]
+    status : ["ACTIVE","INACTIVE"]
   }
   const allRound = await Round.find(condition).catch((err) => {
     console(`error getting rounds :: ${err}`);
