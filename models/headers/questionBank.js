@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import validator from "validator";
 
 const questionBankSchema = new mongoose.Schema({
-  departmentName: {
-    type: String,
+  departmentId: {
+    type: mongoose.Types.ObjectId,
   },
   questionType: {
     type: String,
