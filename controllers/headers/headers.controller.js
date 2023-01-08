@@ -955,7 +955,9 @@ export const updateProfileById = bigPromise(async (req, res, next) => {
 
 // filter based on band and departmentId
 export const getAllProfile = bigPromise(async (req, res, next) => {
-  const condition = {};
+  const condition = {
+    status:["INACTIVE","ACTIVE"]
+  };
 
   if (
     req.query.band &&
