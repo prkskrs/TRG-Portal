@@ -477,7 +477,11 @@ export const addRound = bigPromise(async (req, res, next) => {
 });
 
 export const getAllRound = bigPromise(async (req, res, next) => {
-  const allRound = await Round.find({}).catch((err) => {
+
+  const condition = {
+    status =["ACTIVE","INACTIVE"]
+  }
+  const allRound = await Round.find(condition).catch((err) => {
     console(`error getting rounds :: ${err}`);
     return null;
   });
