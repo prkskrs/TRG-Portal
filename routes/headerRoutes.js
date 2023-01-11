@@ -2,7 +2,7 @@ import express from "express"
 const router = express.Router()
 
 // import controller 
-import { addBusiness, addCity, addCountry, addInterviewRound, addRound, getAllBusiness, getAllCity, getAllCountry, getAllInterviewRound, getAllRound, updateBusinessById, updateCityById, updateCountryById, updateInterviewRoundById, updateRoundById, addState, getAllState, updateStateById, addQuestionBank, getAllQuestionBank, updateQuestionBankById, addDepartment, getAllDepartment, updateDepartmentById, addProfile, getAllProfile, updateProfileById, addWorkMode, getAllWorkMode, updateWorkModeById, addJobDescription, getAllJobDescription, updateJobDescriptionById, getQuestionByInterviewId } from "../controllers/headers/headers.controller.js"
+import { addBusiness, addCity, addCountry, addInterviewRound, addRound, getAllBusiness, getAllCity, getAllCountry, getAllInterviewRound, getAllRound, updateBusinessById, updateCityById, updateCountryById, updateInterviewRoundById, updateRoundById, addState, getAllState, updateStateById, addQuestionBank, getAllQuestionBank, updateQuestionBankById, addDepartment, getAllDepartment, updateDepartmentById, addProfile, getAllProfile, updateProfileById, addJobDescription, getAllJobDescription, updateJobDescriptionById, getQuestionByInterviewId, addWorkShift, getAllWorkShift, updateWorkShiftById, addWorkStyle, getAllWorkStyle, updateWorkStyleById, addWorkType, getAllWorkType, updateWorkTypeById } from "../controllers/headers/headers.controller.js"
 import { addJob } from "../controllers/jobController.js"
 // import userMiddlewares
 // import {isLoggedIn,customRole} from "../middlewares/userMiddlewares.js"
@@ -54,9 +54,17 @@ router.route("/profile").get(getAllProfile)
 router.route("/profile/:id").put(updateProfileById)
 
 // WorkMode Header
-router.route("/work").post(addWorkMode)
-router.route("/work").get(getAllWorkMode)
-router.route("/work/:id").put(updateWorkModeById)
+router.route("/workshift").post(addWorkShift)
+router.route("/workshift").get(getAllWorkShift)
+router.route("/workshift/:id").put(updateWorkShiftById)
+
+router.route("/workstyle").post(addWorkStyle)
+router.route("/workstyle").get(getAllWorkStyle)
+router.route("/workstyle/:id").put(updateWorkStyleById)
+
+router.route("/worktype").post(addWorkType)
+router.route("/worktype").get(getAllWorkType)
+router.route("/worktype/:id").put(updateWorkTypeById)
 
 // Job Description Header
 router.route("/jobDescription").post(addJobDescription)

@@ -8,7 +8,6 @@ import QuestionBank from "../../models/headers/questionBank.js";
 import Round from "../../models/headers/rounds.js";
 import State from "../../models/headers/states.js";
 import Profile from "../../models/headers/profile.js";
-import WorkMode from "../../models/headers/workType.js";
 import { isEmpty } from "../../utils/isEmpty.js";
 import bigPromise from "../../middlewares/bigPromise.js";
 import Employee from "../../models/Employee.js";
