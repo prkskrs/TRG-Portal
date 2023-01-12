@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const workShiftSchema = new mongoose.Schema({
   name: {
     type: String,
-    enum: ["DAY", "NIGHT"],
   },
   status: {
     type: String,

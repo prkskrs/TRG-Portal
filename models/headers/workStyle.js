@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const workStyleSchema = new mongoose.Schema({
   name: {
     type: String,
-    enum: ["REMOTE", "ONSITE", "HYBRID"],
   },
   status: {
     type: String,
