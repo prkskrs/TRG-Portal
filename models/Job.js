@@ -55,9 +55,8 @@ const jobsSchema = new mongoose.Schema({
   },
 
   approver_1: {
-    id: {
+    profileId: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User'
     },
     approved_at: {
       type: Date,
@@ -65,6 +64,11 @@ const jobsSchema = new mongoose.Schema({
     remarks: {
       type: String
     },
+    tasks :[
+      {
+        task:String
+      }
+    ],
     status: {
       type: String,
       enum: ['APPROVED', 'PENDING', 'DECLINED'],
@@ -73,16 +77,20 @@ const jobsSchema = new mongoose.Schema({
   },
 
   approver_2: {
-    id: {
+    profileId: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User'
-    },
-    remarks: {
-      type: String
     },
     approved_at: {
       type: Date,
     },
+    remarks: {
+      type: String
+    },
+    tasks :[
+      {
+        task:String
+      }
+    ],
     status: {
       type: String,
       enum: ['APPROVED', 'PENDING', 'DECLINED'],
@@ -91,16 +99,20 @@ const jobsSchema = new mongoose.Schema({
   },
 
   approver_3: {
-    id: {
+    profileId: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User'
-    },
-    remarks: {
-      type: String
     },
     approved_at: {
       type: Date,
     },
+    remarks: {
+      type: String
+    },
+    tasks :[
+      {
+        task:String
+      }
+    ],
     status: {
       type: String,
       enum: ['APPROVED', 'PENDING', 'DECLINED'],
@@ -109,9 +121,8 @@ const jobsSchema = new mongoose.Schema({
   },
 
   approver_4: {
-    id: {
+    profileId: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User'
     },
     approved_at: {
       type: Date,
@@ -119,6 +130,11 @@ const jobsSchema = new mongoose.Schema({
     remarks: {
       type: String
     },
+    tasks :[
+      {
+        task:String
+      }
+    ],
     status: {
       type: String,
       enum: ['APPROVED', 'PENDING', 'DECLINED'],
@@ -137,6 +153,11 @@ const jobsSchema = new mongoose.Schema({
       type: mongoose.Schema.ObjectId,
       ref: 'User'
     }
+  }
+  ,
+  opportunityId:{
+    type:String,
+    default:null
   }
 }, {
   timestamps: true
