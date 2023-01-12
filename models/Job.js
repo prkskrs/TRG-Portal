@@ -66,7 +66,7 @@ const jobsSchema = new mongoose.Schema({
     },
     tasks :[
       {
-        task:String
+        type:String
       }
     ],
     status: {
@@ -88,7 +88,7 @@ const jobsSchema = new mongoose.Schema({
     },
     tasks :[
       {
-        task:String
+        type:String
       }
     ],
     status: {
@@ -110,7 +110,7 @@ const jobsSchema = new mongoose.Schema({
     },
     tasks :[
       {
-        task:String
+        type:String
       }
     ],
     status: {
@@ -132,7 +132,7 @@ const jobsSchema = new mongoose.Schema({
     },
     tasks :[
       {
-        task:String
+        type:String
       }
     ],
     status: {
