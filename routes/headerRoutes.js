@@ -2,7 +2,7 @@ import express from "express"
 const router = express.Router()
 
 // import controller 
-import { addBusiness, addCity, addCountry, addInterviewRound, addRound, getAllBusiness, getAllCity, getAllCountry, getAllInterviewRound, getAllRound, updateBusinessById, updateCityById, updateCountryById, updateInterviewRoundById, updateRoundById, addState, getAllState, updateStateById, addQuestionBank, getAllQuestionBank, updateQuestionBankById, addDepartment, getAllDepartment, updateDepartmentById, addProfile, getAllProfile, updateProfileById, addJobDescription, getAllJobDescription, updateJobDescriptionById, getQuestionByInterviewId, addWorkShift, getAllWorkShift, updateWorkShiftById, addWorkStyle, getAllWorkStyle, updateWorkStyleById, addWorkType, getAllWorkType, updateWorkTypeById } from "../controllers/headers/headers.controller.js"
+import { addBusiness, addCity, addCountry, addInterviewRound, addRound, getAllBusiness, getAllCity, getAllCountry, getAllInterviewRound, getAllRound, updateBusinessById, updateCityById, updateCountryById, updateInterviewRoundById, updateRoundById, addState, getAllState, updateStateById, addQuestionBank, getAllQuestionBank, updateQuestionBankById, addDepartment, getAllDepartment, updateDepartmentById, addProfile, getAllProfile, updateProfileById, addJobDescription, getAllJobDescription, updateJobDescriptionById, getQuestionByInterviewId, addWorkShift, getAllWorkShift, updateWorkShiftById, addWorkStyle, getAllWorkStyle, updateWorkStyleById, addWorkType, getAllWorkType, updateWorkTypeById, addBand, getAllBand, updateBandById } from "../controllers/headers/headers.controller.js"
 import { addJob } from "../controllers/jobController.js"
 // import userMiddlewares
 // import {isLoggedIn,customRole} from "../middlewares/userMiddlewares.js"
@@ -70,5 +70,10 @@ router.route("/worktype/:id").put(updateWorkTypeById)
 router.route("/jobDescription").post(addJobDescription)
 router.route("/jobDescription").get(getAllJobDescription)
 router.route("/jobDescription/:id").put(updateJobDescriptionById)
+
+// Band
+router.route("/band").post(addBand)
+router.route("/band").get(getAllBand)
+router.route("/band/:id").put(updateBandById)
 
 export default router;
