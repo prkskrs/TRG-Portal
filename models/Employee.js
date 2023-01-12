@@ -19,6 +19,9 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     maxlength: [80, 'Lastname should be under 80 characters.']
   },
+  profileId:{
+    type:mongoose.Types.ObjectId
+  },
   departmentId: {
     type: mongoose.Types.ObjectId
   },
@@ -34,19 +37,10 @@ const employeeSchema = new mongoose.Schema({
   countryId: {
     type: mongoose.Types.ObjectId,
   },
-  band: {
-    type: Number
-  },
   email: {
     type: String,
     required: [true, 'Please provide an email'],
     validate: [validator.isEmail, 'Please enter email in correct format']
-  },
-  role: {
-    type: {
-      type: String,
-      enum: ['admin', 'employee']
-    },
   },
   phoneNumber: {
     type: Number,

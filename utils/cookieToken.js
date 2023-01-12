@@ -18,9 +18,9 @@ export const cookieToken = (user, res, message, employee) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        role: user.role,
-        level: user.level,
-        employee: employee
+        profileId: user.profileId,
+        band:user.band,
+        role:user.role
     })
 }
 

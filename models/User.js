@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -26,9 +26,13 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
+        enum:["ADMIN","EMPLOYEE"]
     },
     band: {
-        type: Number,
+        type: String,
+    },
+    profileId:{
+        type:mongoose.Types.ObjectId
     },
     address1: {
         type: String,
