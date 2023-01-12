@@ -17,6 +17,7 @@ import JobDescription from "../../models/headers/jobDescription.js";
 import WorkShift from "../../models/headers/workShift.js";
 import WorkStyle from "../../models/headers/workStyle.js";
 import WorkType from "../../models/headers/workType.js";
+import Band from "../../models/headers/band.js";
 
 // Business Header
 
@@ -1450,3 +1451,96 @@ export const updateWorkTypeById = bigPromise(async (req, res, next) => {
   });
 });
 
+// Band
+export const addBand = bigPromise(async (req, res, next) => {
+  const { name, status } = req.body;
+
+  if (!name) {
+    return res.status(401).json({
+      success: false,
+      message: "Bad Request",
+    });
+  }
+
+  const ws = await Band.create({
+    name,
+    status,
+  }).catch((err) => {
+    console.log(`error creating band :: ${err}`);
+    return null;
+  });
+
+  console.log(ws);
+
+  if (ws === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    message: "Band Added Successfully!",
+    data: ws,
+  });
+});
+
+export const getAllBand = bigPromise(async (req, res, next) => {
+  const condition = {
+    status: ["ACTIVE", "INACTIVE"],
+  };
+  const allWs = await Band.find(condition)
+    .lean()
+    .catch((err) => {
+      console.log(`error getting bands :: ${err}`);
+      return null;
+    });
+
+  if (allWs === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal Server Error !",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    data: allWs,
+  });
+});
+
+export const updateBandById = bigPromise(async (req, res, next) => {
+  if (isEmpty(req.body)) {
+    return res.status(401).json({
+      success: "false",
+      message: "Nothing to update.",
+    });
+  }
+
+  const newData = {
+    name: req.body.name,
+    status: req.body.status,
+  };
+
+  const ws = await Band.findByIdAndUpdate(req.params.id, newData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  }).catch((err) => {
+    console.log(`error updating band :: ${err}`);
+    return null;
+  });
+
+  if (ws === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    data: ws,
+  });
+});
