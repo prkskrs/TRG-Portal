@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const workTypeSchema = new mongoose.Schema({
   name: {
     type: String,
-    enum: ["FULL-TIME", "PART-TIME", "INTERN", "CONTRACT"],
   },
   status: {
     type: String,
