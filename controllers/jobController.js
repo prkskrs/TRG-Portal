@@ -211,10 +211,10 @@ export const updateJobById = bigPromise(async (req, res, next) => {
   };
 
   if (
-    approver_1.status === "APPROVED" &&
-    approver_2.status === "APPROVED" &&
-    approver_3.status === "APPROVED" &&
-    approver_4.status === "APPROVED"
+    newData.approver_1.status === "APPROVED" &&
+    newData.approver_2.status === "APPROVED" &&
+    newData.approver_3.status === "APPROVED" &&
+    newData.approver_4.status === "APPROVED"
   ) {
     newData.opportunityId = makeid(3);
     const job = await Job.findByIdAndUpdate(req.params.id, newData, {
