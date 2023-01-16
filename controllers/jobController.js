@@ -210,20 +210,37 @@ export const updateJobById = bigPromise(async (req, res, next) => {
     status: req.body.status,
   };
 
-  const job = await Job.findByIdAndUpdate(req.params.id, newData, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  }).catch((err) => {
-    console.log(`error updating job :: ${err}`);
-    return null;
-  });
-
-  if (job === null) {
-    return res.status(501).json({
-      success: false,
-      message: "Internal Server error",
+  if (
+    approver_1.status === "APPROVED" &&
+    approver_2.status === "APPROVED" &&
+    approver_3.status === "APPROVED" &&
+    approver_4.status === "APPROVED"
+  ) {
+    newData.opportunityId = makeid(3);
+    const job = await Job.findByIdAndUpdate(req.params.id, newData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }).catch((err) => {
+      console.log(`error updating job :: ${err}`);
+      return null;
     });
+  } else {
+    const job = await Job.findByIdAndUpdate(req.params.id, newData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }).catch((err) => {
+      console.log(`error updating job :: ${err}`);
+      return null;
+    });
+
+    if (job === null) {
+      return res.status(501).json({
+        success: false,
+        message: "Internal Server error",
+      });
+    }
   }
 
   res.status(201).json({
@@ -317,3 +334,14 @@ export const getJobById = bigPromise(async (req, res, next) => {
     },
   });
 });
+
+function makeid(length) {
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}

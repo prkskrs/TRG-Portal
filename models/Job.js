@@ -7,9 +7,9 @@ const jobsSchema = new mongoose.Schema({
     unique:true,
     seq: { type: Number, default: 0 }
   },
-  opportunityId: {
-    type: mongoose.Schema.ObjectId,
-  },
+  // opportunityId: {
+  //   type: mongoose.Schema.ObjectId,
+  // },
   headcount:
   {
     type: Number,
