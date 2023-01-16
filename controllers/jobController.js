@@ -210,6 +210,7 @@ export const updateJobById = bigPromise(async (req, res, next) => {
     status: req.body.status,
   };
 
+  var job;
   if (
     newData.approver_1.status === "APPROVED" &&
     newData.approver_2.status === "APPROVED" &&
@@ -218,7 +219,7 @@ export const updateJobById = bigPromise(async (req, res, next) => {
   ) {
     newData.opportunityId = makeid(3);
     newData.status ="APPROVED";
-    const job = await Job.findByIdAndUpdate(req.params.id, newData, {
+    job = await Job.findByIdAndUpdate(req.params.id, newData, {
       new: true,
       runValidators: true,
       useFindAndModify: false,
@@ -227,7 +228,7 @@ export const updateJobById = bigPromise(async (req, res, next) => {
       return null;
     });
   } else {
-    const job = await Job.findByIdAndUpdate(req.params.id, newData, {
+    job = await Job.findByIdAndUpdate(req.params.id, newData, {
       new: true,
       runValidators: true,
       useFindAndModify: false,
@@ -246,7 +247,7 @@ export const updateJobById = bigPromise(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    date: job,
+    data: job
   });
 });
 
