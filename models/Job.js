@@ -9,7 +9,7 @@ const jobsSchema = new mongoose.Schema({
   },
   band:{
     type:String
-  }
+  },
   headcount:
   {
     type: Number,
