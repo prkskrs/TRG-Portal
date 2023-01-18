@@ -73,6 +73,7 @@ export const addJob = bigPromise(async (req, res, next) => {
     roundId,
     stateId,
     profileId,
+    eligibility,
     workShiftId,
     workTypeId,
     compensationId,

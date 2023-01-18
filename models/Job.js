@@ -50,13 +50,12 @@ const jobsSchema = new mongoose.Schema({
   workStyleId: {
     type: mongoose.Schema.ObjectId,
   },
-  eligibilty: {
+  eligibility: {
     type: String
   },
   compensationId: {
     type: mongoose.Schema.ObjectId,
   },
-
   approver_1: {
     profileId: {
       type: mongoose.Schema.ObjectId,
