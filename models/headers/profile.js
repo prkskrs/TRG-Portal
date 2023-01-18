@@ -14,7 +14,7 @@ const profileSchema = new mongoose.Schema({
     type: String,
   },
   reportProfile: {
-    type: mongoose.Types.ObjectId,
+    type: String,
     default: null,
   },
   approvingAuthority: [
