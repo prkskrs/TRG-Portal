@@ -216,7 +216,7 @@ export const updateJobById = bigPromise(async (req, res, next) => {
     createdBy: req.body.createdBy,
     status: req.body.status,
   };
-
+  console.log(newData);
   var job;
   if (
     newData.status === "APPROVED"

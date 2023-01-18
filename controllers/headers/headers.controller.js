@@ -612,10 +612,13 @@ export const addState = bigPromise(async (req, res, next) => {
 });
 
 export const getAllState = bigPromise(async (req, res, next) => {
+  const countryId = req.query.countryId;
   const condition = {
     status: ["ACTIVE", "INACTIVE"],
+    countryId:countryId
   };
 
+  
   const states = await State.find(condition)
     .lean()
     .catch((err) => {
