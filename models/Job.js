@@ -56,6 +56,14 @@ const jobsSchema = new mongoose.Schema({
   compensationId: {
     type: mongoose.Schema.ObjectId,
   },
+  payRange :{
+    from:{
+      type:Number
+    },
+    to:{
+      type:Number
+    }
+  },
   approver_1: {
     profileId: {
       type: mongoose.Schema.ObjectId,

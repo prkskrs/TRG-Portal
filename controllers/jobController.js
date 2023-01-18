@@ -78,6 +78,7 @@ export const addJob = bigPromise(async (req, res, next) => {
     workTypeId,
     compensationId,
     createdBy,
+    payRange
     approver_1,
     approver_2,
     approver_3,
@@ -211,6 +212,7 @@ export const updateJobById = bigPromise(async (req, res, next) => {
     workStyleId: req.body.workStyleId,
     eligibility: req.body.eligibility,
     compensationId: req.body.compensationId,
+    payRange:req.body.payRange,
     createdBy: req.body.createdBy,
     status: req.body.status,
   };
