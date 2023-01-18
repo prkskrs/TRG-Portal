@@ -62,6 +62,7 @@ const getDetails = async (job) => {
 export const addJob = bigPromise(async (req, res, next) => {
   const {
     jobId,
+    band,
     opportunityId,
     headcount,
     departmentId,
@@ -75,6 +76,7 @@ export const addJob = bigPromise(async (req, res, next) => {
     profileId,
     workShiftId,
     workTypeId,
+    workStyleId,
     compensationId,
     createdBy,
     approver_1,
