@@ -92,6 +92,7 @@ export const addJob = bigPromise(async (req, res, next) => {
 
   const job = await Job.create({
     jobId,
+    band,
     opportunityId,
     headcount,
     departmentId,
@@ -105,6 +106,7 @@ export const addJob = bigPromise(async (req, res, next) => {
     profileId,
     workShiftId,
     workTypeId,
+    workStyleId,
     approver_1,
     approver_2,
     approver_3,
@@ -185,6 +187,7 @@ export const updateJobById = bigPromise(async (req, res, next) => {
 
   const newData = {
     jobId: req.body.jobId,
+    band: req.body.band,
     opportunityId: req.body.opportunityId,
     businessName: req.body.businessName,
     location: req.body.location,
@@ -203,8 +206,9 @@ export const updateJobById = bigPromise(async (req, res, next) => {
     stateId: req.body.stateId,
     profileId: req.body.profileId,
     workShiftId: req.body.workShiftId,
-    eligibility: req.body.eligibility,
     workTypeId: req.body.workTypeId,
+    workStyleId: req.body.workStyleId,
+    eligibility: req.body.eligibility,
     compensationId: req.body.compensationId,
     createdBy: req.body.createdBy,
     status: req.body.status,

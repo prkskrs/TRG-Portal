@@ -7,9 +7,9 @@ const jobsSchema = new mongoose.Schema({
     unique:true,
     seq: { type: Number, default: 0 }
   },
-  // opportunityId: {
-  //   type: mongoose.Schema.ObjectId,
-  // },
+  band:{
+    type:String
+  }
   headcount:
   {
     type: Number,
@@ -45,6 +45,9 @@ const jobsSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
   },
   workTypeId: {
+    type: mongoose.Schema.ObjectId,
+  },
+  workStyleId: {
     type: mongoose.Schema.ObjectId,
   },
   eligibilty: {
