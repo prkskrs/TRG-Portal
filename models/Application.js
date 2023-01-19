@@ -1,20 +1,23 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
-const applicationSchema = new mongoose.Scherma({
-  jobseekerId:{
-    type: mongoose.Types.ObjectId,
+const applicationSchema = new mongoose.Scherma(
+  {
+    jobseekerId: {
+      type: mongoose.Types.ObjectId,
+    },
+    jobId: {
+      type: mongoose.Types.ObjectId,
+    },
+    status: {
+      type: String,
+      enum: ["Disable", "Unemployed", "Student"],
+    },
   },
-  jobId:{
-    type: mongoose.Types.ObjectId,
-  },
-  status:{
-    type:String,
-    enum:["Disable","Unemployed","Student"]
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true
-})
+);
 
-const Application = mongoose.model("Application" , applicationSchema);
+const Application = mongoose.model("Application", applicationSchema);
 
 export default Application;

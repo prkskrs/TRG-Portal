@@ -19,12 +19,12 @@ export const signup = bigPromise(async (req, res, next) => {
     address2,
   } = req.body;
 
-//   if (!firstName || !lastName || !email || !password) {
-//     return res.status(400).json({
-//       success: "false",
-//       message: "Firstname, Lastname, Email and Password fields are required.",
-//     });
-//   }
+  //   if (!firstName || !lastName || !email || !password) {
+  //     return res.status(400).json({
+  //       success: "false",
+  //       message: "Firstname, Lastname, Email and Password fields are required.",
+  //     });
+  //   }
 
   const existingUser = await User.findOne({ email });
   console.log(existingUser);

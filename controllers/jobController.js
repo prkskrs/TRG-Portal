@@ -212,15 +212,13 @@ export const updateJobById = bigPromise(async (req, res, next) => {
     workStyleId: req.body.workStyleId,
     eligibility: req.body.eligibility,
     compensationId: req.body.compensationId,
-    payRange:req.body.payRange,
+    payRange: req.body.payRange,
     createdBy: req.body.createdBy,
     status: req.body.status,
   };
   console.log(newData);
   var job;
-  if (
-    newData.status === "APPROVED"
-  ) {
+  if (newData.status === "APPROVED") {
     newData.opportunityId = makeid(3);
     job = await Job.findByIdAndUpdate(req.params.id, newData, {
       new: true,
@@ -250,7 +248,7 @@ export const updateJobById = bigPromise(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    data: job
+    data: job,
   });
 });
 
