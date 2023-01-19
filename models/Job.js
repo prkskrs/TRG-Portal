@@ -14,7 +14,7 @@ const jobsSchema = new mongoose.Schema(
       type: Number,
     },
     currencyId:{
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.ObjectId
     },
     departmentId: {
       
