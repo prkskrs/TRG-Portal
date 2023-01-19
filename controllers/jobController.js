@@ -91,12 +91,12 @@ export const addJob = bigPromise(async (req, res, next) => {
     });
   }
   var createdBy = {};
-  if(req.user){
+  if (req.user) {
     createdBy.id = req.user._id;
     createdBy.name = req.user.name;
     createdBy.email = req.user.email;
   }
-  
+
   const job = await Job.create({
     jobId,
     band,
