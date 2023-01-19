@@ -18,6 +18,8 @@ import WorkShift from "../../models/headers/workShift.js";
 import WorkStyle from "../../models/headers/workStyle.js";
 import WorkType from "../../models/headers/workType.js";
 import Band from "../../models/headers/band.js";
+import Compensation from "../../models/headers/compensation.js";
+import Currency from "../../models/headers/currency.js";
 
 // Business Header
 
@@ -615,10 +617,9 @@ export const getAllState = bigPromise(async (req, res, next) => {
   const countryId = req.query.countryId;
   const condition = {
     status: ["ACTIVE", "INACTIVE"],
-    countryId:countryId
+    countryId: countryId,
   };
 
-  
   const states = await State.find(condition)
     .lean()
     .catch((err) => {
@@ -1060,7 +1061,6 @@ export const getAllProfile = bigPromise(async (req, res, next) => {
     data: profiles,
   });
 });
-
 
 // Job Description
 
@@ -1532,6 +1532,190 @@ export const updateBandById = bigPromise(async (req, res, next) => {
     useFindAndModify: false,
   }).catch((err) => {
     console.log(`error updating band :: ${err}`);
+    return null;
+  });
+
+  if (ws === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    data: ws,
+  });
+});
+
+// Compensation
+export const addCompensation = bigPromise(async (req, res, next) => {
+  const { name, status } = req.body;
+
+  if (!name) {
+    return res.status(401).json({
+      success: false,
+      message: "Bad Request",
+    });
+  }
+
+  const ws = await Compensation.create({
+    name,
+    status,
+  }).catch((err) => {
+    console.log(`error creating compensation :: ${err}`);
+    return null;
+  });
+
+  if (ws === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    message: "Compensation Added Successfully!",
+    data: ws,
+  });
+});
+
+export const getAllCompensation = bigPromise(async (req, res, next) => {
+  const condition = {
+    status: ["ACTIVE", "INACTIVE"],
+  };
+  const allWs = await Compensation.find(condition)
+    .lean()
+    .catch((err) => {
+      console.log(`error getting compensation :: ${err}`);
+      return null;
+    });
+
+  if (allWs === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal Server Error !",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    data: allWs,
+  });
+});
+
+export const updateCompensationById = bigPromise(async (req, res, next) => {
+  if (isEmpty(req.body)) {
+    return res.status(401).json({
+      success: "false",
+      message: "Nothing to update.",
+    });
+  }
+
+  const newData = {
+    name: req.body.name,
+    status: req.body.status,
+  };
+
+  const ws = await Compensation.findByIdAndUpdate(req.params.id, newData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  }).catch((err) => {
+    console.log(`error updating Compensation :: ${err}`);
+    return null;
+  });
+
+  if (ws === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    data: ws,
+  });
+});
+
+// Currency
+export const addCurrency = bigPromise(async (req, res, next) => {
+  const { name, status } = req.body;
+
+  if (!name) {
+    return res.status(401).json({
+      success: false,
+      message: "Bad Request",
+    });
+  }
+
+  const ws = await Currency.create({
+    name,
+    status,
+  }).catch((err) => {
+    console.log(`error creating Currency :: ${err}`);
+    return null;
+  });
+
+  if (ws === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    message: "Currency Added Successfully!",
+    data: ws,
+  });
+});
+
+export const getAllCurrency = bigPromise(async (req, res, next) => {
+  const condition = {
+    status: ["ACTIVE", "INACTIVE"],
+  };
+  const allWs = await Currency.find(condition)
+    .lean()
+    .catch((err) => {
+      console.log(`error getting Currency :: ${err}`);
+      return null;
+    });
+
+  if (allWs === null) {
+    return res.status(501).json({
+      success: false,
+      message: "Internal Server Error !",
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    data: allWs,
+  });
+});
+
+export const updateCurrencyById = bigPromise(async (req, res, next) => {
+  if (isEmpty(req.body)) {
+    return res.status(401).json({
+      success: "false",
+      message: "Nothing to update.",
+    });
+  }
+
+  const newData = {
+    name: req.body.name,
+    status: req.body.status,
+  };
+
+  const ws = await Currency.findByIdAndUpdate(req.params.id, newData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  }).catch((err) => {
+    console.log(`error updating Currency :: ${err}`);
     return null;
   });
 

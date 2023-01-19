@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const compensationSchema = new mongoose.Schema({
+const currencySchema = new mongoose.Schema({
   name: {
     type: String
   },
@@ -11,6 +11,6 @@ const compensationSchema = new mongoose.Schema({
   },
 });
 
-const Compensation = mongoose.model("Compensation", compensationSchema);
+const Currency = mongoose.model("Currency", currencySchema);
 
-export default Compensation;
+export default Currency;
