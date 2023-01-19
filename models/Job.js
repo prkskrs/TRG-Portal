@@ -13,8 +13,11 @@ const jobsSchema = new mongoose.Schema(
     headcount: {
       type: Number,
     },
-    departmentId: {
+    currencyId:{
       type: mongoose.Schema.ObjectId,
+    },
+    departmentId: {
+      
     },
     businessId: {
       type: mongoose.Schema.ObjectId,
