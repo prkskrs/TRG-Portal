@@ -159,7 +159,7 @@ const jobsSchema = new mongoose.Schema(
         "APPROVED3",
         "APPROVED",
         "PENDING",
-        "DECLINED1",
+        "DECLINED",
         "DECLINED1",
         "DECLINED2",
         "DECLINED3",
@@ -167,7 +167,6 @@ const jobsSchema = new mongoose.Schema(
       ],
       default: "PENDING",
     },
-
     createdBy: {
       id: {
         type: mongoose.Schema.ObjectId,
@@ -176,13 +175,16 @@ const jobsSchema = new mongoose.Schema(
       name: {
         type: String,
       },
-      email:{
+      email: {
         type: String,
-      }
+      },
     },
     opportunityId: {
       type: String,
       default: null,
+    },
+    approvedBy: {
+      type: mongoose.Types.ObjectId
     },
   },
   {
