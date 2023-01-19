@@ -184,12 +184,12 @@ export const getAllJobs = bigPromise(async (req, res, next) => {
 });
 
 export const updateJobById = bigPromise(async (req, res, next) => {
-  // if (isEmpty(req.body)) {
-  //   return res.status(400).json({
-  //     success: "false",
-  //     message: "Nothing to update.",
-  //   });
-  // }
+  if (isEmpty(req.body)) {
+    return res.status(400).json({
+      success: "false",
+      message: "Nothing to update.",
+    });
+  }
   if (req.user) {
     var approvedBy = req.user._id;
   }
