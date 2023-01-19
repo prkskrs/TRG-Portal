@@ -78,7 +78,6 @@ export const addJob = bigPromise(async (req, res, next) => {
     workTypeId,
     workStyleId,
     compensationId,
-    createdBy,
     approver_1,
     approver_2,
     approver_3,
@@ -91,7 +90,13 @@ export const addJob = bigPromise(async (req, res, next) => {
       message: "Bad Request",
     });
   }
-
+  var createdBy = {};
+  if(req.user){
+    createdBy.id = req.user._id;
+    createdBy.name = req.user.name;
+    createdBy.email = req.user.email;
+  }
+  
   const job = await Job.create({
     jobId,
     band,

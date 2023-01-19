@@ -6,14 +6,10 @@ import crypto from "crypto";
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: {
+    name: {
       type: String,
       // required:[true,'Please provide a name'],
-      maxlength: [80, "Name should be under 40 characters."],
-    },
-    lastName: {
-      type: String,
-      maxlength: [80, "Name should be under 40 characters."],
+      maxlength: [120, "Name should be under 40 characters."],
     },
     email: {
       type: String,

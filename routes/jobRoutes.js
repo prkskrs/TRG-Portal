@@ -8,7 +8,7 @@ import {isLoggedIn,customRole} from "../middlewares/userMiddlewares.js"
 
 
 // routes
-router.route("/job").post(addJob)
+router.route("/job").post(isLoggedIn, addJob)
 router.route("/job").get(getAllJobs)
 router.route("/job/:id").put(updateJobById)
 router.route("/job/:id").get(getJobById)
