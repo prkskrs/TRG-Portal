@@ -37,8 +37,11 @@ app.use("/api/v1",jobSeekerRoutes);
 app.use("/api/v1",employeeRoutes);
 
 app.get("/",(req,res,next)=>{
-    return res.send("CATALYST's API Health Check :: Working Correctly!")
+    return res.status(200).send({
+        uptime: process.uptime(),
+        message: "Catalyst's API health check :: GOOD",
+        timestamp: Date.now(),
+      })
 })
-
 
 export default app;
