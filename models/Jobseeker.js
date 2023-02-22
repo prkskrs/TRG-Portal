@@ -97,10 +97,10 @@ const jobseekerSchema = new mongoose.Schema(
           enum: ["Full-time", "Part-time", "Online"],
         },
         startingYear: {
-          type: Date,
+          type: Number,
         },
         passYear: {
-          type: Date,
+          type: Number,
         },
       },
     ],
