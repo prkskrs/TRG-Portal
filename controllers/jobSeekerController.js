@@ -118,16 +118,21 @@ export const registerJobSeeker = bigPromise(async (req, res, next) => {
 
 export const otpValid = async (req, res, next) => {
   try {
-    const { otp, email } = req.body;
+    const { email, otp } = req.body;
     console.log(otp, email);
-    const verify = await Otp.findOne({ email: email, otp: otp });
-    if (!verify) {
-      return res.json(400).json({
+    const verify = await Otp.findOne({ email, otp })
+      .lean()
+      .catch((err) => {
+        console.log(`error validating Otp :: ${err}`);
+        return null;
+      });
+      
+    if (verify === null) {
+      return res.status(400).json({
         success: false,
         message: "Invalid token or Token expired",
       });
     }
-    console.log(verify);
 
     const jobSeeker = await JobSeeker.findOneAndUpdate(
       { email: email },
@@ -239,7 +244,7 @@ export const updateDetails = bigPromise(async (req, res, next) => {
       experience: req.body.experience,
       education: req.body.education,
       avatar: req.body.avatar,
-      finalStep: req.query.finalStep
+      finalStep: req.query.finalStep,
     };
 
     const updatedJobSeeker = await JobSeeker.findByIdAndUpdate(id, newData, {
