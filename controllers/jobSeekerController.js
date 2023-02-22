@@ -239,6 +239,7 @@ export const updateDetails = bigPromise(async (req, res, next) => {
       experience: req.body.experience,
       education: req.body.education,
       avatar: req.body.avatar,
+      finalStep: req.query.finalStep
     };
 
     const updatedJobSeeker = await JobSeeker.findByIdAndUpdate(id, newData, {

@@ -25,7 +25,7 @@ const jobseekerSchema = new mongoose.Schema(
     },
     workStatus: {
       type: String,
-      enum: ["Experienced","Fresher"]
+      enum: ["Experienced", "Fresher"],
     },
     resume: {
       id: {
@@ -114,6 +114,10 @@ const jobseekerSchema = new mongoose.Schema(
     },
     forgotPasswordToken: String,
     forgotPasswordExpiry: Date,
+    finalStep: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
