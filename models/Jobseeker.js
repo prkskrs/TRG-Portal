@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 const jobseekerSchema = new mongoose.Schema(
   {
-    name: {
+    fullName: {
       type: String,
       maxlength: [80, "Name should not be more then 80 characters."],
     },
@@ -19,27 +19,13 @@ const jobseekerSchema = new mongoose.Schema(
       type: String,
       minlength: [6, "Password should be of atleast 6 characters."],
     },
-    address: {
-      type: String,
-    },
     phoneNumber: {
       type: String,
       match: /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/,
     },
-    experience: {
-      type: Number,
-    },
-    education: {
+    workStatus: {
       type: String,
-    },
-    skills: [
-      {
-        type: String,
-      },
-    ],
-    bio: {
-      type: String,
-      maxlength: [350, "Bio should not be more then 350 characters,"],
+      enum: ["Experienced","Fresher"]
     },
     resume: {
       id: {
@@ -49,7 +35,76 @@ const jobseekerSchema = new mongoose.Schema(
         type: String,
       },
     },
-    profile_img: {
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    employment: [
+      {
+        currentlyEmployed: {
+          type: String,
+        },
+        totalWorkExperience: {
+          year: {
+            type: Number,
+          },
+          month: {
+            type: Number,
+          },
+        },
+        company: {
+          type: String,
+        },
+        jobTitle: {
+          type: String,
+          required: true,
+        },
+        currentCity: {
+          type: String,
+          required: true,
+        },
+        startDate: {
+          type: Date,
+        },
+        endDate: {
+          type: Date,
+        },
+        annualIncome: {
+          type: Number,
+        },
+      },
+    ],
+    education: [
+      {
+        education: {
+          type: String,
+        },
+        course: {
+          type: String,
+        },
+        specialization: {
+          type: String,
+        },
+        university: {
+          type: String,
+        },
+        courseType: {
+          type: String,
+          enum: ["Full-time", "Part-time", "Online"],
+        },
+        startingYear: {
+          type: Date,
+        },
+        passYear: {
+          type: Date,
+        },
+      },
+    ],
+    avatar: {
       id: {
         type: String,
       },
@@ -82,7 +137,7 @@ jobseekerSchema.methods.isValidatedPassword = async function (
 };
 
 // create and return jwt token
-jobseekerSchema.methods.getJwtToken = function () {
+jobseekerSchema.methods.generateJWT = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRY,
   });
@@ -105,6 +160,6 @@ jobseekerSchema.methods.getForgotPasswordToken = function () {
   return forgotToken;
 };
 
-const Jobseeker = new mongoose.model("Jobseeker", jobseekerSchema);
+const JobSeeker = new mongoose.model("JobSeeker", jobseekerSchema);
 
-export default Jobseeker;
+export default JobSeeker;

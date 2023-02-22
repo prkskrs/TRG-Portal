@@ -1,69 +1,151 @@
 import bigPromise from "../middlewares/bigPromise.js";
-import Jobseeker from "../models/Jobseeker.js";
+import JobSeeker from "../models/JobSeeker.js";
 import { cookieTokenJobseeker } from "../utils/cookieToken.js";
-import { mailHelper } from "../utils/mailHelper.js";
-import crypto from "crypto";
+import sendEmail from "../utils/mailHelper.js";
+import Otp from "../models/Otp.js";
 
-export const signUpJobSeeker = bigPromise(async (req, res, next) => {
+const generateOTP = () => {
+  var digits = "0123456789";
+  let OTP = "";
+  for (let i = 0; i < 6; i++) {
+    OTP += digits[Math.floor(Math.random() * 10)];
+  }
+  return OTP;
+};
+
+const sendOTP = async (email, OTPGen) => {
+  // Otp Existence check
+  const otp = await Otp.findOne({ email: email });
+  if (otp !== null) {
+    // Update Existing OTP
+    var newOtp = await Otp.findByIdAndUpdate(
+      otp._id,
+      { email: email, otp: OTPGen },
+      { new: true, runValidators: true, useFindAndModify: false }
+    );
+  } else {
+    // Create New OTP
+    var newOtp = await Otp.create({ email: email, otp: OTPGen });
+  }
+
+  // Send Mail
+  await sendEmail({
+    email: email,
+    subject: "Your OTP (Valid for 5 minutes)",
+    message: `Your One Time Password is ${OTPGen}`,
+  });
+
+  return newOtp;
+};
+
+export const registerJobSeeker = bigPromise(async (req, res, next) => {
   const {
-    name,
+    fullName,
     email,
     password,
     address,
     phoneNumber,
     experience,
     education,
-    skills,
-    bio,
-    profile_img,
+    avatar,
   } = req.body;
 
-  if (!name || !email || !password) {
-    return res.status(401).json({
-      success: false,
-      message: "name, email and password is required",
-    });
-  }
-
-  const existingUser = await Jobseeker.findOne({ email }).catch((err) => {
-    console.log(`error finding jobseeker ${err}`);
-    return null;
-  });
-
-  console.log(existingUser);
-
-  if (existingUser != null) {
-    return res.status(401).json({
-      success: "false",
-      message: "Jobseeker with this email already exists",
-    });
-  }
-
-  const jobseeker = await Jobseeker.create({
-    name,
+  const toStore = {
+    fullName,
     email,
     password,
     address,
     phoneNumber,
     experience,
     education,
-    skills,
-    bio,
-    profile_img,
-  }).catch((err) => {
-    console.log(`error creating jobseeker ${err} `);
-    return null;
-  });
+    avatar,
+  };
 
-  if (jobseeker === null) {
-    return res.status(501).json({
+  if (!fullName || !email || !password) {
+    return res.status(401).json({
       success: false,
-      message: "Internal Server error",
+      message: "Full Name, Email, Password and WorkStatus is required",
     });
   }
 
-  cookieTokenJobseeker(jobseeker, res, "Jobseeker registered successfully!");
+  const emailIsActive = await JobSeeker.findOne({
+    email,
+    isActive: true,
+    isVerified: true,
+  });
+
+  if (emailIsActive) {
+    return res.status(406).json({
+      success: false,
+      message: "User already exists with this email id.",
+    });
+  }
+
+  const OTPGen = generateOTP();
+  const notVerifiedUser = await JobSeeker.find({
+    email: email,
+    isVerified: false,
+  })
+    .lean()
+    .catch((err) => {
+      console.log(`error getting verified user ${err}`);
+      return null;
+    });
+
+  if (notVerifiedUser.length === 0) {
+    const jobSeeker = await JobSeeker.create(toStore).catch((err) => {
+      console.log(`error creating user ${err}`);
+    });
+    const newOtp = sendOTP(email, OTPGen);
+    if (newOtp) {
+      res.status(200).json({
+        success: true,
+        message: `OTP was sent successfully to your ${email}.`,
+        otp: OTPGen,
+      });
+    }
+  } else {
+    const newOtp = sendOTP(email, OTPGen);
+    if (newOtp) {
+      res.status(200).json({
+        success: true,
+        message: `OTP was sent successfully to your ${email}.`,
+        otp: OTPGen,
+      });
+    }
+  }
 });
+
+export const otpValid = async (req, res, next) => {
+  try {
+    const { otp, email } = req.body;
+    console.log(otp, email);
+    const verify = await Otp.findOne({ email: email, otp: otp });
+    if (!verify) {
+      return res.json(400).json({
+        success: false,
+        message: "Invalid token or Token expired",
+      });
+    }
+    console.log(verify);
+
+    const jobSeeker = await JobSeeker.findOneAndUpdate(
+      { email: email },
+      { isVerified: true },
+      { new: true }
+    );
+
+    const data = { token: jobSeeker.generateJWT() };
+
+    res.status(200).json({
+      success: true,
+      message: "JobSeeker Registered Successfully!",
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const loginJobSeeker = bigPromise(async (req, res, next) => {
   const { email, password } = req.body;

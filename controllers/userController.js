@@ -3,7 +3,7 @@ import Employee from "../models/Employee.js";
 
 import bigPromise from "../middlewares/bigPromise.js";
 import { cookieToken } from "../utils/cookieToken.js";
-import { mailHelper } from "../utils/mailHelper.js";
+import sendEmail from "../utils/mailHelper.js";
 import crypto from "crypto";
 
 export const signup = bigPromise(async (req, res, next) => {

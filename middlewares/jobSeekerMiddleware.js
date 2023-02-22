@@ -1,4 +1,4 @@
-import Jobseeker from "../models/Jobseeker.js";
+import Jobseeker from "../models/JobSeeker.js";
 import bigPromise from "./bigPromise.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv"

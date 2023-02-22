@@ -1,24 +1,25 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-dotenv.config()
- 
-export const mailHelper=async(option)=>{
-    // create reusable transporter object using the default SMTP transport
+dotenv.config();
+
+const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
+      user: process.env.SMTP_USERNAME,
+      pass: process.env.SMTP_PASSWORD,
     },
   });
 
-  // send mail with defined transport object
-  const message = {
-    from: 'prkskrs@gmail.com', // sender address
-    to: option.email, // list of receivers
-    subject: option.subject, // Subject line
-    text:option.message, // plain text body
-  }
-    await transporter.sendMail(message);
-}
+  const mailOptions = {
+    from: "RaichandGroup <no-reply@raichandgroup.in>",
+    to: options.email,
+    subject: options.subject,
+    text: options.message,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+export default sendEmail;
