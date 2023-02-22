@@ -155,21 +155,21 @@ export const loginJobSeeker = bigPromise(async (req, res, next) => {
       message: "Email and Password fields are required.",
     });
   }
-  const jobseeker = await Jobseeker.findOne({ email: email }).catch((err) => {
+  const jobSeeker = await JobSeeker.findOne({ email: email }).catch((err) => {
     console.log(`error finding jobseeker ${err}`);
     return null;
   });
 
-  if (jobseeker === null) {
+  if (jobSeeker === null) {
     return res.status(400).json({
       success: "false",
       message: "You're not registered in our app",
     });
   }
 
-  const isPasswordCorrect = await jobseeker.isValidatedPassword(
+  const isPasswordCorrect = await jobSeeker.isValidatedPassword(
     password,
-    jobseeker.password
+    jobSeeker.password
   );
 
   if (!isPasswordCorrect) {
@@ -178,7 +178,20 @@ export const loginJobSeeker = bigPromise(async (req, res, next) => {
       message: "Incorrect Password",
     });
   }
-  cookieTokenJobseeker(jobseeker, res, "Loggined Successfully!");
+
+  const token = jobSeeker.generateJWT();
+
+  return res
+    .status(200)
+    .cookie("token", token, {
+      httpOnly: true,
+      maxAge: 3600000 * 24 * 3,
+    })
+    .json({
+      message: "LoggedIn Successfully!",
+      token: token,
+      data: jobSeeker,
+    });
 });
 
 export const logout = bigPromise(async (req, res, next) => {
@@ -214,3 +227,46 @@ export const getLoggedInJobSeekerDetails = bigPromise(
     });
   }
 );
+
+export const updateDetails = bigPromise(async (req, res, next) => {
+  try {
+    const id = req.user.id;
+    const newData = {
+      fullName: req.body.fullName,
+      email: req.body.email,
+      address: req.body.address,
+      phoneNumber: req.body.phoneNumber,
+      experience: req.body.experience,
+      education: req.body.education,
+      avatar: req.body.avatar,
+    };
+
+    const updatedJobSeeker = await JobSeeker.findByIdAndUpdate(id, newData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    })
+      .lean()
+      .catch((err) => {
+        console.log(`error updating JobSeeker details :: ${err}`);
+        return null;
+      });
+
+    if (updatedJobSeeker === null) {
+      return res.status(400).json({
+        success: false,
+        message: "Failed to update jobSeeker",
+      });
+    }
+
+    const response = {
+      success: true,
+      message: "JobSeeker Updated Successfully!",
+      data: updatedJobSeeker,
+    };
+
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+  }
+});
